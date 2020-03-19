@@ -1,21 +1,6 @@
 #!/bin/bash
 
-function stripColors {
-  echo "${1}" | sed 's/\x1b\[[0-9;]*m//g'
-}
-
-function hasPrefix {
-  case ${2} in
-    "${1}"*)
-      true
-      ;;
-    *)
-      false
-      ;;
-  esac
-}
-
-function parseInputs {
+parseInputs () {
   # Required inputs
   if [ "${INPUT_ACTIONS_SUBCOMMAND}" != "" ]; then
     export subcommand=${INPUT_ACTIONS_SUBCOMMAND}
@@ -62,45 +47,73 @@ function parseInputs {
     export workingDir=${INPUT_ACTIONS_WORKING_DIR}
   fi
   export PGPASSWORD=${INPUT_PGPASSWORD}
-  export PGPORT=""
+  PGPORT=""
   if [[ -n "${INPUT_PGPORT}" ]]; then
     export PGPORT=${INPUT_PGPORT}
   fi
-}
-
-function configureCredentials {
-  if [[ "${role_id}" != "" ]] && [[ "${secret_id}" != "" ]] && [[ "${vault_address}" != "" ]]; then
-    export VAULT_ADDR=${vault_address}
-    export VAULT_TOKEN=$(curl \
-      --request POST \
-      --data '{"role_id":"'"${role_id}"'","secret_id":"'"${secret_id}"'"}' \
-      ${vault_address}/v1/auth/approle/login | jq -r .auth.client_token)
-    /usr/local/bin/vault read -format=json secret/dsde/datarepo/dev/sa-key.json | \
-      jq .data > gcpsa.json
-    jq -r .private_key gcpsa.json > $GOOGLE_SA_CERT
-    chmod 600 $GOOGLE_SA_CERT
-    echo 'Configured google sdk credentials from vault'
-  else
-    echo "required var not defined for function configureCredentials"
-    exit 1
+  if [[ -n "${INPUT_HELM_ENV_PREFIX}" ]]; then
+    export helm_env_prefix=${INPUT_HELM_ENV_PREFIX}
+  fi
+  helm_imagetag_update=""
+  if [[ -n "${INPUT_HELM_IMAGETAG_UPDATE}" ]]; then
+    export helm_imagetag_update=${INPUT_HELM_IMAGETAG_UPDATE}
+  fi
+  test_to_run=""
+  if [[ -n "${INPUT_TEST_TO_RUN}" ]]; then
+    export test_to_run=${INPUT_TEST_TO_RUN}
   fi
 }
 
-function googleAuth {
-  if [[ "${google_zone}" != "" ]] && [[ "${google_project}" != "" ]]; then
-    gcloud auth activate-service-account --key-file gcpsa.json
-    # configure integration prerequisites
-    gcloud config set compute/zone ${google_zone} --quiet
-    gcloud config set project ${google_project} --quiet
-    gcloud auth configure-docker --quiet
-    echo 'Set google sdk to SA user'
+configureCredentials () {
+  if [ -f env_vars ]; then
+    echo "sourcing environment vars for configureCredentials"
+    eval $(cat env_vars)
   else
-    echo "Required var not defined for function googleAuth"
-    exit 1
+    echo "Skipping importing environment vars for configureCredentials"
+  fi
+  if [ -n "$VAULT_TOKEN" ]; then
+    echo "Vault token already set skipping configureCredentials function"
+  else
+    if [[ "${role_id}" != "" ]] && [[ "${secret_id}" != "" ]] && [[ "${vault_address}" != "" ]]; then
+      export VAULT_ADDR=${vault_address}
+      export VAULT_TOKEN=$(curl \
+        --request POST \
+        --data '{"role_id":"'"${role_id}"'","secret_id":"'"${secret_id}"'"}' \
+        ${vault_address}/v1/auth/approle/login | jq -r .auth.client_token)
+        echo "VAULT_TOKEN=${VAULT_TOKEN}" >> env_vars
+      /usr/local/bin/vault read -format=json secret/dsde/datarepo/dev/sa-key.json | \
+        jq .data > jade-dev-account.json
+      jq -r .private_key jade-dev-account.json > jade-dev-account.pem
+      chmod 600 jade-dev-account.pem
+      echo 'Configured google sdk credentials from vault'
+    else
+      echo "required var not defined for function configureCredentials"
+      exit 1
+    fi
   fi
 }
 
-function main {
+googleAuth () {
+  account_status=$(gcloud auth list --filter=status:ACTIVE --format="value(account)")
+  if [[ -n "${account_status}" ]]; then
+    echo "Service account has alredy been activated skipping googleAuth function"
+  else
+    if [[ "${google_zone}" != "" ]] && [[ "${google_project}" != "" ]]; then
+      gcloud auth activate-service-account --key-file jade-dev-account.json
+      # configure integration prerequisites
+      gcloud config set compute/zone ${google_zone} --quiet
+      gcloud config set project ${google_project} --quiet
+      gcloud auth configure-docker --quiet
+      echo 'Set google sdk to SA user'
+      gcloud container clusters get-credentials ${k8_cluster} --zone ${google_zone}
+    else
+      echo "Required var not defined for function googleAuth"
+      exit 1
+    fi
+  fi
+}
+
+main () {
   # Source the other files to gain access to their functions
   scriptDir=$(dirname ${0})
   source ${scriptDir}/consul-template.sh
@@ -112,6 +125,7 @@ function main {
   source ${scriptDir}/gradlebuild.sh
   source ${scriptDir}/gradleinttest.sh
   source ${scriptDir}/test.sh
+  source ${scriptDir}/deploytagupdate.sh
 
 
   parseInputs
@@ -143,6 +157,9 @@ function main {
       ;;
     gradleinttest)
       gradleinttest ${*}
+      ;;
+    deploytagupdate)
+      deploytagupdate ${*}
       ;;
     test)
       test ${*}

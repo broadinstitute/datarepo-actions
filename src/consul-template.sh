@@ -1,6 +1,6 @@
 #!/bin/bash
 
-function ct_render {
+ct_render () {
   find . -name "*.ctmpl" -print | while read file
     do
       rootname="${file%.ctmpl}"

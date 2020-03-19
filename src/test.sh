@@ -1,3 +1,3 @@
-function test {
+test () {
   echo it works !
 }

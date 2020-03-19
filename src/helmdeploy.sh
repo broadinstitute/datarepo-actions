@@ -1,8 +1,7 @@
 #!/bin/bash
-function helmdeploy {
+helmdeploy () {
+  eval $(cat env_vars)
   if [[ "${google_zone}" != "" ]] && [[ "${k8_cluster}" != "" ]]; then
-    eval $(cat env_var_namespace)
-    eval $(cat env_var_tag)
     helm plugin install https://github.com/thomastaylor312/helm-namespace
     helm repo add datarepo-helm https://broadinstitute.github.io/datarepo-helm
     helm repo update

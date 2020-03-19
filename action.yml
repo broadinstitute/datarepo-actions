@@ -41,6 +41,13 @@ inputs:
   pgpassword:
     description: 'postgres password'
     default: 'postgres'
+  helm_env_prefix:
+    description: 'prefix for helm deploy config comma spearated can be multiple ie:dev,integration-1,integration-2'
+    default: 'dev'
+  helm_imagetag_update:
+    description: 'which image you would like to update the tag of in helm definitions ie:ui or api'
+  test_to_run:
+    description: 'which test you would like to run on the pods ie:testConnected or testIntegration'
 runs:
   using: 'docker'
   image: './Dockerfile'
