@@ -27,16 +27,20 @@ inputs:
     description: 'Google kubernetes cluster for sdk ie:integration-master'
     default: 'integration-master'
   k8_namespaces:
-    description: 'Google kubernetes cluster namespaces ie:"integration-1" "integration-2"'
+    description: 'Google kubernetes cluster namespaces must be comma separated ie:"integration-1,integration-2"'
+    default: 'integration-1,integration-2,integration-3,integration-4,integration-5'
   helm_secret_chart_version:
     description: 'Helm chart version for datarepo-helm/create-secret-manager-secret ie:0.0.4'
   helm_datarepo_chart_version:
     description: 'Helm chart version for datarepo-helm/datarepo ie:0.0.8'
-  gcr_tag:
-    description: 'gcr_tag of the docker image to deploy'
   actions_working_dir:
     description: 'working directory.'
     default: '.'
+  pgport:
+    description: 'postgres port'
+  pgpassword:
+    description: 'postgres password'
+    default: 'postgres'
 runs:
   using: 'docker'
   image: './Dockerfile'

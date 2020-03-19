@@ -1,11 +1,9 @@
 #!/bin/bash
 
 function checknamespaceclean {
-
-  if [[ "${GOOGLE_APPLICATION_CREDENTIALS}" != "" ]] && [[ "${NAMESPACEINUSE}"; then
-    run: kubectl delete secret -n ${NAMESPACEINUSE} "${NAMESPACEINUSE}-inuse"
-  else
-    echo "required var not defined for function checknamespaceclean"
-    exit 1
+  if [[ "${google_zone}" != "" ]] && [[ "${k8_cluster}" != "" ]]; then
+    gcloud container clusters get-credentials ${k8_cluster} --zone ${google_zone}
+    eval $(cat env_var_namespace)
+    kubectl delete secret -n ${NAMESPACEINUSE} "${NAMESPACEINUSE}-inuse"
   fi
 }

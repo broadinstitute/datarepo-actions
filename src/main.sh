@@ -18,7 +18,7 @@ function hasPrefix {
 function parseInputs {
   # Required inputs
   if [ "${INPUT_ACTIONS_SUBCOMMAND}" != "" ]; then
-    subcommand=${INPUT_ACTIONS_SUBCOMMAND}
+    export subcommand=${INPUT_ACTIONS_SUBCOMMAND}
   else
     echo "Input subcommand cannot be empty"
     exit 1
@@ -27,43 +27,44 @@ function parseInputs {
   # Optional inputs
   role_id=""
   if [ -n "${INPUT_ROLE_ID}" ]; then
-    role_id=${INPUT_ROLE_ID}
+    export role_id=${INPUT_ROLE_ID}
   fi
   secret_id=""
   if [ -n "${INPUT_SECRET_ID}" ]; then
-    secret_id=${INPUT_SECRET_ID}
+    export secret_id=${INPUT_SECRET_ID}
   fi
-  vault_address="${INPUT_VAULT_ADDRESS}"
-  google_zone="${INPUT_GOOGLE_ZONE}"
-  google_project="${INPUT_GOOGLE_PROJECT}"
-  gcr_google_project="${INPUT_GCR_GOOGLE_PROJECT}"
-  google_application_credentials=""
+  export vault_address="${INPUT_VAULT_ADDRESS}"
+  export google_zone="${INPUT_GOOGLE_ZONE}"
+  export google_project="${INPUT_GOOGLE_PROJECT}"
+  export DEV_PROJECT="${INPUT_GCR_GOOGLE_PROJECT}"
+  export google_application_credentials=""
   if [ -n "${INPUT_GOOGLE_APPLICATION_CREDENTIALS}" ]; then
-    google_application_credentials="${INPUT_GOOGLE_APPLICATION_CREDENTIALS}"
+    export google_application_credentials="${INPUT_GOOGLE_APPLICATION_CREDENTIALS}"
   fi
   k8_cluster=""
   if [ -n "${INPUT_K8_CLUSTER}" ]; then
-    k8_cluster="${INPUT_K8_CLUSTER}"
+    export k8_cluster="${INPUT_K8_CLUSTER}"
   fi
   k8_namespaces=""
   if [ -n "${INPUT_K8_NAMESPACES}" ]; then
-    k8_cluster="${INPUT_K8_NAMESPACES}"
+    export k8_namespaces="${INPUT_K8_NAMESPACES}"
   fi
   helm_secret_chart_version=""
   if [ -n "${INPUT_HELM_SECRET_CHART_VERSION}" ]; then
-    helm_secret_chart_version="${INPUT_HELM_SECRET_CHART_VERSION}"
+    export helm_secret_chart_version="${INPUT_HELM_SECRET_CHART_VERSION}"
   fi
   helm_datarepo_chart_version=""
   if [ -n "${INPUT_HELM_DATAREPO_CHART_VERSION}" ]; then
-    helm_datarepo_chart_version="${INPUT_HELM_DATAREPO_CHART_VERSION}"
-  fi
-  gcr_tag=""
-  if [ -n "${INPUT_GCR_TAG}" ]; then
-    gcr_tag="${INPUT_GCR_TAG}"
+    export helm_datarepo_chart_version="${INPUT_HELM_DATAREPO_CHART_VERSION}"
   fi
   workingDir="."
   if [[ -n "${INPUT_ACTIONS_WORKING_DIR}" ]]; then
-    workingDir=${INPUT_ACTIONS_WORKING_DIR}
+    export workingDir=${INPUT_ACTIONS_WORKING_DIR}
+  fi
+  export PGPASSWORD=${INPUT_PGPASSWORD}
+  export PGPORT=""
+  if [[ -n "${INPUT_PGPORT}" ]]; then
+    export PGPORT=${INPUT_PGPORT}
   fi
 }
 
@@ -76,7 +77,12 @@ function configureCredentials {
       ${vault_address}/v1/auth/approle/login | jq -r .auth.client_token)
     /usr/local/bin/vault read -format=json secret/dsde/datarepo/dev/sa-key.json | \
       jq .data > gcpsa.json
+    jq -r .private_key gcpsa.json > $GOOGLE_SA_CERT
+    chmod 600 $GOOGLE_SA_CERT
     echo 'Configured google sdk credentials from vault'
+  else
+    echo "required var not defined for function configureCredentials"
+    exit 1
   fi
 }
 
@@ -84,8 +90,8 @@ function googleAuth {
   if [[ "${google_zone}" != "" ]] && [[ "${google_project}" != "" ]]; then
     gcloud auth activate-service-account --key-file gcpsa.json
     # configure integration prerequisites
-    gcloud config set compute/zone ${google_zone}
-    gcloud config set project ${google_project}
+    gcloud config set compute/zone ${google_zone} --quiet
+    gcloud config set project ${google_project} --quiet
     gcloud auth configure-docker --quiet
     echo 'Set google sdk to SA user'
   else
@@ -103,6 +109,8 @@ function main {
   source ${scriptDir}/helmdeploy.sh
   source ${scriptDir}/whitelistclean.sh
   source ${scriptDir}/checknamespaceclean.sh
+  source ${scriptDir}/gradlebuild.sh
+  source ${scriptDir}/gradleinttest.sh
   source ${scriptDir}/test.sh
 
 
@@ -130,6 +138,12 @@ function main {
     k8_checknamespace_clean)
       checknamespaceclean ${*}
       ;;
+    gradlebuild)
+      gradlebuild ${*}
+      ;;
+    gradleinttest)
+      gradleinttest ${*}
+      ;;
     test)
       test ${*}
       ;;
@@ -139,7 +153,5 @@ function main {
       ;;
   esac
 }
-
-echo "$USER"
 
 main "${*}"

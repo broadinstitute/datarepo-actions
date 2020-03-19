@@ -2,7 +2,6 @@
 
 function whitelist {
   if [[ "${k8_cluster}" != "" ]]; then
-    printf "${k8_cluster}\n"
     CUR_IPS=$(gcloud container clusters describe ${k8_cluster} --format json | \
       jq -r '[.masterAuthorizedNetworksConfig.cidrBlocks[] | .cidrBlock]')
       RUNNER_IP=$(curl 'https://api.ipify.org/?format=text' | xargs printf '[ "%s/32" ]')
