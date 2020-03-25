@@ -24,8 +24,6 @@ gradleinttest () {
     ./gradlew assemble
     ./gradlew check --scan
     ./gradlew ${test_to_run} --scan
-#    ./gradlew testConnected --scan
-#    ./gradlew testIntegration --scan
   else
     echo "missing vars for function gradleinttest"
     exit 1
