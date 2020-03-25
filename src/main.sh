@@ -58,10 +58,6 @@ parseInputs () {
   if [[ -n "${INPUT_HELM_IMAGETAG_UPDATE}" ]]; then
     export helm_imagetag_update=${INPUT_HELM_IMAGETAG_UPDATE}
   fi
-  test_to_run=""
-  if [[ -n "${INPUT_TEST_TO_RUN}" ]]; then
-    export test_to_run=${INPUT_TEST_TO_RUN}
-  fi
 }
 
 configureCredentials () {
@@ -116,7 +112,6 @@ googleAuth () {
 main () {
   # Source the other files to gain access to their functions
   scriptDir=$(dirname ${0})
-  source ${scriptDir}/consul-template.sh
   source ${scriptDir}/whitelist.sh
   source ${scriptDir}/checknamespace.sh
   source ${scriptDir}/helmdeploy.sh
@@ -124,7 +119,6 @@ main () {
   source ${scriptDir}/checknamespaceclean.sh
   source ${scriptDir}/gradlebuild.sh
   source ${scriptDir}/gradleinttest.sh
-  source ${scriptDir}/test.sh
   source ${scriptDir}/deploytagupdate.sh
 
 
@@ -160,9 +154,6 @@ main () {
       ;;
     deploytagupdate)
       deploytagupdate ${*}
-      ;;
-    test)
-      test ${*}
       ;;
     *)
       echo "Error: Must provide a valid value for actions_subcommand"

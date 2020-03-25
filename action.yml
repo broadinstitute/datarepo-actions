@@ -5,7 +5,7 @@ branding:
   color: 'purple'
 inputs:
   actions_subcommand:
-    description: 'Terraform subcommand to execute.'
+    description: 'subcommand to execute.'
     required: true
   role_id:
     description: 'role_id for vault'
