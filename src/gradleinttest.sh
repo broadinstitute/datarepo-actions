@@ -2,7 +2,7 @@
 
 gradleinttest () {
   if [ -f env_vars ] && [[ -n "${IT_JADE_API_URL}" ]] && [[ "${test_to_run}" == "testIntegration" ]]; then
-    echo "Getting GCR tags and IT_JADE_API_URL for intgration test"
+    echo "Getting GCR tags and IT_JADE_API_URL for integration test"
     eval $(cat env_vars)
   else
     echo "Skipping importing environment vars for gradleinttest"
