@@ -16,7 +16,7 @@ gradleinttest () {
     export GOOGLE_SA_CERT=jade-dev-account.pem
     export GOOGLE_CLOUD_PROJECT=${google_project}
     if [[ "${test_to_run}" == "testIntegration" ]]; then
-      echo "Running intgration tests against ${IT_JADE_API_URL}"
+      echo "Running integration tests against ${IT_JADE_API_URL}"
     fi
     pg_isready -h ${PGHOST} -p ${PGPORT}
     psql -U postgres -f ./db/create-data-repo-db
