@@ -16,8 +16,12 @@ deploytagupdate () {
       cd datarepo-helm-definitions
       git config --global user.email "robot@jade.team"
       git config --global user.name "imagetagbot"
-      git add dev/dev/devDeployment.yaml
-      git commit -m "Updated dev image to latest jade-data-repo commit `${GCR_TAG}`"
+      if [[ "${i}" == "dev" ]]; then
+        git add dev/\*.yaml
+      else
+        git add integration/\*.yaml
+      fi
+      git commit -m "Updated images to latest jade-data-repo commit `${GCR_TAG}`"
       git push origin master
     done
   else
