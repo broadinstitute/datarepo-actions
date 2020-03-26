@@ -83,7 +83,7 @@ RUN set -o errexit -o nounset \
   && unzip gradle.zip \
   && rm gradle.zip \
   && mv "gradle-${GRADLE_VERSION}" "${GRADLE_HOME}/" \
-  && ln -s "${GRADLE_HOME}/bin/gradle" /usr/local/bin/gradle
+  && ln -s "${GRADLE_HOME}/bin/gradle" /usr/bin/gradle
 
 RUN set -o errexit -o nounset \
 	&& echo "Testing Gradle installation" \
