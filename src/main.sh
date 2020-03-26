@@ -58,6 +58,10 @@ parseInputs () {
   if [[ -n "${INPUT_HELM_IMAGETAG_UPDATE}" ]]; then
     export helm_imagetag_update=${INPUT_HELM_IMAGETAG_UPDATE}
   fi
+  test_to_run=""
+  if [[ -n "${INPUT_TEST_TO_RUN}" ]]; then
+    export test_to_run=${INPUT_TEST_TO_RUN}
+  fi
 }
 
 configureCredentials () {
