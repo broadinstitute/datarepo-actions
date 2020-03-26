@@ -1,6 +1,6 @@
 #!/bin/bash
 
-function whitelist {
+whitelist () {
   if [[ "${k8_cluster}" != "" ]]; then
     CUR_IPS=$(gcloud container clusters describe ${k8_cluster} --format json | \
       jq -r '[.masterAuthorizedNetworksConfig.cidrBlocks[] | .cidrBlock]')

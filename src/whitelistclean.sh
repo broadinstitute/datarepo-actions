@@ -1,6 +1,6 @@
 #!/bin/bash
 
-function whitelistclean {
+whitelistclean () {
   if [[ "${k8_cluster}" != "" ]]; then
     # export the original IP list so it can be restored during cleanup
     CUR_IPS=$(gcloud container clusters describe ${k8_cluster} --format json | \
