@@ -11,7 +11,7 @@ deploytagupdate () {
       gcloud container images add-tag gcr.io/${DEV_PROJECT}/jade-data-repo:${GCR_TAG} \
         gcr.io/${DEV_PROJECT}/jade-data-repo:${GCR_TAG}-develop --quiet
       printf "Find and replace image with current develop commit\n"
-      find . -name ${i}Deployment.yaml -type f -exec sh -c 'yq w -i $1 'datarepo-${i}.image.tag' $2' sh {} ${GCR_TAG} ';'
+      find . -name ${i}Deployment.yaml -type f -exec sh -c 'yq w -i $1 'datarepo-api.image.tag' $2' sh {} ${GCR_TAG} ';'
       printf "Git add, commit and push\n"
       cd ${GITHUB_WORKSPACE}/${workingDir}/datarepo-helm-definitions
       git config --global user.email "robot@jade.team"
