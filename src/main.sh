@@ -124,6 +124,7 @@ main () {
   source ${scriptDir}/gradlebuild.sh
   source ${scriptDir}/gradleinttest.sh
   source ${scriptDir}/deploytagupdate.sh
+  source ${scriptDir}/uinpmbuild.sh
 
 
   parseInputs
@@ -155,6 +156,9 @@ main () {
       ;;
     gradleinttest)
       gradleinttest ${*}
+      ;;
+    uinpmbuild)
+      uinpmbuild ${*}
       ;;
     deploytagupdate)
       deploytagupdate ${*}
