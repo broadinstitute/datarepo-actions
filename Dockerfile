@@ -63,7 +63,8 @@ RUN unzip vault_${VAULT_VERSION}_linux_amd64.zip && \
     rm -rf /vault_${VAULT_VERSION}_linux_amd64.zip
 
 # install yq
-RUN wget -O /usr/local/bin/yq "https://github.com/mikefarah/yq/releases/download/${YQ_VERSION}/yq_linux_amd64"
+RUN wget -O /usr/local/bin/yq "https://github.com/mikefarah/yq/releases/download/${YQ_VERSION}/yq_linux_amd64" && \
+  chmod +x /usr/local/bin/yq
 
 
 # copy down action functions
