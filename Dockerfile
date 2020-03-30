@@ -93,8 +93,6 @@ RUN set -o errexit -o nounset \
 # clean cache apks
 RUN apt-get clean -qqy
 
-FROM build-api as build-ui
-
 ENV NODE_VERSION 12.16.1
 
 RUN ARCH= && dpkgArch="$(dpkg --print-architecture)" \
