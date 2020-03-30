@@ -1,6 +1,6 @@
 FROM docker:17.12.0-ce as static-docker-source
 
-FROM openjdk:8u242-slim
+FROM openjdk:8u242-slim as build-api
 # FROM openjdk:8u242-slim
 ARG CLOUD_SDK_VERSION=285.0.1
 ENV CLOUD_SDK_VERSION=$CLOUD_SDK_VERSION \
@@ -92,6 +92,8 @@ RUN set -o errexit -o nounset \
 
 # clean cache apks
 RUN apt-get clean -qqy
+
+FROM build-api as build-ui
 
 ENV NODE_VERSION 12.16.1
 
