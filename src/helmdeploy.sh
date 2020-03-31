@@ -11,7 +11,7 @@ helmdeploy () {
     helm namespace upgrade ${NAMESPACEINUSE}-jade datarepo-helm/datarepo --version=${helm_datarepo_chart_version} --install \
       --namespace ${NAMESPACEINUSE} -f \
       "https://raw.githubusercontent.com/broadinstitute/datarepo-helm-definitions/master/integration/${NAMESPACEINUSE}/${NAMESPACEINUSE}Deployment.yaml" \
-      --set "datarepo-api.image.tag=${GCR_TAG}"
+      --set "datarepo-${image}.image.tag=${GCR_TAG}"
   else
     echo "required var not defined for function helmdeploy"
     exit 1
