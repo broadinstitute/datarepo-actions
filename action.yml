@@ -46,11 +46,9 @@ inputs:
     default: "dev"
   helm_imagetag_update:
     description: "which image you would like to update the tag of in helm definitions ie:ui or api"
+    default: "api"
   test_to_run:
     description: "which test you would like to run on the pods ie:testConnected or testIntegration"
-  image:
-    description: "image type, either ui or api"
-    default: "api"
 runs:
   using: "docker"
   image: "./Dockerfile"
