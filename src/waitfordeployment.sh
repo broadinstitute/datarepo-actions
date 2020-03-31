@@ -4,6 +4,7 @@ waitfordeployment () {
   if [[ "${google_zone}" != "" ]] && [[ "${k8_cluster}" != "" ]]; then
     if kubectl get deployments -n ${NAMESPACEINUSE} ${NAMESPACEINUSE}-jade-datarepo-ui -o jsonpath="{.status}" | grep unavailable; then
       sleep 10
+      echo "pod unavailable waiting 10 seconds..."
       waitfordeployment
     else
       pod=$(kubectl get deployments -n ${NAMESPACEINUSE} ${NAMESPACEINUSE}-jade-datarepo-ui -o jsonpath="{..metadata.name}")
