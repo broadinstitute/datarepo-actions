@@ -124,7 +124,7 @@ main () {
   source ${scriptDir}/gradlebuild.sh
   source ${scriptDir}/gradleinttest.sh
   source ${scriptDir}/deploytagupdate.sh
-
+  source ${scriptDir}/waitfordeployment.sh
 
   parseInputs
   configureCredentials
@@ -158,6 +158,9 @@ main () {
       ;;
     deploytagupdate)
       deploytagupdate ${*}
+      ;;
+    wait_for_deployment)
+      waitfordeployment ${*}
       ;;
     *)
       echo "Error: Must provide a valid value for actions_subcommand"
