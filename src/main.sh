@@ -62,6 +62,7 @@ parseInputs () {
   if [[ -n "${INPUT_TEST_TO_RUN}" ]]; then
     export test_to_run=${INPUT_TEST_TO_RUN}
   fi
+  export gcp_creds_only="${INPUT_GCP_CREDS_ONLY}"
 }
 
 configureCredentials () {
@@ -129,44 +130,48 @@ main () {
   parseInputs
   configureCredentials
   googleAuth
-  cd ${GITHUB_WORKSPACE}/${workingDir}
+  if [[ "${gcp_creds_only}" == "yes" ]]; then
+    echo "skipping any sub command, only getting gcp creds"
+  else
+    cd ${GITHUB_WORKSPACE}/${workingDir}
 
-  case "${subcommand}" in
-    ct_render)
-      ct_render ${*}
-      ;;
-    gcp_whitelist)
-      whitelist ${*}
-      ;;
-    k8_checknamespace)
-      checknamespace ${*}
-      ;;
-    helmdeploy)
-      helmdeploy ${*}
-      ;;
-    gcp_whitelist_clean)
-      whitelistclean ${*}
-      ;;
-    k8_checknamespace_clean)
-      checknamespaceclean ${*}
-      ;;
-    gradlebuild)
-      gradlebuild ${*}
-      ;;
-    gradleinttest)
-      gradleinttest ${*}
-      ;;
-    deploytagupdate)
-      deploytagupdate ${*}
-      ;;
-    wait_for_deployment)
-      waitfordeployment ${*}
-      ;;
-    *)
-      echo "Error: Must provide a valid value for actions_subcommand"
-      exit 1
-      ;;
-  esac
+    case "${subcommand}" in
+      ct_render)
+        ct_render ${*}
+        ;;
+      gcp_whitelist)
+        whitelist ${*}
+        ;;
+      k8_checknamespace)
+        checknamespace ${*}
+        ;;
+      helmdeploy)
+        helmdeploy ${*}
+        ;;
+      gcp_whitelist_clean)
+        whitelistclean ${*}
+        ;;
+      k8_checknamespace_clean)
+        checknamespaceclean ${*}
+        ;;
+      gradlebuild)
+        gradlebuild ${*}
+        ;;
+      gradleinttest)
+        gradleinttest ${*}
+        ;;
+      deploytagupdate)
+        deploytagupdate ${*}
+        ;;
+      wait_for_deployment)
+        waitfordeployment ${*}
+        ;;
+      *)
+        echo "Error: Must provide a valid value for actions_subcommand"
+        exit 1
+        ;;
+    esac
+  fi
 }
 
 main "${*}"
