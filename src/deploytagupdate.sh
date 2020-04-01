@@ -3,13 +3,23 @@
 deploytagupdate () {
   eval $(cat env_vars)
   if [[ -n "${helm_env_prefix}" ]] && [[ -n "${helm_imagetag_update}" ]]; then
+    export repo="gcr.io/${DEV_PROJECT}/jade-data-repo"
     for i in $(echo $helm_env_prefix | sed "s/,/ /g")
     do
       printf "New image tag to be deployed to dev ${GCR_TAG}\n"
       # check for image before deploy
-      gcloud container images list-tags gcr.io/${DEV_PROJECT}/jade-data-repo --filter=${GCR_TAG}
-      gcloud container images add-tag gcr.io/${DEV_PROJECT}/jade-data-repo:${GCR_TAG} \
-        gcr.io/${DEV_PROJECT}/jade-data-repo:${GCR_TAG}-develop --quiet
+      if [[ "${helm_imagetag_update}" == "api" ]]; then
+        gcloud container images list-tags ${repo} --filter=${GCR_TAG}
+        gcloud container images add-tag ${repo}:${GCR_TAG} \
+          ${repo}:${GCR_TAG}-develop --quiet
+      elif [[ "${helm_imagetag_update}" == "ui" ]]; then
+        gcloud container images list-tags ${repo}-ui --filter=${GCR_TAG}
+        gcloud container images add-tag ${repo}-ui:${GCR_TAG} \
+          ${repo}-ui:${GCR_TAG}-develop --quiet
+      else
+        echo "no helm_env_prefix speficified"
+        exit 1
+      fi
       printf "Find and replace image with current develop commit\n"
       find . -name ${i}Deployment.yaml -type f -exec sh -c 'yq w -i $1 'datarepo-${helm_imagetag_update}.image.tag' $2' sh {} ${GCR_TAG} ';'
       printf "Git add, commit and push\n"
