@@ -62,7 +62,6 @@ parseInputs () {
   if [[ -n "${INPUT_TEST_TO_RUN}" ]]; then
     export test_to_run=${INPUT_TEST_TO_RUN}
   fi
-  export gcp_creds_only="${INPUT_GCP_CREDS_ONLY}"
 }
 
 configureCredentials () {
@@ -130,7 +129,7 @@ main () {
   parseInputs
   configureCredentials
   googleAuth
-  if [[ "${gcp_creds_only}" == "yes" ]]; then
+  if [[ "${subcommand}" == "skip" ]]; then
     echo "skipping any sub command, only getting gcp creds"
   else
     cd ${GITHUB_WORKSPACE}/${workingDir}

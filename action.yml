@@ -49,9 +49,6 @@ inputs:
     default: "api"
   test_to_run:
     description: "which test you would like to run on the pods ie:testConnected or testIntegration"
-  gcp_creds_only:
-    description: "skip all other sub commands only get gcp creds ie:yes or no"
-    default: "no"
 runs:
   using: "docker"
   image: "./Dockerfile"
