@@ -62,6 +62,10 @@ parseInputs () {
   if [[ -n "${INPUT_TEST_TO_RUN}" ]]; then
     export test_to_run=${INPUT_TEST_TO_RUN}
   fi
+export helm_charts_to_test=${INPUT_HELM_CHARTS_TO_TEST}
+# non chanable vars for testing
+export charttestnamespace="temp"
+export relase_name=chart-test
 }
 
 configureCredentials () {
@@ -125,6 +129,9 @@ main () {
   source ${scriptDir}/gradleinttest.sh
   source ${scriptDir}/deploytagupdate.sh
   source ${scriptDir}/waitfordeployment.sh
+  source ${scriptDir}/charttestdeploy.sh
+  source ${scriptDir}/charttestdelete.sh
+  source ${scriptDir}/testcharts.sh
 
   parseInputs
   configureCredentials
@@ -135,9 +142,6 @@ main () {
     cd ${GITHUB_WORKSPACE}/${workingDir}
 
     case "${subcommand}" in
-      ct_render)
-        ct_render ${*}
-        ;;
       gcp_whitelist)
         whitelist ${*}
         ;;
@@ -164,6 +168,15 @@ main () {
         ;;
       wait_for_deployment)
         waitfordeployment ${*}
+        ;;
+      charttestdeploy)
+        charttestdeploy ${*}
+        ;;
+      charttestdelete)
+        charttestdelete ${*}
+        ;;
+      testcharts)
+        testcharts ${*}
         ;;
       *)
         echo "Error: Must provide a valid value for actions_subcommand"

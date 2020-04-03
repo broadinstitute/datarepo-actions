@@ -49,6 +49,9 @@ inputs:
     default: "api"
   test_to_run:
     description: "which test you would like to run on the pods ie:testConnected or testIntegration"
+  helm_charts_to_test:
+    description: "list of helm charts you would like to test"
+    default: "create-secret-manager-secret,gcloud-sqlproxy,datarepo-api,datarepo-ui,oidc-proxy"
 runs:
   using: "docker"
   image: "./Dockerfile"
