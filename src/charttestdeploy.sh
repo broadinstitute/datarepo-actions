@@ -5,7 +5,7 @@ charttestdeploy () {
     for i in $(echo $helm_charts_to_test | sed "s/,/ /g")
     do
       helm namespace upgrade ${relase_name}-${i} charts/${i} --install --namespace ${charttestnamespace} -f \
-      "https://raw.githubusercontent.com/broadinstitute/datarepo-helm-definitions/ms-charttester/integration/${charttestnamespace}/${i}.yaml"
+      "https://raw.githubusercontent.com/broadinstitute/datarepo-helm-definitions/master/integration/${charttestnamespace}/${i}.yaml"
       sleep 5
     done
   else
