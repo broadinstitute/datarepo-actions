@@ -117,6 +117,17 @@ googleAuth () {
   fi
 }
 
+helmprerun () {
+  if [ -f helmprerundone ]; then
+    printf "Skipping helmprerun\n"
+  else
+    helm plugin install https://github.com/thomastaylor312/helm-namespace
+    helm repo add datarepo-helm https://broadinstitute.github.io/datarepo-helm
+    helm repo update
+    touch helmprerundone
+  fi
+}
+
 main () {
   # Source the other files to gain access to their functions
   scriptDir=$(dirname ${0})
@@ -134,6 +145,7 @@ main () {
   source ${scriptDir}/testcharts.sh
 
   parseInputs
+  helmprerun
   configureCredentials
   googleAuth
   if [[ "${subcommand}" == "skip" ]]; then
