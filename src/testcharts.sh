@@ -10,7 +10,10 @@ checkpodstatus () {
     ready=$(jq -r .ready <<< ${podstatus})
     restartCount=$(jq -r .restartCount <<< ${podstatus})
     state=$(jq '.state| to_entries[] | {"status": .key} | .status' <<< ${podstatus} | sed 's/"//g')
-    if [[ "${state}" == "running" ]] && [[ "${ready}" == true ]]; then
+    if [[ "${podstatus}" == "" ]] ; then
+      printf "No podstatus for chart $i.\n Chart likely was not deployed"
+      exit 1
+    elif [[ "${state}" == "running" ]] && [[ "${ready}" == true ]]; then
       printf "Pod ${name} running normally...\n"
       passedpods+=($name)
     elif [[ "${state}" == "waiting" ]] && [ "${restartCount}" -gt "5" ]; then
