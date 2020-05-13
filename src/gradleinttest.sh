@@ -1,5 +1,20 @@
 #!/bin/bash
 
+cleaniampolicy() {
+  # get the policy bindings for the project
+  bindings=$(gcloud projects get-iam-policy ${google_project} --format=json)
+
+  # get the members of the BigQuery Job User role
+  members=$(echo $bindings | jq '.bindings[] | if .role == "roles/bigquery.jobUser" then .members else empty end')
+
+  # Loop through the members that start with "group:policy-" That is the signature of a SAM group. And I hope nothing else important!
+  # Remove the members one by one - this is noisy, but leaving it that way for now so we see the results in the log
+  for row in $(echo $members | jq -r '.[] | select(startswith("group:policy-"))'); do
+      echo "removing member: ${row}"
+      gcloud projects remove-iam-policy-binding ${google_project} --member=$row --role=roles/bigquery.jobUser
+  done
+}
+
 gradleinttest () {
   if [ -f env_vars ] && [[ -n "${IT_JADE_API_URL}" ]] && [[ "${test_to_run}" == "testIntegration" ]]; then
     echo "Getting GCR tags and IT_JADE_API_URL for integration test"
@@ -21,6 +36,7 @@ gradleinttest () {
     pg_isready -h ${PGHOST} -p ${PGPORT}
     psql -U postgres -f ./db/create-data-repo-db
     # required for tests
+    cleaniampolicy
     ./gradlew assemble
     ./gradlew check --scan
     ./gradlew ${test_to_run} --scan
