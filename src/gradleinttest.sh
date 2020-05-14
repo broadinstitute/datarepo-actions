@@ -1,6 +1,6 @@
 #!/bin/bash
 
-cleaniampolicy() {
+cleaniampolicy () {
   google_data_project="${google_project}-data"
 
   # get the policy bindings for the project
