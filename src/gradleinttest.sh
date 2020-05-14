@@ -1,8 +1,10 @@
 #!/bin/bash
 
 cleaniampolicy() {
+  google_data_project="${google_project}-data"
+
   # get the policy bindings for the project
-  bindings=$(gcloud projects get-iam-policy ${google_project} --format=json)
+  bindings=$(gcloud projects get-iam-policy ${google_data_project} --format=json)
 
   # get the members of the BigQuery Job User role
   members=$(echo $bindings | jq '.bindings[] | if .role == "roles/bigquery.jobUser" then .members else empty end')
@@ -11,7 +13,7 @@ cleaniampolicy() {
   # Remove the members one by one - this is noisy, but leaving it that way for now so we see the results in the log
   for row in $(echo $members | jq -r '.[] | select(startswith("group:policy-"))'); do
       echo "removing member: ${row}"
-      gcloud projects remove-iam-policy-binding ${google_project} --member=$row --role=roles/bigquery.jobUser
+      gcloud projects remove-iam-policy-binding ${google_data_project} --member=$row --role=roles/bigquery.jobUser
   done
 }
 
