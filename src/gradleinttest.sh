@@ -1,12 +1,12 @@
 #!/bin/bash
 
 cleaniampolicy () {
-  eval $(cat env_vars)
+  # determine id of integration project
   namespace_number=$(echo ${NAMESPACEINUSE} | sed 's/integration-//g')
   google_data_project="broad-jade-int-${namespace_number}-data"
-  echo "running clean IAM policy function"
+  echo "Cleaning up IAM policy for data project: ${google_data_project}"
+  
   # get the policy bindings for the project
-  echo "Data project to be cleaned: $google_data_project"
   bindings=$(gcloud projects get-iam-policy ${google_data_project} --format=json)
 
   # get the members of the BigQuery Job User role
@@ -37,11 +37,11 @@ gradleinttest () {
     export GOOGLE_CLOUD_PROJECT=${google_project}
     if [[ "${test_to_run}" == "testIntegration" ]]; then
       echo "Running integration tests against ${IT_JADE_API_URL}"
+      cleaniampolicy
     fi
     pg_isready -h ${PGHOST} -p ${PGPORT}
     psql -U postgres -f ./db/create-data-repo-db
     # required for tests
-    cleaniampolicy
     ./gradlew assemble
     ./gradlew check --scan
     ./gradlew ${test_to_run} --scan
