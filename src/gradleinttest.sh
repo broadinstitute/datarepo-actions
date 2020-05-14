@@ -2,7 +2,8 @@
 
 cleaniampolicy () {
   google_data_project="${google_project}-data"
-
+  echo "running clean IAM policy function"
+  
   # get the policy bindings for the project
   bindings=$(gcloud projects get-iam-policy ${google_data_project} --format=json)
 
