@@ -1,9 +1,10 @@
 #!/bin/bash
 
 cleaniampolicy () {
-  google_data_project="${google_project}-data"
+  eval $(cat env_vars)
+  namespace_number=$(echo ${NAMESPACEINUSE} | sed 's/integration-//g')
+  google_data_project="broad-jade-int-${namespace_number}-data"
   echo "running clean IAM policy function"
-  
   # get the policy bindings for the project
   bindings=$(gcloud projects get-iam-policy ${google_data_project} --format=json)
 
