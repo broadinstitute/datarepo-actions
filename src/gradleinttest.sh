@@ -6,6 +6,7 @@ cleaniampolicy () {
   google_data_project="broad-jade-int-${namespace_number}-data"
   echo "running clean IAM policy function"
   # get the policy bindings for the project
+  echo "Data project to be cleaned: $google_data_project"
   bindings=$(gcloud projects get-iam-policy ${google_data_project} --format=json)
 
   # get the members of the BigQuery Job User role
