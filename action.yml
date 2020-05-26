@@ -26,6 +26,9 @@ inputs:
   k8_cluster:
     description: "Google kubernetes cluster for sdk ie:integration-master"
     default: "integration-master"
+  release_name:
+    description: "release name for chart tester"
+    default: "integration-temp-jade"
   k8_namespaces:
     description: 'Google kubernetes cluster namespaces must be comma separated ie:"integration-1,integration-2"'
     default: "integration-1,integration-2,integration-3,integration-4,integration-5"
