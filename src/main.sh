@@ -62,10 +62,12 @@ parseInputs () {
   if [[ -n "${INPUT_TEST_TO_RUN}" ]]; then
     export test_to_run=${INPUT_TEST_TO_RUN}
   fi
+  release_name=""
+  if [[ -n "${INPUT_RELEASE_NAME}" ]]; then
+    export release_name=${INPUT_RELEASE_NAME}
+  fi
 export helm_charts_to_test=${INPUT_HELM_CHARTS_TO_TEST}
 # non chanable vars for testing
-export charttestnamespace="temp"
-export relase_name=chart-test
 }
 
 configureCredentials () {

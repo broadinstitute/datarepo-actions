@@ -5,7 +5,7 @@ checkpodstatus () {
   runcounter=0
   for i in $(echo $helm_charts_to_test | sed "s/,/ /g" | sed "s/create-secret-manager-secret//g")
   do
-    podstatus=$(kubectl get pods --namespace ${charttestnamespace} -l "app.kubernetes.io/name=${i}" -o json | jq -r '.items[].status.containerStatuses[]')
+    podstatus=$(kubectl get pods --namespace ${k8_namespaces} -l "app.kubernetes.io/name=${i}" -o json | jq -r '.items[].status.containerStatuses[]')
     name=$(jq -r .name <<< ${podstatus})
     ready=$(jq -r .ready <<< ${podstatus})
     restartCount=$(jq -r .restartCount <<< ${podstatus})
