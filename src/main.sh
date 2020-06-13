@@ -145,6 +145,7 @@ main () {
   source ${scriptDir}/charttestdeploy.sh
   source ${scriptDir}/charttestdelete.sh
   source ${scriptDir}/testcharts.sh
+  source ${scriptDir}/bumper.sh
 
   parseInputs
   helmprerun
@@ -191,6 +192,9 @@ main () {
         ;;
       testcharts)
         testcharts ${*}
+        ;;
+      bumper)
+        bumper ${*}
         ;;
       *)
         echo "Error: Must provide a valid value for actions_subcommand"
