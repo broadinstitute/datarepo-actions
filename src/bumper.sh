@@ -1,6 +1,7 @@
 #!/bin/bash
 
 # taken from https://github.com/anothrNick/github-tag-action
+export PATH=$PATH:/lib/
 
 bumper () {
     # config
