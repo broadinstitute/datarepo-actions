@@ -4,7 +4,7 @@
 
 bumper () {
     # config
-    default_semvar_bump=${DEFAULT_BUMP:-minor}
+    default_semvar_bump=${DEFAULT_BUMP:-patch}
     with_v=${WITH_V:-false}
     release_branches=${RELEASE_BRANCHES:-develop}
     custom_tag=${CUSTOM_TAG}
