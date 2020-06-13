@@ -133,5 +133,5 @@ bumper () {
       "ref": "refs/tags/$new",
       "sha": "$commit"
     }
-    EOF
+EOF
 }
