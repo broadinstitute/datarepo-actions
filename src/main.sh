@@ -1,5 +1,9 @@
 #!/bin/bash
 
+# we need the semver script to be available for version bumping in bumper
+LIB_PATH="${BASH_SOURCE%/*}/../lib"
+export PATH="$PATH:LIB_PATH"
+
 parseInputs () {
   # Required inputs
   if [ "${INPUT_ACTIONS_SUBCOMMAND}" != "" ]; then
