@@ -55,6 +55,8 @@ inputs:
   helm_charts_to_test:
     description: "list of helm charts you would like to test"
     default: "create-secret-manager-secret,gcloud-sqlproxy,datarepo-api,datarepo-ui,oidc-proxy"
+  GITHUB_TOKEN:
+    description: "token used to authenticate with Github"
 runs:
   using: "docker"
   image: "./Dockerfile"
