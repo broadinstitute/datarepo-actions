@@ -125,6 +125,9 @@ bumper () {
 
     echo "$dt: **pushing tag $new to repo $full_name"
 
+    echo "debug: ${GITHUB_TOKEN}"
+    env
+
     curl -s -X POST $git_refs_url \
     -H "Authorization: token $GITHUB_TOKEN" \
     -d @- << EOF
