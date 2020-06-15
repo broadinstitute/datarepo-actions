@@ -121,6 +121,7 @@ bumper () {
     echo $SED_COMMAND
     sed -i .bak "$SED_COMMAND" $INPUT_VERSION_FILE_PATH
     cat $INPUT_VERSION_FILE_PATH
+    exit 0
 
     if $pre_release
     then
