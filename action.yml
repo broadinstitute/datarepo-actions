@@ -57,6 +57,10 @@ inputs:
     default: "create-secret-manager-secret,gcloud-sqlproxy,datarepo-api,datarepo-ui,oidc-proxy"
   GITHUB_TOKEN:
     description: "token used to authenticate with Github"
+  version_file_path:
+    description: "path to a file with version info"
+  version_variable_name:
+    description: "name of the variable that holds version info"
 runs:
   using: "docker"
   image: "./Dockerfile"

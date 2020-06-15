@@ -111,6 +111,8 @@ bumper () {
 
     echo ::set-output name=tag::$new
 
+    echo "line to change"
+    cat $INPUT_VERSION_FILE_PATH | grep $INPUT_VERSION_VARIABLE_NAME
 
     if $pre_release
     then
