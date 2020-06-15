@@ -111,14 +111,15 @@ bumper () {
 
     echo ::set-output name=tag::$new
 
-    echo "line to change"
     SUFFIX=SNAPSHOT
-    VERSION_LINE=$(cat $INPUT_VERSION_FILE_PATH | \
-        grep -e "^${INPUT_VERSION_VARIABLE_NAME}")
-    sed --help
+    VERSION_LINE=$(cat $INPUT_VERSION_FILE_PATH | grep -e "^${INPUT_VERSION_VARIABLE_NAME}")
     sed -i "s/${VERSION_LINE}/${INPUT_VERSION_VARIABLE_NAME} '${new}-${SUFFIX}'/" $INPUT_VERSION_FILE_PATH
-    cat $INPUT_VERSION_FILE_PATH
-    exit 0
+    git config --global user.email "robot@jade.team"
+    git config --global user.name "bumptagbot"
+    git add $INPUT_VERSION_FILE_PATH
+    git commit -m "bump ${new}"
+    git push origin develop
+    commit=$(git rev-parse HEAD)
 
     if $pre_release
     then
