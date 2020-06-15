@@ -115,7 +115,7 @@ bumper () {
     # expects that there is a line of the form: ${INPUT_VERSION_VARIABLE_NAME} 'x.y.z-SNAPSHOT'
     # TODO: work to be done to configure this for non-snapshot releases
 
-    if [ -z ${INPUT_VERSION_FILE_PATH+x} ] || [ -z ${INPUT_VERSION_VARIABLE_NAME+x} ]; then
+    if [ -z "$INPUT_VERSION_FILE_PATH" ] || [ -z "$INPUT_VERSION_VARIABLE_NAME" ]; then
         echo "Skipping bump of version file."
     else
         SUFFIX=SNAPSHOT
