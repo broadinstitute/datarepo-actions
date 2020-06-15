@@ -111,10 +111,15 @@ bumper () {
 
     echo ::set-output name=tag::$new
 
+    if $pre_release
+    then
+        echo "This branch is not a release branch. Skipping the tag creation."
+        exit 0
+    fi
+
     # bump the version in the file located at ${INPUT_VERSION_FILE_PATH}
     # expects that there is a line of the form: ${INPUT_VERSION_VARIABLE_NAME} 'x.y.z-SNAPSHOT'
     # TODO: work to be done to configure this for non-snapshot releases
-
     if [ -z "$INPUT_VERSION_FILE_PATH" ] || [ -z "$INPUT_VERSION_VARIABLE_NAME" ]; then
         echo "Skipping bump of version file."
     else
@@ -127,12 +132,6 @@ bumper () {
         git commit -m "bump ${new}"
         git push origin $current_branch
         commit=$(git rev-parse HEAD)
-    fi
-
-    if $pre_release
-    then
-        echo "This branch is not a release branch. Skipping the tag creation."
-        exit 0
     fi
 
     # push new tag ref to github
