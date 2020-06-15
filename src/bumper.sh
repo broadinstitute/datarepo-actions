@@ -115,7 +115,7 @@ bumper () {
     SUFFIX=SNAPSHOT
     VERSION_LINE=$(cat $INPUT_VERSION_FILE_PATH | \
         grep -e "^${INPUT_VERSION_VARIABLE_NAME}" | \
-        sed "s/\'/\\\'/g")
+        sed "s/'/\\\'/g")
     echo $VERSION_LINE
     SED_COMMAND="s/${VERSION_LINE}/${INPUT_VERSION_VARIABLE_NAME} \'${new}-${SUFFIX}\'/"
     echo $SED_COMMAND
