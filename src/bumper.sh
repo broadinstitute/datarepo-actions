@@ -119,7 +119,8 @@ bumper () {
     echo $VERSION_LINE
     SED_COMMAND="s/${VERSION_LINE}/${INPUT_VERSION_VARIABLE_NAME} \'${new}-${SUFFIX}\'/"
     echo $SED_COMMAND
-    sed -i .bak "$SED_COMMAND" $INPUT_VERSION_FILE_PATH
+    set -x
+    sed -i .bak "s/${VERSION_LINE}/${INPUT_VERSION_VARIABLE_NAME} \'${new}-${SUFFIX}\'/" $INPUT_VERSION_FILE_PATH
     cat $INPUT_VERSION_FILE_PATH
     exit 0
 
