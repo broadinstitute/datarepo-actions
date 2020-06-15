@@ -112,7 +112,10 @@ bumper () {
     echo ::set-output name=tag::$new
 
     echo "line to change"
-    cat $INPUT_VERSION_FILE_PATH | grep $INPUT_VERSION_VARIABLE_NAME
+    SUFFIX=SNAPSHOT
+    VERSION_LINE=$(cat $INPUT_VERSION_FILE_PATH | grep -e "^${INPUT_VERSION_VARIABLE_NAME}")
+    sed -i .bak "s/${VERSION_LINE}/${INPUT_VERSION_VARIABLE_NAME} '${new}-${SUFFIX}'/" $INPUT_VERSION_FILE_PATH
+    cat $INPUT_VERSION_FILE_PATH
 
     if $pre_release
     then
