@@ -13,7 +13,7 @@ helmdeploy () {
     charts=("gcloud-sqlproxy" "datarepo-api" "datarepo-ui" "oidc-proxy")
     for i in "${charts[@]}"
     do
-        chartversion=$(echo "helm_${i//-/_/}_chart_version")
+        chartversion="helm_${i//-/_}_chart_version"
         helm namespace upgrade ${release_name}-${i} datarepo-helm/${i} --version=${chartversion} --install \
              --namespace ${NAMESPACEINUSE} -f \
              "https://raw.githubusercontent.com/broadinstitute/datarepo-helm-definitions/master/integration/${NAMESPACEINUSE}/${i}.yaml" \
