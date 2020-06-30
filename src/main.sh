@@ -38,9 +38,21 @@ parseInputs () {
   if [ -n "${INPUT_HELM_SECRET_CHART_VERSION}" ]; then
     export helm_secret_chart_version="${INPUT_HELM_SECRET_CHART_VERSION}"
   fi
-  helm_datarepo_chart_version=""
-  if [ -n "${INPUT_HELM_DATAREPO_CHART_VERSION}" ]; then
-    export helm_datarepo_chart_version="${INPUT_HELM_DATAREPO_CHART_VERSION}"
+  helm_datarepo_api_chart_version=""
+  if [ -n "${INPUT_HELM_DATAREPO_API_CHART_VERSION}" ]; then
+    export helm_datarepo_api_chart_version="${INPUT_HELM_DATAREPO_API_CHART_VERSION}"
+  fi
+  helm_datarepo_ui_chart_version=""
+  if [ -n "${INPUT_HELM_DATAREPO_UI_CHART_VERSION}" ]; then
+    export helm_datarepo_ui_chart_version="${INPUT_HELM_DATAREPO_UI_CHART_VERSION}"
+  fi
+  helm_oidc_proxy_chart_version=""
+  if [ -n "${INPUT_HELM_OIDC_PROXY_CHART_VERSION}" ]; then
+    export helm_oidc_proxy_chart_version="${INPUT_OIDC_PROXY_CHART_VERSION}"
+  fi
+  helm_gcloud_sqlproxy_chart_version=""
+  if [ -n "${INPUT_HELM_GCLOUD_SQLPROXY_CHART_VERSION}" ]; then
+    export helm_gcloud_sqlproxy_chart_version="${INPUT_GCLOUD_SQLPROXY_CHART_VERSION}"
   fi
   workingDir="."
   if [[ -n "${INPUT_ACTIONS_WORKING_DIR}" ]]; then

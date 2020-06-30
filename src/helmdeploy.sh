@@ -10,15 +10,30 @@ helmdeploy () {
     helm delete --namespace ${NAMESPACEINUSE} ${NAMESPACEINUSE}-jade-datarepo-api
 
     release_name="${NAMESPACEINUSE}-jade"
-    charts=("gcloud-sqlproxy" "datarepo-api" "datarepo-ui" "oidc-proxy")
-    for i in "${charts[@]}"
-    do
-        helm namespace upgrade ${release_name}-${i} datarepo-helm/${i} --version=${helm_datarepo_chart_version} --install \
-             --namespace ${NAMESPACEINUSE} -f \
-             "https://raw.githubusercontent.com/broadinstitute/datarepo-helm-definitions/master/integration/${NAMESPACEINUSE}/${i}.yaml" \
-             --set "datarepo-${helm_imagetag_update}.image.tag=${GCR_TAG}"
-        sleep 5
-    done
+
+    helm namespace upgrade ${release_name}-gcloud-sqlproxy datarepo-helm/gcloud-sqlproxy --version=${helm_gcloud_sqlproxy_chart_version} \
+         --install --namespace ${NAMESPACEINUSE} -f \
+         "https://raw.githubusercontent.com/broadinstitute/datarepo-helm-definitions/master/integration/${NAMESPACEINUSE}/gcloud-sqlproxy.yaml" \
+         --set "datarepo-${helm_imagetag_update}.image.tag=${GCR_TAG}"
+    sleep 3
+
+    helm namespace upgrade ${release_name}-datarepo-api datarepo-helm/datarepo-api --version=${helm_datarepo_api_chart_version} \
+         --install --namespace ${NAMESPACEINUSE} -f \
+         "https://raw.githubusercontent.com/broadinstitute/datarepo-helm-definitions/master/integration/${NAMESPACEINUSE}/datarepo-api.yaml" \
+         --set "datarepo-${helm_imagetag_update}.image.tag=${GCR_TAG}"
+    sleep 3
+
+    helm namespace upgrade ${release_name}-datarepo-ui datarepo-helm/datarepo-ui --version=${helm_datarepo_ui_chart_version} \
+         --install --namespace ${NAMESPACEINUSE} -f \
+         "https://raw.githubusercontent.com/broadinstitute/datarepo-helm-definitions/master/integration/${NAMESPACEINUSE}/datarepo-ui.yaml" \
+         --set "datarepo-${helm_imagetag_update}.image.tag=${GCR_TAG}"
+    sleep 3
+
+    helm namespace upgrade ${release_name}-oidc-proxy datarepo-helm/oidc-proxy --version=${helm_oidc_proxy_chart_version} \
+         --install --namespace ${NAMESPACEINUSE} -f \
+         "https://raw.githubusercontent.com/broadinstitute/datarepo-helm-definitions/master/integration/${NAMESPACEINUSE}/oidc-proxy.yaml" \
+         --set "datarepo-${helm_imagetag_update}.image.tag=${GCR_TAG}"
+    sleep 3
 
   else
     echo "required var not defined for function helmdeploy"
