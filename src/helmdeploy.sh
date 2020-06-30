@@ -13,8 +13,7 @@ helmdeploy () {
 
     helm namespace upgrade ${release_name}-gcloud-sqlproxy datarepo-helm/gcloud-sqlproxy --version=${helm_gcloud_sqlproxy_chart_version} \
          --install --namespace ${NAMESPACEINUSE} -f \
-         "https://raw.githubusercontent.com/broadinstitute/datarepo-helm-definitions/master/integration/${NAMESPACEINUSE}/gcloud-sqlproxy.yaml" \
-         --set "datarepo-${helm_imagetag_update}.image.tag=${GCR_TAG}"
+         "https://raw.githubusercontent.com/broadinstitute/datarepo-helm-definitions/master/integration/${NAMESPACEINUSE}/gcloud-sqlproxy.yaml"
     sleep 3
 
     helm namespace upgrade ${release_name}-datarepo-api datarepo-helm/datarepo-api --version=${helm_datarepo_api_chart_version} \
@@ -31,8 +30,7 @@ helmdeploy () {
 
     helm namespace upgrade ${release_name}-oidc-proxy datarepo-helm/oidc-proxy --version=${helm_oidc_proxy_chart_version} \
          --install --namespace ${NAMESPACEINUSE} -f \
-         "https://raw.githubusercontent.com/broadinstitute/datarepo-helm-definitions/master/integration/${NAMESPACEINUSE}/oidc-proxy.yaml" \
-         --set "datarepo-${helm_imagetag_update}.image.tag=${GCR_TAG}"
+         "https://raw.githubusercontent.com/broadinstitute/datarepo-helm-definitions/master/integration/${NAMESPACEINUSE}/oidc-proxy.yaml"
     sleep 3
 
   else
