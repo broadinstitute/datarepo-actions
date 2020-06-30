@@ -34,6 +34,14 @@ This is a collections of functions that run in a github actions specific to Broa
     - description: 'Helm chart version for datarepo-helm/create-secret-manager-secret ie:0.0.4'
 -  helm_datarepo_chart_version:
     - description: 'Helm chart version for datarepo-helm/datarepo ie:0.0.8'
+-  helm_datarepo_api_chart_version:
+    - description: 'Helm chart version for datarepo-helm/datarepo-api ie:0.0.8'
+-  helm_datarepo_ui_chart_version:
+    - description: 'Helm chart version for datarepo-helm/datarepo-ui ie:0.0.8'
+-  helm_gcloud_sqlproxy_chart_version:
+    - description: 'Helm chart version for datarepo-helm/gcloud-sqlproxy ie:0.0.8'
+-  helm_oidc_proxy_chart_version:
+    - description: 'Helm chart version for datarepo-helm/oidc-proxy ie:0.0.8'
 -  actions_working_dir:
     - description: 'working directory.'
     - default: '.'
