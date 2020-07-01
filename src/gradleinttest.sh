@@ -21,15 +21,18 @@ cleaniampolicy () {
 }
 
 gradleinttest () {
-  if [ -f env_vars ] && [[ -n "${IT_JADE_API_URL}" ]]; then
-    echo "Getting GCR tags and IT_JADE_API_URL for connected or integration test"
+  if [ -f env_vars ] && [[ -n "${IT_JADE_API_URL}" ]] && [[ "${test_to_run}" == "testIntegration" ]]; then
+    echo "Getting GCR tags and IT_JADE_API_URL for integration test"
     eval $(cat env_vars)
+  else
+    echo "Skipping importing environment vars for gradleinttest"
   fi
 
-  # determine id of integration project
-  namespace_number=$(echo ${NAMESPACEINUSE} | sed 's/integration-//g')
-  google_data_project="broad-jade-int-${namespace_number}-data"
-  echo "Running ${test_to_run} test with data project: ${google_data_project}"
+  # hardcode data project for connected tests
+  if [[ "${test_to_run}" == "testConnected" ]]; then
+    google_data_project="broad-jade-integration-data"
+    echo "Running ${test_to_run} test with data project: ${google_data_project}"
+  fi
 
   if [[ -n "${google_project}" ]] && [ -f jade-dev-account.json ] && [ -f jade-dev-account.pem ] && [[ "${test_to_run}" != "" ]]; then
     export PGHOST=$(ip route show default | awk '/default/ {print $3}')
