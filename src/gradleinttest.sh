@@ -27,6 +27,16 @@ gradleinttest () {
   else
     echo "Skipping importing environment vars for gradleinttest"
   fi
+
+  # hardcode data project for connected tests
+  if [[ "${test_to_run}" == "testConnected" ]]; then
+    google_data_project="broad-jade-integration-data"
+    echo "Running ${test_to_run} test with data project: ${google_data_project}"
+  else
+    google_data_project=""
+    echo "Running ${test_to_run} test with data project env var unset: ${google_data_project}"
+  fi
+
   if [[ -n "${google_project}" ]] && [ -f jade-dev-account.json ] && [ -f jade-dev-account.pem ] && [[ "${test_to_run}" != "" ]]; then
     export PGHOST=$(ip route show default | awk '/default/ {print $3}')
     export DB_DATAREPO_URI="jdbc:postgresql://${PGHOST}:5432/datarepo"
@@ -35,6 +45,7 @@ gradleinttest () {
     export IT_JADE_PEM_FILE_NAME=jade-dev-account.pem
     export GOOGLE_SA_CERT=jade-dev-account.pem
     export GOOGLE_CLOUD_PROJECT=${google_project}
+    export GOOGLE_CLOUD_DATA_PROJECT=${google_data_project}
     if [[ "${test_to_run}" == "testIntegration" ]]; then
       echo "Running integration tests against ${IT_JADE_API_URL}"
       cleaniampolicy
