@@ -21,12 +21,15 @@ cleaniampolicy () {
 }
 
 gradleinttest () {
-  if [ -f env_vars ] && [[ -n "${IT_JADE_API_URL}" ]] && [[ "${test_to_run}" == "testIntegration" ]]; then
-    echo "Getting GCR tags and IT_JADE_API_URL for integration test"
+  if [ -f env_vars ] && [[ -n "${IT_JADE_API_URL}" ]]; then
+    echo "Getting GCR tags and IT_JADE_API_URL for connected or integration test"
     eval $(cat env_vars)
-  else
-    echo "Skipping importing environment vars for gradleinttest"
   fi
+
+  # determine id of integration project
+  namespace_number=$(echo ${NAMESPACEINUSE} | sed 's/integration-//g')
+  google_data_project="broad-jade-int-${namespace_number}-data"
+
   if [[ -n "${google_project}" ]] && [ -f jade-dev-account.json ] && [ -f jade-dev-account.pem ] && [[ "${test_to_run}" != "" ]]; then
     export PGHOST=$(ip route show default | awk '/default/ {print $3}')
     export DB_DATAREPO_URI="jdbc:postgresql://${PGHOST}:5432/datarepo"
@@ -35,6 +38,7 @@ gradleinttest () {
     export IT_JADE_PEM_FILE_NAME=jade-dev-account.pem
     export GOOGLE_SA_CERT=jade-dev-account.pem
     export GOOGLE_CLOUD_PROJECT=${google_project}
+    export GOOGLE_CLOUD_DATA_PROJECT=${google_data_project}
     if [[ "${test_to_run}" == "testIntegration" ]]; then
       echo "Running integration tests against ${IT_JADE_API_URL}"
       cleaniampolicy
