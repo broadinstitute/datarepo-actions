@@ -35,6 +35,7 @@ gradleinttest () {
     export IT_JADE_PEM_FILE_NAME=jade-dev-account.pem
     export GOOGLE_SA_CERT=jade-dev-account.pem
     export GOOGLE_CLOUD_PROJECT=${google_project}
+    export GOOGLE_CLOUD_DATA_PROJECT=${google_data_project}
     if [[ "${test_to_run}" == "testIntegration" ]]; then
       echo "Running integration tests against ${IT_JADE_API_URL}"
       cleaniampolicy
