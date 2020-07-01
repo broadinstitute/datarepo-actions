@@ -32,6 +32,9 @@ gradleinttest () {
   if [[ "${test_to_run}" == "testConnected" ]]; then
     google_data_project="broad-jade-integration-data"
     echo "Running ${test_to_run} test with data project: ${google_data_project}"
+  else
+    google_data_project=""
+    echo "Running ${test_to_run} test with data project env var unset: ${google_data_project}"
   fi
 
   if [[ -n "${google_project}" ]] && [ -f jade-dev-account.json ] && [ -f jade-dev-account.pem ] && [[ "${test_to_run}" != "" ]]; then
