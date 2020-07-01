@@ -29,6 +29,7 @@ gradleinttest () {
   # determine id of integration project
   namespace_number=$(echo ${NAMESPACEINUSE} | sed 's/integration-//g')
   google_data_project="broad-jade-int-${namespace_number}-data"
+  echo "Running ${test_to_run} test with data project: ${google_data_project}"
 
   if [[ -n "${google_project}" ]] && [ -f jade-dev-account.json ] && [ -f jade-dev-account.pem ] && [[ "${test_to_run}" != "" ]]; then
     export PGHOST=$(ip route show default | awk '/default/ {print $3}')
