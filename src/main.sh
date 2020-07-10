@@ -1,5 +1,7 @@
 #!/bin/bash
 
+set -e
+
 parseInputs () {
   # Required inputs
   if [ "${INPUT_ACTIONS_SUBCOMMAND}" != "" ]; then
