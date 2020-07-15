@@ -8,5 +8,7 @@ alpharelease () {
     gcloud container images add-tag gcr.io/broad-jade-dev/jade-data-repo-ui:${uitag} \
       gcr.io/broad-jade-dev/jade-data-repo-ui:"${alpharelease}-alpha"
     gradlebuild
+  else
+    printf "alpha release not sucessful missing vars"
   fi
 }
