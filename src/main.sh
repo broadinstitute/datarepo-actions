@@ -119,7 +119,7 @@ configureCredentials () {
 
 googleAuth () {
   account_status=$(gcloud auth list --filter=status:ACTIVE --format="value(account)")
-  if [[ -n "${account_status}" ]]; then
+  if [[ -n "${account_status}" ]] then;
     echo "Service account has alredy been activated skipping googleAuth function"
   else
     if [[ "${google_zone}" != "" ]] && [[ "${google_project}" != "" ]]; then
