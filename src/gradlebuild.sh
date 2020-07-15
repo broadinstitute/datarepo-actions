@@ -1,9 +1,13 @@
 #!/bin/bash
 
 gradlebuild () {
-  if [[ "${DEV_PROJECT}" != "" ]]; then
+  if [[ "${gcr_google_project}" != "" ]]; then
     export GOOGLE_APPLICATION_CREDENTIALS=jade-dev-account.json
-    GCR_TAG=${alpharelease:-$(git rev-parse --short HEAD)}
+    if [[ -n "${alpharelease}" ]]; then
+      GCR_TAG="${alpharelease}-alpha"
+    else
+      GCR_TAG=$(git rev-parse --short HEAD)
+    fi
     echo "export GCR_TAG=${GCR_TAG}"  >> env_vars
     ./gradlew jib
   else
