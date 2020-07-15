@@ -69,6 +69,8 @@ inputs:
     description: "name of the variable that holds version info"
   release_branches:
     description: "a comma-separated list of branches to treat as release, default develop,master"
+  alpharelease:
+    description: "semantic release version for alpha nightly release"
 runs:
   using: "docker"
   image: "./Dockerfile"

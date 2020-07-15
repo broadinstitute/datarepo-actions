@@ -80,6 +80,10 @@ parseInputs () {
   if [[ -n "${INPUT_RELEASE_NAME}" ]]; then
     export release_name=${INPUT_RELEASE_NAME}
   fi
+  alpharelease=""
+  if [[ -n "${INPUT_ALPHARELEASE}" ]]; then
+    export alpharelease=${INPUT_ALPHARELEASE}
+  fi
 export helm_charts_to_test=${INPUT_HELM_CHARTS_TO_TEST}
 # non chanable vars for testing
 }
@@ -160,6 +164,7 @@ main () {
   source ${scriptDir}/charttestdelete.sh
   source ${scriptDir}/testcharts.sh
   source ${scriptDir}/bumper.sh
+  source ${scriptDir}/alpharelease.sh
 
   parseInputs
   helmprerun
@@ -209,6 +214,9 @@ main () {
         ;;
       bumper)
         bumper ${*}
+        ;;
+      alpharelease)
+        alpharelease ${*}
         ;;
       *)
         echo "Error: Must provide a valid value for actions_subcommand"
