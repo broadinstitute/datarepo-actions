@@ -3,8 +3,7 @@
 alpharelease () {
   if [[ -n "${alpharelease}" ]] && [[ -n "${DEV_PROJECT}" ]]; then
     printf "Running alpharelease for tag ${alpharelease}\n"
-    cd jade-data-repo-ui
-    uitag=$(git rev-parse --short HEAD)
+    uitag=$(git rev-parse --short HEAD --git-dir=jade-data-repo-ui)
     # echo "::set-output name=ui-tag::$ui-tag"
     gcloud container images add-tag gcr.io/broad-jade-dev/jade-data-repo-ui:${uitag} \
       gcr.io/broad-jade-dev/jade-data-repo-ui:"${alpharelease}-alpha" --quiet
