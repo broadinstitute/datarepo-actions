@@ -1,7 +1,7 @@
 #!/bin/bash
 
 gradlebuild () {
-  if [[ $1 -n ]]; then
+  if [[ -n "$1" ]]; then
     DEV_PROJECT=$1
   fi
   if [[ "${gcr_google_project}" != "" ]]; then
