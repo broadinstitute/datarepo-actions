@@ -1,8 +1,9 @@
 #!/bin/bash
 
 alpharelease () {
-  if [[ -n "${alpharelease}" ]]; then
-    printf "Running alpharelease for tag ${alpharelease}"
+  export DEV_PROJECT="${INPUT_GCR_GOOGLE_PROJECT}"
+  if [[ -n "${alpharelease}" ]] && [[ -n "${DEV_PROJECT}" ]]; then
+    printf "Running alpharelease for tag ${alpharelease}\n"
     cd jade-data-repo-ui
     uitag=$(git rev-parse --short HEAD)
     # echo "::set-output name=ui-tag::$ui-tag"
