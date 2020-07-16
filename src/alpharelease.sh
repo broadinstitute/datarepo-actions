@@ -1,7 +1,8 @@
 #!/bin/bash
 
 alpharelease () {
-  if [[ -n "${alpharelease}" ]] && [[ -n "${gcr_google_project}" ]]; then
+  if [[ -n "${alpharelease}" ]]; then
+    printf "Running alpharelease for tag ${alpharelease}"
     cd jade-data-repo-ui
     uitag=$(git rev-parse --short HEAD)
     # echo "::set-output name=ui-tag::$ui-tag"
@@ -10,5 +11,6 @@ alpharelease () {
     gradlebuild
   else
     printf "alpha release not sucessful missing vars"
+    exit 1
   fi
 }
