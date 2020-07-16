@@ -9,7 +9,7 @@ alpharelease () {
       gcr.io/broad-jade-dev/jade-data-repo-ui:"${alpharelease}-alpha" --quiet
     # source and run gradlebuild
     source ${scriptDir}/gradlebuild.sh
-    gradlebuild "${DEV_PROJECT}"
+    gradlebuild "${DEV_PROJECT}" "${alpharelease}"
   else
     printf "alpha release not sucessful missing vars"
     exit 1
