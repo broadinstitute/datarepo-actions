@@ -119,7 +119,7 @@ configureCredentials () {
 
 googleAuth () {
   account_status=$(gcloud auth list --filter=status:ACTIVE --format="value(account)")
-  if [[ -n "${account_status}" ]] then;
+  if [[ -n "${account_status}" ]]; then
     echo "Service account has alredy been activated skipping googleAuth function"
   else
     if [[ "${google_zone}" != "" ]] && [[ "${google_project}" != "" ]]; then
@@ -129,7 +129,7 @@ googleAuth () {
       gcloud config set project ${google_project} --quiet
       gcloud auth configure-docker --quiet
       echo 'Set google sdk to SA user'
-      if [[ -n "${k8_cluster}" ]] then;
+      if [[ -n "${k8_cluster}" ]]; then
         gcloud container clusters get-credentials ${k8_cluster} --zone ${google_zone}
       fi
     else
