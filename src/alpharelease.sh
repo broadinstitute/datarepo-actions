@@ -8,9 +8,7 @@ alpharelease () {
     # echo "::set-output name=ui-tag::$ui-tag"
     gcloud container images add-tag gcr.io/broad-jade-dev/jade-data-repo-ui:${uitag} \
       gcr.io/broad-jade-dev/jade-data-repo-ui:"${alpharelease}-alpha" --quiet
-    parseInputs
-    source ${scriptDir}/gradlebuild.sh
-    gradlebuild
+    gradlebuild "${DEV_PROJECT}"
   else
     printf "alpha release not sucessful missing vars"
     exit 1
