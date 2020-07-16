@@ -4,7 +4,7 @@ gradlebuild () {
   if [[ -n "$1" ]]; then
     export DEV_PROJECT=$1
   fi
-  if [[ "${gcr_google_project}" != "" ]]; then
+  if [[ "${DEV_PROJECT}" != "" ]]; then
     export GOOGLE_APPLICATION_CREDENTIALS=jade-dev-account.json
     if [[ -n "${alpharelease}" ]]; then
       GCR_TAG="${alpharelease}-alpha"
