@@ -32,6 +32,16 @@ bumper () {
 
     # get latest tag that looks like a semver (with or without v)
     tag=$(git for-each-ref --sort=-v:refname --count=1 --format '%(refname)' refs/tags/[0-9]*.[0-9]*.[0-9]* refs/tags/v[0-9]*.[0-9]*.[0-9]* | cut -d / -f 3-)
+
+    # if there are none, start tags at INITIAL_VERSION which defaults to 0.0.0
+    if [ -z "$tag" ]
+    then
+        log=$(git log --pretty='%B')
+        tag="$initial_version"
+    else
+        log=$(git log $tag..HEAD --pretty='%B')
+    fi
+
     tag_commit=$(git rev-list -n 1 $tag)
 
     # get current commit hash for tag
@@ -41,15 +51,6 @@ bumper () {
         echo "No new commits since previous tag. Skipping..."
         echo ::set-output name=tag::$tag
         exit 0
-    fi
-
-    # if there are none, start tags at INITIAL_VERSION which defaults to 0.0.0
-    if [ -z "$tag" ]
-    then
-        log=$(git log --pretty='%B')
-        tag="$initial_version"
-    else
-        log=$(git log $tag..HEAD --pretty='%B')
     fi
 
     echo $log
