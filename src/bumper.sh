@@ -32,24 +32,22 @@ bumper () {
 
     # get latest tag that looks like a semver (with or without v)
     tag=$(git for-each-ref --sort=-v:refname --count=1 --format '%(refname)' refs/tags/[0-9]*.[0-9]*.[0-9]* refs/tags/v[0-9]*.[0-9]*.[0-9]* | cut -d / -f 3-)
-    tag_commit=$(git rev-list -n 1 $tag)
-
-    # get current commit hash for tag
-    commit=$(git rev-parse HEAD)
-
-    if [ "$tag_commit" == "$commit" ]; then
-        echo "No new commits since previous tag. Skipping..."
-        echo ::set-output name=tag::$tag
-        exit 0
-    fi
 
     # if there are none, start tags at INITIAL_VERSION which defaults to 0.0.0
-    if [ -z "$tag" ]
-    then
+    if [ -z "$tag" ]; then
         log=$(git log --pretty='%B')
         tag="$initial_version"
+        commit=$(git show -s --format=%H)
     else
         log=$(git log $tag..HEAD --pretty='%B')
+        tag_commit=$(git rev-list -n 1 $tag)
+        commit=$(git rev-parse HEAD)
+
+        if [ "$tag_commit" == "$commit" ]; then
+            echo "No new commits since previous tag. Skipping..."
+            echo ::set-output name=tag::$tag
+            exit 0
+        fi
     fi
 
     echo $log
@@ -124,8 +122,12 @@ bumper () {
         echo "Skipping bump of version file."
     else
         SUFFIX=SNAPSHOT
-        VERSION_LINE=$(cat $INPUT_VERSION_FILE_PATH | grep -e "^${INPUT_VERSION_VARIABLE_NAME}")
-        sed -i "s/${VERSION_LINE}/${INPUT_VERSION_VARIABLE_NAME} '${new}-${SUFFIX}'/" $INPUT_VERSION_FILE_PATH
+        if [ "${INPUT_VERSION_FILE_PATH#*.}" == "gradle" ]; then
+            VERSION_LINE=$(cat $INPUT_VERSION_FILE_PATH | grep -e "^${INPUT_VERSION_VARIABLE_NAME}")
+            sed -i "s/${VERSION_LINE}/${INPUT_VERSION_VARIABLE_NAME} '${new}-${SUFFIX}'/" $INPUT_VERSION_FILE_PATH
+        elif [ "${INPUT_VERSION_FILE_PATH#*.}" == "json" ]; then
+            sed -i "s/\"version\":.*/\"version\": \"${new}\",/" $INPUT_VERSION_FILE_PATH
+        fi
         git config --global user.email "robot@jade.team"
         git config --global user.name "bumptagbot"
         git add $INPUT_VERSION_FILE_PATH
