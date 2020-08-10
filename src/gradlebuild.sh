@@ -11,7 +11,7 @@ gradlebuild () {
     export GOOGLE_APPLICATION_CREDENTIALS=jade-dev-account.json
     if [[ -n "${alpharelease}" ]]; then
       printf "running gradle with alpha tag ${alpharelease}"
-      export GCR_TAG="${alpharelease}-alpha"
+      export GCR_TAG="${alpharelease}"
     else
       export GCR_TAG=$(git rev-parse --short HEAD)
       printf "Using tag from local dir $GCR_TAG"
