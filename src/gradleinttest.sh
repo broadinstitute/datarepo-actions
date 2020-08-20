@@ -32,10 +32,6 @@ gradleinttest () {
   if [[ "${test_to_run}" == "testConnected" ]]; then
     google_data_project="broad-jade-integration-data"
     echo "Running ${test_to_run} test with data project: ${google_data_project}"
-  else if [[ "${test_to_run}" == "testPerf" ]]; then
-    google_project="broad-jade-perf"
-    google_data_project="broad-jade-perf-data"
-    echo "Running ${test_to_run} test with project ${google_project} and data project: ${google_data_project}"
   else
     google_data_project=""
     echo "Running ${test_to_run} test with data project env var unset: ${google_data_project}"
@@ -56,15 +52,13 @@ gradleinttest () {
     fi
     pg_isready -h ${PGHOST} -p ${PGPORT}
     psql -U postgres -f ./db/create-data-repo-db
-    if [[ "${test_to_run}" == "testPerf" ]]; then
-      export TEST_RUNNER_SERVER_SPECIFICATION_FILE="perf.json" 
+    # required for tests
+    ./gradlew assemble
+    ./gradlew check --scan
+    if [[ "${test_to_run}" == "testIntegration" ]]; then
       ./datarepo-clienttests/gradlew run --args="configs/suites/BasicSmoke.json"
-    else
-      # required for tests
-      ./gradlew assemble
-      ./gradlew check --scan
-      ./gradlew ${test_to_run} --scan
     fi
+    ./gradlew ${test_to_run} --scan
   else
     echo "missing vars for function gradleinttest"
     exit 1
