@@ -53,12 +53,12 @@ gradleinttest () {
     pg_isready -h ${PGHOST} -p ${PGPORT}
     psql -U postgres -f ./db/create-data-repo-db
     # required for tests
-    ./gradlew assemble
-    ./gradlew check --scan
     if [[ "${test_to_run}" == "testPerf" ]]; then
       ./datarepo-clienttests/gradlew run --args="configs/suites/BasicSmoke.json"
     else
-    ./gradlew ${test_to_run} --scan
+      ./gradlew assemble
+      ./gradlew check --scan
+      ./gradlew ${test_to_run} --scan
     fi
   else
     echo "missing vars for function gradleinttest"
