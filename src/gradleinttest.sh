@@ -55,10 +55,11 @@ gradleinttest () {
     # required for tests
     ./gradlew assemble
     ./gradlew check --scan
-    if [[ "${test_to_run}" == "testIntegration" ]]; then
+    if [[ "${test_to_run}" == "testPerf" ]]; then
       ./datarepo-clienttests/gradlew run --args="configs/suites/BasicSmoke.json"
-    fi
+    else
     ./gradlew ${test_to_run} --scan
+    fi
   else
     echo "missing vars for function gradleinttest"
     exit 1
