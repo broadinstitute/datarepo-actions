@@ -54,7 +54,7 @@ gradleinttest () {
     psql -U postgres -f ./db/create-data-repo-db
     # required for tests
     if [[ "${test_to_run}" == "testPerf" ]]; then
-      export TEST_RUNNER_SERVER_SPECIFICATION_FILE="int-1.json"
+      export TEST_RUNNER_SERVER_SPECIFICATION_FILE="int-${NAMESPACEINUSE}.json"
       cd datarepo-clienttests
       ./gradlew assemble
       ./gradlew run --args="suites/BasicSmoke.json"
