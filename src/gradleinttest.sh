@@ -58,6 +58,7 @@ gradleinttest () {
       cd datarepo-clienttests
       .gradlew assemble
       ./gradlew run --args="suites/BasicSmoke.json"
+      cd ..
       #./datarepo-clienttests/gradlew assemble
       #./datarepo-clienttests/gradlew run --args="configs/suites/BasicSmoke.json" --scan
     else
