@@ -54,6 +54,7 @@ gradleinttest () {
     psql -U postgres -f ./db/create-data-repo-db
     # required for tests
     if [[ "${test_to_run}" == "testPerf" ]]; then
+      echo "perf test"
       #export TEST_RUNNER_SERVER_SPECIFICATION_FILE="${NAMESPACEINUSE}.json"
       #export HOME="/github"
       # ./render-configs.sh
