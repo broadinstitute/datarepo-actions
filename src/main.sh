@@ -115,7 +115,7 @@ configureCredentials () {
     echo "required var not defined for function configureCredentials"
     exit 1
     #fi
-  fiå
+  fi
 }
 
 googleAuth () {
