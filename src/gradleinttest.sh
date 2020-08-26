@@ -59,9 +59,11 @@ gradleinttest () {
       #export HOME="/github"
       #./render-configs.sh
       cd ${GITHUB_WORKSPACE}/${workingDir}/datarepo-clienttests
+      echo $(pwd)
       ./gradlew assemble
       ./gradlew run --args="suites/BasicSmoke.json"
       cd ${GITHUB_WORKSPACE}/${workingDir}
+      echo $(pwd)
       ./datarepo-clienttests/gradlew assemble
       ./datarepo-clienttests/gradlew run --args="configs/suites/BasicSmoke.json" --scan
     else

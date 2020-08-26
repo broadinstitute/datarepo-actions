@@ -110,6 +110,7 @@ configureCredentials () {
       jq .data > jade-dev-account.json
     jq -r .private_key jade-dev-account.json > jade-dev-account.pem
     chmod 600 jade-dev-account.pem
+    echo $(pwd)
     echo 'Configured google sdk credentials from vault'
   else
     echo "required var not defined for function configureCredentials"
@@ -171,7 +172,9 @@ main () {
 
   parseInputs
   helmprerun
+  echo $(pwd)
   configureCredentials
+  echo $(pwd)
   googleAuth
   if [[ "${subcommand}" == "skip" ]]; then
     echo "skipping any sub command, only getting gcp creds"
