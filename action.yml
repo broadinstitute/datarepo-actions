@@ -25,6 +25,7 @@ inputs:
     default: "broad-jade-dev"
   k8_cluster:
     description: "Google kubernetes cluster for sdk ie:integration-master"
+    default: "integration-master"
   release_name:
     description: "release name for chart tester"
     default: "integration-temp-jade"
