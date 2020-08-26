@@ -30,6 +30,8 @@ parseInputs () {
   fi
   k8_cluster=""
   if [ -n "${INPUT_K8_CLUSTER}" ]; then
+    echo "setting k8 cluster env"
+    echo "::set-env name=k8_cluster::${INPUT_K8_CLUSTER}"
     export k8_cluster="${INPUT_K8_CLUSTER}"
   fi
   k8_namespaces=""
