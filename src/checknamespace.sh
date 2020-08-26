@@ -2,9 +2,9 @@
 checknamespace () {
   echo "checknamespace"
   echo "google_zone: ${google_zone}"
-  echo "k8_cluster: ${k8_cluster}"
+  echo "k8_cluster: ${env.k8_cluster}"
   echo "k8_namespaces: ${k8_namespaces}"
-  if [[ "${google_zone}" != "" ]] && [[ "${k8_cluster}" != "" ]] && [[ "${k8_namespaces}" != "" ]]; then
+  if [[ "${google_zone}" != "" ]] && [[ "${env.k8_cluster}" != "" ]] && [[ "${k8_namespaces}" != "" ]]; then
     for i in $(echo $k8_namespaces | sed "s/,/ /g")
     do
       if kubectl get secrets -n ${i} ${i}-inuse > /dev/null 2>&1; then
