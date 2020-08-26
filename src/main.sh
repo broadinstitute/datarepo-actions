@@ -95,26 +95,27 @@ configureCredentials () {
   else
     echo "Skipping importing environment vars for configureCredentials"
   fi
-  if [ -n "$VAULT_TOKEN" ]; then
-    echo "Vault token already set skipping configureCredentials function"
+  # forcing this to run every time as a test
+  #if [ -n "$VAULT_TOKEN" ]; then
+    #echo "Vault token already set skipping configureCredentials function"
+  #else
+  if [[ "${role_id}" != "" ]] && [[ "${secret_id}" != "" ]] && [[ "${vault_address}" != "" ]]; then
+    export VAULT_ADDR=${vault_address}
+    export VAULT_TOKEN=$(curl \
+      --request POST \
+      --data '{"role_id":"'"${role_id}"'","secret_id":"'"${secret_id}"'"}' \
+      ${vault_address}/v1/auth/approle/login | jq -r .auth.client_token)
+      echo "export VAULT_TOKEN=${VAULT_TOKEN}" >> env_vars
+    /usr/local/bin/vault read -format=json secret/dsde/datarepo/dev/sa-key.json | \
+      jq .data > jade-dev-account.json
+    jq -r .private_key jade-dev-account.json > jade-dev-account.pem
+    chmod 600 jade-dev-account.pem
+    echo 'Configured google sdk credentials from vault'
   else
-    if [[ "${role_id}" != "" ]] && [[ "${secret_id}" != "" ]] && [[ "${vault_address}" != "" ]]; then
-      export VAULT_ADDR=${vault_address}
-      export VAULT_TOKEN=$(curl \
-        --request POST \
-        --data '{"role_id":"'"${role_id}"'","secret_id":"'"${secret_id}"'"}' \
-        ${vault_address}/v1/auth/approle/login | jq -r .auth.client_token)
-        echo "export VAULT_TOKEN=${VAULT_TOKEN}" >> env_vars
-      /usr/local/bin/vault read -format=json secret/dsde/datarepo/dev/sa-key.json | \
-        jq .data > jade-dev-account.json
-      jq -r .private_key jade-dev-account.json > jade-dev-account.pem
-      chmod 600 jade-dev-account.pem
-      echo 'Configured google sdk credentials from vault'
-    else
-      echo "required var not defined for function configureCredentials"
-      exit 1
-    fi
-  fi
+    echo "required var not defined for function configureCredentials"
+    exit 1
+    #fi
+  fiå
 }
 
 googleAuth () {
