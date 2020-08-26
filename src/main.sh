@@ -198,6 +198,7 @@ main () {
         ;;
       gradleinttest)
         gradleinttest ${*}
+        cd ${GITHUB_WORKSPACE}/${workingDir}
         ;;
       deploytagupdate)
         deploytagupdate ${*}
