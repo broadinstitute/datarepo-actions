@@ -55,15 +55,15 @@ gradleinttest () {
     # required for tests
     if [[ "${test_to_run}" == "testPerf" ]]; then
       echo "perf test"
-      #export TEST_RUNNER_SERVER_SPECIFICATION_FILE="${NAMESPACEINUSE}.json"
+      export TEST_RUNNER_SERVER_SPECIFICATION_FILE="${NAMESPACEINUSE}.json"
       #export HOME="/github"
       # ./render-configs.sh
-      #cd ${GITHUB_WORKSPACE}/${workingDir}/datarepo-clienttests
-      #./gradlew assemble
-      #./gradlew run --args="suites/BasicSmoke.json"
-      #cd ${GITHUB_WORKSPACE}/${workingDir}
-      #./datarepo-clienttests/gradlew assemble
-      #./datarepo-clienttests/gradlew run --args="configs/suites/BasicSmoke.json" --scan
+      cd ${GITHUB_WORKSPACE}/${workingDir}/datarepo-clienttests
+      ./gradlew assemble
+      ./gradlew run --args="suites/BasicSmoke.json"
+      cd ${GITHUB_WORKSPACE}/${workingDir}
+      ./datarepo-clienttests/gradlew assemble
+      ./datarepo-clienttests/gradlew run --args="configs/suites/BasicSmoke.json" --scan
     else
       ./gradlew assemble
       ./gradlew check --scan
