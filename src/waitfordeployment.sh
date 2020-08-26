@@ -1,7 +1,7 @@
 #!/bin/bash
 waitfordeployment () {
   eval $(cat env_vars)
-  if [[ "${google_zone}" != "" ]] && [[ "${env.k8_cluster}" != "" ]]; then
+  if [[ "${google_zone}" != "" ]] && [[ "${k8_cluster}" != "" ]]; then
     # wait for deployment to happen
     sleep 5
     if kubectl get deployments -n ${NAMESPACEINUSE} ${NAMESPACEINUSE}-jade-datarepo-ui -o jsonpath="{.status}" | grep unavailable; then
