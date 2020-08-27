@@ -5,7 +5,7 @@ cleaniampolicy () {
   namespace_number=$(echo ${NAMESPACEINUSE} | sed 's/integration-//g')
   google_data_project="broad-jade-int-${namespace_number}-data"
   echo "Cleaning up IAM policy for data project: ${google_data_project}"
-  
+
   # get the policy bindings for the project
   bindings=$(gcloud projects get-iam-policy ${google_data_project} --format=json)
 
@@ -54,12 +54,11 @@ gradleinttest () {
     psql -U postgres -f ./db/create-data-repo-db
     # required for tests
     if [[ "${test_to_run}" == "testPerf" ]]; then
-      echo "perf test"
+      printf "perf test\n"
       export TEST_RUNNER_SERVER_SPECIFICATION_FILE="${NAMESPACEINUSE}.json"
-      cd ${GITHUB_WORKSPACE}/${workingDir}/datarepo-clienttests
+      pwd
       ./gradlew assemble
-      ./gradlew run --args="suites/BasicSmoke.json"
-      cd ${GITHUB_WORKSPACE}/${workingDir}
+      ./gradlew run --args="datarepo-clienttests/src/main/resources/suites/BasicSmoke.json"
     else
       ./gradlew assemble
       ./gradlew check --scan
