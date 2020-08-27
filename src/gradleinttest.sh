@@ -56,8 +56,6 @@ gradleinttest () {
     if [[ "${test_to_run}" == "testPerf" ]]; then
       printf "perf test\n"
       export TEST_RUNNER_SERVER_SPECIFICATION_FILE="${NAMESPACEINUSE}.json"
-      pwd
-      ls ${GITHUB_WORKSPACE}
       ls -al ${GITHUB_WORKSPACE}/datarepo-clienttests/src/main/resources/suites/BasicSmoke.json
       ./gradlew assemble
       ./gradlew run --args="${GITHUB_WORKSPACE}/datarepo-clienttests/src/main/resources/suites/BasicSmoke.json"
