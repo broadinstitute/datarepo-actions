@@ -58,7 +58,7 @@ gradleinttest () {
       export TEST_RUNNER_SERVER_SPECIFICATION_FILE="${NAMESPACEINUSE}.json"
       pwd
       ./gradlew assemble
-      ./gradlew run --args="datarepo-clienttests/src/main/resources/suites/BasicSmoke.json"
+      ./gradlew run --args="${GITHUB_WORKSPACE}/datarepo-clienttests/src/main/resources/suites/BasicSmoke.json"
     else
       ./gradlew assemble
       ./gradlew check --scan
