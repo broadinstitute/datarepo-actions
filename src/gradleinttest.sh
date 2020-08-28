@@ -37,13 +37,13 @@ gradleinttest () {
     echo "Running ${test_to_run} test with data project env var unset: ${google_data_project}"
   fi
 
-  if [[ -n "${google_project}" ]] && [ -f jade-dev-account.json ] && [ -f jade-dev-account.pem ] && [[ "${test_to_run}" != "" ]]; then
+  if [[ -n "${google_project}" ]] && [[ "${google_application_credentials}" != "" ]] && [ -f ${google_application_credentials} ] && [[ "${google_application_credentials_pem}" != "" ]] && [ -f ${google_application_credentials_pem} ] && [[ "${test_to_run}" != "" ]]; then
     export PGHOST=$(ip route show default | awk '/default/ {print $3}')
     export DB_DATAREPO_URI="jdbc:postgresql://${PGHOST}:5432/datarepo"
     export DB_STAIRWAY_URI="jdbc:postgresql://${PGHOST}:5432/stairway"
-    export GOOGLE_APPLICATION_CREDENTIALS=jade-dev-account.json
+    #export GOOGLE_APPLICATION_CREDENTIALS=jade-dev-account.json
     export IT_JADE_PEM_FILE_NAME=jade-dev-account.pem
-    export GOOGLE_SA_CERT=jade-dev-account.pem
+    export GOOGLE_SA_CERT=${google_application_credentials_pem}
     export GOOGLE_CLOUD_PROJECT=${google_project}
     export GOOGLE_CLOUD_DATA_PROJECT=${google_data_project}
     if [[ "${test_to_run}" == "testIntegration" ]]; then
@@ -55,10 +55,11 @@ gradleinttest () {
     # required for tests
     if [[ "${test_to_run}" == "testPerf" ]]; then
       printf "perf test\n"
+      #export GOOGLE_APPLICATION_CREDENTIALS=/tmp/jade-dev-account.json
       export TEST_RUNNER_SERVER_SPECIFICATION_FILE="${NAMESPACEINUSE}.json"
-      ls -al ${GITHUB_WORKSPACE}/datarepo-clienttests/src/main/resources/suites/BasicSmoke.json
+      # ls -al ${GITHUB_WORKSPACE}/datarepo-clienttests/src/main/resources/suites/BasicSmoke.json
       ./gradlew assemble
-      ./gradlew run --args="${GITHUB_WORKSPACE}/datarepo-clienttests/src/main/resources/suites/BasicSmoke.json"
+      ./gradlew runTest --args="suites/BasicSmoke.json tmp/TestRunnerResults"
     else
       ./gradlew assemble
       ./gradlew check --scan

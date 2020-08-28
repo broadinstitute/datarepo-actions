@@ -25,8 +25,12 @@ parseInputs () {
   export google_project="${INPUT_GOOGLE_PROJECT}"
   export DEV_PROJECT="${INPUT_GCR_GOOGLE_PROJECT}"
   export google_application_credentials=""
+  export google_application_credentials_pem=""
   if [ -n "${INPUT_GOOGLE_APPLICATION_CREDENTIALS}" ]; then
     export google_application_credentials="${INPUT_GOOGLE_APPLICATION_CREDENTIALS}"
+  fi
+  if [ -n "${INPUT_GOOGLE_APPLICATION_CREDENTIALS_PEM}" ]; then
+    export google_application_credentials_pem="${INPUT_GOOGLE_APPLICATION_CREDENTIALS_PEM}"
   fi
   k8_cluster=""
   if [ -n "${INPUT_K8_CLUSTER}" ]; then
@@ -106,9 +110,9 @@ configureCredentials () {
         ${vault_address}/v1/auth/approle/login | jq -r .auth.client_token)
         echo "export VAULT_TOKEN=${VAULT_TOKEN}" >> env_vars
       /usr/local/bin/vault read -format=json secret/dsde/datarepo/dev/sa-key.json | \
-        jq .data > jade-dev-account.json
-      jq -r .private_key jade-dev-account.json > jade-dev-account.pem
-      chmod 600 jade-dev-account.pem
+        jq .data > ${google_application_credentials}
+      jq -r .private_key ${google_application_credentials} > ${google_application_credentials_pem}
+      chmod 600 ${google_application_credentials_pem}
       echo 'Configured google sdk credentials from vault'
     else
       echo "required var not defined for function configureCredentials"
@@ -123,7 +127,7 @@ googleAuth () {
     echo "Service account has alredy been activated skipping googleAuth function"
   else
     if [[ "${google_zone}" != "" ]] && [[ "${google_project}" != "" ]]; then
-      gcloud auth activate-service-account --key-file jade-dev-account.json
+      gcloud auth activate-service-account --key-file ${google_application_credentials}
       # configure integration prerequisites
       gcloud config set compute/zone ${google_zone} --quiet
       gcloud config set project ${google_project} --quiet
