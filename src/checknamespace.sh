@@ -8,6 +8,7 @@ checknamespace () {
     for i in $(echo $k8_namespaces | sed "s/,/ /g")
     do
       if kubectl get secrets -n ${i} ${i}-inuse > /dev/null 2>&1; then
+        echo $(pwd)
         printf "Namespace ${i} in use Skipping\n"
       else
         printf "Namespace ${i} not in use Deploying integration test to ${i}\n"

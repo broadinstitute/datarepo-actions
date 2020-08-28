@@ -60,6 +60,7 @@ gradleinttest () {
       # ls -al ${GITHUB_WORKSPACE}/datarepo-clienttests/src/main/resources/suites/BasicSmoke.json
       ./gradlew assemble
       ./gradlew runTest --args="suites/BasicSmoke.json tmp/TestRunnerResults"
+      echo $(kubectl get pods --namespace=integration-6)
     else
       ./gradlew assemble
       ./gradlew check --scan
