@@ -57,8 +57,10 @@ gradleinttest () {
     if [[ "${test_to_run}" == "testPerf" ]]; then
       printf "perf test\n"
       export TEST_RUNNER_SERVER_SPECIFICATION_FILE="${NAMESPACEINUSE}.json"
-      ./render-configs.sh
-      ls -al /tmp/jade-dev-account.json
+      printf "list credentials"
+      cat $HOME/${google_application_credentials}
+      #./render-configs.sh
+      #ls -al /tmp/jade-dev-account.json
       cd ${GITHUB_WORKSPACE}/${workingDir}/datarepo-clienttests      
       ./gradlew runTest --args="suites/BasicSmoke.json tmp/TestRunnerResults"
       cd ${GITHUB_WORKSPACE}/${workingDir}

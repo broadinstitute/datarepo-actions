@@ -107,6 +107,8 @@ configureCredentials () {
     echo "Vault token already set skipping configureCredentials function"
   else
     if [[ "${role_id}" != "" ]] && [[ "${secret_id}" != "" ]] && [[ "${vault_address}" != "" ]]; then
+      echo 'configure credentials'
+      echo $(pwd)
       export VAULT_ADDR=${vault_address}
       export VAULT_TOKEN=$(curl \
         --request POST \
