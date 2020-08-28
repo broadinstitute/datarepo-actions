@@ -47,7 +47,7 @@ gradleinttest () {
     export GOOGLE_SA_CERT=${google_application_credentials_pem}
     export GOOGLE_CLOUD_PROJECT=${google_project}
     export GOOGLE_CLOUD_DATA_PROJECT=${google_data_project}
-    if [[ "${test_to_run}" == "testIntegration" ]] || [[ "${test_to_run}" == "testPerf" ]]; then
+    if [[ "${test_to_run}" == "testIntegration" ]]; then
       echo "Running integration tests against ${IT_JADE_API_URL}"
       cleaniampolicy
     fi
