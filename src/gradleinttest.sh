@@ -56,26 +56,12 @@ gradleinttest () {
     # required for tests
     if [[ "${test_to_run}" == "testPerf" ]]; then
       printf "perf test\n"
-      printf "${HOME}/.kube/config"
-      cat ${HOME}/.kube/config
-      cd ${GITHUB_WORKSPACE}/${workingDir}/datarepo-clienttests
-      kubectl get pods --namespace=integration-6
-      printf "here"
+      export GOOGLE_APPLICATION_CREDENTIALS=/tmp/jade-dev-account.json
       export TEST_RUNNER_SERVER_SPECIFICATION_FILE="${NAMESPACEINUSE}.json"
+      ./render-configs.sh
+      cd ${GITHUB_WORKSPACE}/${workingDir}/datarepo-clienttests      
       ./gradlew runTest --args="suites/BasicSmoke.json tmp/TestRunnerResults"
-      #kubectl get pods --namespace=integration-6
-      ls -al ~/.kube
-      printf "~/.kube"
-      ls -al ${HOME}/.kube
-      printf "${HOME}/.kube" 
-      #ls -al ~/${GITHUB_WORKSPACE}/.kube
-      #printf "${GITHUB_WORKSPACE}/.kube"
-      #ls -al ~/${GITHUB_WORKSPACE}/.kube
-      #printf "${GITHUB_WORKSPACE}/.kube"
-      # testing to figure out what's going on with .kube/config
-      echo $(kubectl get pods --namespace=integration-6)
       cd ${GITHUB_WORKSPACE}/${workingDir}
-      kubectl get pods --namespace=integration-6
     else
       ./gradlew assemble
       ./gradlew check --scan
