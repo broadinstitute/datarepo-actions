@@ -60,9 +60,10 @@ gradleinttest () {
       cat ${HOME}/.kube/config
       cd ${GITHUB_WORKSPACE}/${workingDir}/datarepo-clienttests
       kubectl get pods --namespace=integration-6
+      printf "here"
       export TEST_RUNNER_SERVER_SPECIFICATION_FILE="${NAMESPACEINUSE}.json"
       ./gradlew runTest --args="suites/BasicSmoke.json tmp/TestRunnerResults"
-      kubectl get pods --namespace=integration-6
+      #kubectl get pods --namespace=integration-6
       ls -al ~/.kube
       printf "~/.kube"
       ls -al ${HOME}/.kube
@@ -72,7 +73,7 @@ gradleinttest () {
       #ls -al ~/${GITHUB_WORKSPACE}/.kube
       #printf "${GITHUB_WORKSPACE}/.kube"
       # testing to figure out what's going on with .kube/config
-      kubectl get pods --namespace=integration-6
+      echo $(kubectl get pods --namespace=integration-6)
       cd ${GITHUB_WORKSPACE}/${workingDir}
       kubectl get pods --namespace=integration-6
     else
