@@ -59,7 +59,7 @@ gradleinttest () {
       #export GOOGLE_APPLICATION_CREDENTIALS=/tmp/jade-dev-account.json
       export TEST_RUNNER_SERVER_SPECIFICATION_FILE="${NAMESPACEINUSE}.json"
       # ls -al ${GITHUB_WORKSPACE}/datarepo-clienttests/src/main/resources/suites/BasicSmoke.json
-      ./gradlew assemble
+      # ./gradlew assemble
       ./gradlew runTest --args="suites/BasicSmoke.json tmp/TestRunnerResults"
       echo $(kubectl get pods --namespace=integration-6)
       cd ${GITHUB_WORKSPACE}/${workingDir}
