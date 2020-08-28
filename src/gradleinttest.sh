@@ -56,7 +56,6 @@ gradleinttest () {
     # required for tests
     if [[ "${test_to_run}" == "testPerf" ]]; then
       printf "perf test\n"
-      export GOOGLE_APPLICATION_CREDENTIALS=/tmp/jade-dev-account.json
       export TEST_RUNNER_SERVER_SPECIFICATION_FILE="${NAMESPACEINUSE}.json"
       ./render-configs.sh
       ls -al /tmp/jade-dev-account.json
