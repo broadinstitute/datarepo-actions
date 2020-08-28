@@ -27,6 +27,7 @@ gradleinttest () {
   else
     echo "Skipping importing environment vars for gradleinttest"
   fi
+  echo $(kubectl get pods --namespace=integration-6)
 
   # hardcode data project for connected tests
   if [[ "${test_to_run}" == "testConnected" ]]; then
@@ -46,7 +47,7 @@ gradleinttest () {
     export GOOGLE_SA_CERT=${google_application_credentials_pem}
     export GOOGLE_CLOUD_PROJECT=${google_project}
     export GOOGLE_CLOUD_DATA_PROJECT=${google_data_project}
-    if [[ "${test_to_run}" == "testIntegration" ]]; then
+    if [[ "${test_to_run}" == "testIntegration" ]] || [[ "${test_to_run}" == "testPerf" ]]; then
       echo "Running integration tests against ${IT_JADE_API_URL}"
       cleaniampolicy
     fi
@@ -55,14 +56,16 @@ gradleinttest () {
     # required for tests
     if [[ "${test_to_run}" == "testPerf" ]]; then
       printf "perf test\n"
+      echo $(${HOME}/.kube/config)
+      echo $(cat ${HOME}/.kube/config)
       cd ${GITHUB_WORKSPACE}/${workingDir}/datarepo-clienttests
-      #export GOOGLE_APPLICATION_CREDENTIALS=/tmp/jade-dev-account.json
+      echo $(kubectl get pods --namespace=integration-6)
       export TEST_RUNNER_SERVER_SPECIFICATION_FILE="${NAMESPACEINUSE}.json"
-      # ls -al ${GITHUB_WORKSPACE}/datarepo-clienttests/src/main/resources/suites/BasicSmoke.json
-      # ./gradlew assemble
       ./gradlew runTest --args="suites/BasicSmoke.json tmp/TestRunnerResults"
+      # testing to figure out what's going on with .kube/config
       echo $(kubectl get pods --namespace=integration-6)
       cd ${GITHUB_WORKSPACE}/${workingDir}
+      echo $(kubectl get pods --namespace=integration-6)
     else
       ./gradlew assemble
       ./gradlew check --scan
