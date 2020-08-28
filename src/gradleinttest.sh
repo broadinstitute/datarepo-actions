@@ -42,7 +42,7 @@ gradleinttest () {
     export PGHOST=$(ip route show default | awk '/default/ {print $3}')
     export DB_DATAREPO_URI="jdbc:postgresql://${PGHOST}:5432/datarepo"
     export DB_STAIRWAY_URI="jdbc:postgresql://${PGHOST}:5432/stairway"
-    #export GOOGLE_APPLICATION_CREDENTIALS=jade-dev-account.json
+    export GOOGLE_APPLICATION_CREDENTIALS=jade-dev-account.json
     export IT_JADE_PEM_FILE_NAME=jade-dev-account.pem
     export GOOGLE_SA_CERT=${google_application_credentials_pem}
     export GOOGLE_CLOUD_PROJECT=${google_project}
