@@ -57,6 +57,7 @@ gradleinttest () {
     if [[ "${test_to_run}" == "testPerf" ]]; then
       printf "perf test\n"
       export TEST_RUNNER_SERVER_SPECIFICATION_FILE="${NAMESPACEINUSE}.json"
+      export GOOGLE_APPLICATION_CREDENTIALS=${GITHUB_WORKSPACE}/${workingDir}/jade-dev-account.json
       printf "list credentials"
       #cat ${HOME}/${google_application_credentials}
       #printf ${HOME}/${google_application_credentials}
