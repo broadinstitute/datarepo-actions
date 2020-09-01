@@ -30,10 +30,10 @@ inputs:
     description: "Google kubernetes cluster for sdk ie:integration-master"
   google_application_credentials:
     description: "Path where google credential json is stored"
-    default: "jade-dev-account.json"
+    default: "/tmp/jade-dev-account.json"
   google_application_credentials_pem:
     description: "Path where google credential pem is stored"
-    default: "jade-dev-account.pem"
+    default: "/tmp/jade-dev-account.pem"
   release_name:
     description: "release name for chart tester"
     default: "integration-temp-jade"

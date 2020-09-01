@@ -42,7 +42,7 @@ gradleinttest () {
     export PGHOST=$(ip route show default | awk '/default/ {print $3}')
     export DB_DATAREPO_URI="jdbc:postgresql://${PGHOST}:5432/datarepo"
     export DB_STAIRWAY_URI="jdbc:postgresql://${PGHOST}:5432/stairway"
-    export GOOGLE_APPLICATION_CREDENTIALS=jade-dev-account.json
+    export GOOGLE_APPLICATION_CREDENTIALS=${google_application_credentials}
     export IT_JADE_PEM_FILE_NAME=jade-dev-account.pem
     export GOOGLE_SA_CERT=${google_application_credentials_pem}
     export GOOGLE_CLOUD_PROJECT=${google_project}
@@ -61,7 +61,7 @@ gradleinttest () {
       cd ${GITHUB_WORKSPACE}/${workingDir}
       export ORG_GRADLE_PROJECT_datarepoclientjar=.$(ls ./datarepo-client/build/libs/*jar)
       export TEST_RUNNER_SERVER_SPECIFICATION_FILE="${NAMESPACEINUSE}.json"
-      export GOOGLE_APPLICATION_CREDENTIALS=${GITHUB_WORKSPACE}/${workingDir}/jade-dev-account.json
+      # export GOOGLE_APPLICATION_CREDENTIALS=${GITHUB_WORKSPACE}/${workingDir}/jade-dev-account.json
       printf "list credentials"
       #cat ${HOME}/${google_application_credentials}
       #printf ${HOME}/${google_application_credentials}
