@@ -56,6 +56,10 @@ gradleinttest () {
     # required for tests
     if [[ "${test_to_run}" == "testPerf" ]]; then
       printf "perf test\n"
+      cd ${GITHUB_WORKSPACE}/${workingDir}/datarepo-client
+      ../gradlew clean assemble
+      export ORG_GRADLE_PROJECT_datarepoclientjar=$(ls ./build/libs/*jar)
+      cd ${GITHUB_WORKSPACE}/${workingDir}
       export TEST_RUNNER_SERVER_SPECIFICATION_FILE="${NAMESPACEINUSE}.json"
       export GOOGLE_APPLICATION_CREDENTIALS=${GITHUB_WORKSPACE}/${workingDir}/jade-dev-account.json
       printf "list credentials"
