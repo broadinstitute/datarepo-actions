@@ -66,7 +66,7 @@ gradleinttest () {
       #cat ${HOME}/${google_application_credentials}
       #printf ${HOME}/${google_application_credentials}
       cd ${GITHUB_WORKSPACE}/${workingDir}/datarepo-clienttests      
-      ./gradlew runTest --args="suites/PRSmokeTests.json tmp/TestRunnerResults"
+      ./gradlew runTest --args="suites/PRSmokeTests.json tmp/TestRunnerResults" --scan
       cd ${GITHUB_WORKSPACE}/${workingDir}
     else
       ./gradlew assemble
