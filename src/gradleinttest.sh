@@ -58,8 +58,8 @@ gradleinttest () {
       printf "perf test\n"
       cd ${GITHUB_WORKSPACE}/${workingDir}/datarepo-client
       ../gradlew clean assemble
-      export ORG_GRADLE_PROJECT_datarepoclientjar=$(ls ./build/libs/*jar)
       cd ${GITHUB_WORKSPACE}/${workingDir}
+      export ORG_GRADLE_PROJECT_datarepoclientjar=.$(ls ./datarepo-client/build/libs/*jar)
       export TEST_RUNNER_SERVER_SPECIFICATION_FILE="${NAMESPACEINUSE}.json"
       export GOOGLE_APPLICATION_CREDENTIALS=${GITHUB_WORKSPACE}/${workingDir}/jade-dev-account.json
       printf "list credentials"
