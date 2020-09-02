@@ -32,10 +32,6 @@ parseInputs () {
   if [ -n "${INPUT_GOOGLE_APPLICATION_CREDENTIALS_PEM}" ]; then
     export google_application_credentials_pem="${INPUT_GOOGLE_APPLICATION_CREDENTIALS_PEM}"
   fi
-  always_auth=""
-  if [ -n "${INPUT_ALWAYS_AUTH}" ]; then
-    export always_auth="${INPUT_ALWAYS_AUTH}"
-  fi
   k8_cluster=""
   if [ -n "${INPUT_K8_CLUSTER}" ]; then
     export k8_cluster="${INPUT_K8_CLUSTER}"
@@ -103,7 +99,7 @@ configureCredentials () {
   else
     echo "Skipping importing environment vars for configureCredentials"
   fi
-  if [[ ${always_auth} == 0 ]] && [ -n "$VAULT_TOKEN" ]; then
+  if [ -n "$VAULT_TOKEN" ]; then
     echo "Vault token already set skipping configureCredentials function"
   else
     if [[ "${role_id}" != "" ]] && [[ "${secret_id}" != "" ]] && [[ "${vault_address}" != "" ]]; then
@@ -127,7 +123,7 @@ configureCredentials () {
 
 googleAuth () {
   account_status=$(gcloud auth list --filter=status:ACTIVE --format="value(account)")
-  if [[ ${always_auth} == 0 ]] && [[ -n "${account_status}" ]]; then
+  if [[ -n "${account_status}" ]]; then
     echo "Service account has alredy been activated skipping googleAuth function"
   else
     if [[ "${google_zone}" != "" ]] && [[ "${google_project}" != "" ]]; then
