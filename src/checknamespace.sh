@@ -1,9 +1,5 @@
 #!/bin/bash
 checknamespace () {
-  echo "checknamespace"
-  echo "google_zone: ${google_zone}"
-  echo "k8_cluster: ${k8_cluster}"
-  echo "k8_namespaces: ${k8_namespaces}"
   if [[ "${google_zone}" != "" ]] && [[ "${k8_cluster}" != "" ]] && [[ "${k8_namespaces}" != "" ]]; then
     for i in $(echo $k8_namespaces | sed "s/,/ /g")
     do
@@ -11,7 +7,6 @@ checknamespace () {
         printf "Namespace ${i} in use Skipping\n"
       else
         printf "Namespace ${i} not in use Deploying integration test to ${i}\n"
-        echo $(pwd)
         kubectl create secret generic ${i}-inuse --from-literal=inuse=${i} -n ${i}
         if [[ "$i" =~ "-" ]]; then
           tail=$(echo $i | awk -F- {'print $2'})

@@ -170,6 +170,7 @@ main () {
   source ${scriptDir}/checknamespaceclean.sh
   source ${scriptDir}/gradlebuild.sh
   source ${scriptDir}/gradleinttest.sh
+  source ${scriptDir}/gradleperfsmoketest.sh
   source ${scriptDir}/deploytagupdate.sh
   source ${scriptDir}/waitfordeployment.sh
   source ${scriptDir}/charttestdeploy.sh
@@ -210,6 +211,9 @@ main () {
         ;;
       gradleinttest)
         gradleinttest ${*}
+        ;;
+      gradleperfsmoketest)
+        gradleperfsmoketest ${*}
         ;;
       deploytagupdate)
         deploytagupdate ${*}

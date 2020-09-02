@@ -53,26 +53,9 @@ gradleinttest () {
     fi
     pg_isready -h ${PGHOST} -p ${PGPORT}
     psql -U postgres -f ./db/create-data-repo-db
-    # required for tests
-    if [[ "${test_to_run}" == "testPerf" ]]; then
-      printf "perf test\n"
-      cd ${GITHUB_WORKSPACE}/${workingDir}/datarepo-client
-      ../gradlew clean assemble
-      cd ${GITHUB_WORKSPACE}/${workingDir}
-      export ORG_GRADLE_PROJECT_datarepoclientjar=.$(ls ./datarepo-client/build/libs/*jar)
-      export TEST_RUNNER_SERVER_SPECIFICATION_FILE="${NAMESPACEINUSE}.json"
-      # export GOOGLE_APPLICATION_CREDENTIALS=${GITHUB_WORKSPACE}/${workingDir}/jade-dev-account.json
-      printf "list credentials"
-      #cat ${HOME}/${google_application_credentials}
-      #printf ${HOME}/${google_application_credentials}
-      cd ${GITHUB_WORKSPACE}/${workingDir}/datarepo-clienttests      
-      ./gradlew runTest --args="suites/PRSmokeTests.json tmp/TestRunnerResults"
-      cd ${GITHUB_WORKSPACE}/${workingDir}
-    else
-      ./gradlew assemble
-      ./gradlew check --scan
-      ./gradlew ${test_to_run} --scan
-    fi
+    ./gradlew assemble
+    ./gradlew check --scan
+    ./gradlew ${test_to_run} --scan
   else
     echo "missing vars for function gradleinttest"
     exit 1
