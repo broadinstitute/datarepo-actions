@@ -42,7 +42,7 @@ gradleinttest () {
     export DB_DATAREPO_URI="jdbc:postgresql://${PGHOST}:5432/datarepo"
     export DB_STAIRWAY_URI="jdbc:postgresql://${PGHOST}:5432/stairway"
     export GOOGLE_APPLICATION_CREDENTIALS=${google_application_credentials}
-    export IT_JADE_PEM_FILE_NAME=jade-dev-account.pem
+    export IT_JADE_PEM_FILE_NAME=${google_application_credentials_pem}
     export GOOGLE_SA_CERT=${google_application_credentials_pem}
     export GOOGLE_CLOUD_PROJECT=${google_project}
     export GOOGLE_CLOUD_DATA_PROJECT=${google_data_project}
