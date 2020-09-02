@@ -24,7 +24,7 @@ inputs:
     description: "Google project for GCR image ie:broad-jade-dev"
     default: "broad-jade-dev"
   always_auth:
-    descriotion: Have authenticaiton run every run
+    description: Have authentication run every time
     default: 0
   k8_cluster:
     description: "Google kubernetes cluster for sdk ie:integration-master"
