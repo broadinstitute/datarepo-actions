@@ -1,6 +1,6 @@
 #!/bin/bash
 
-gradleperfsmoketest () {
+gradletestrunnersmoketest () {
 
   if [[ -n "${google_project}" ]] && [[ "${google_application_credentials}" != "" ]] && [ -f ${google_application_credentials} ]; then
     export GOOGLE_APPLICATION_CREDENTIALS=${google_application_credentials}
@@ -16,7 +16,7 @@ gradleperfsmoketest () {
     ./gradlew runTest --args="suites/PRSmokeTests.json tmp/TestRunnerResults"
     cd ${GITHUB_WORKSPACE}/${workingDir}
   else
-    echo "missing vars for function gradleinttest"
+    echo "missing vars for function gradletestrunnersmoketest"
     exit 1
   fi
 }
