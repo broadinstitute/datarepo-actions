@@ -107,8 +107,6 @@ configureCredentials () {
     echo "Vault token already set skipping configureCredentials function"
   else
     if [[ "${role_id}" != "" ]] && [[ "${secret_id}" != "" ]] && [[ "${vault_address}" != "" ]]; then
-      echo 'configure credentials'
-      echo $(pwd)
       export VAULT_ADDR=${vault_address}
       export VAULT_TOKEN=$(curl \
         --request POST \
@@ -181,9 +179,7 @@ main () {
 
   parseInputs
   helmprerun
-  echo $(pwd)
   configureCredentials
-  echo $(pwd)
   googleAuth
   if [[ "${subcommand}" == "skip" ]]; then
     echo "skipping any sub command, only getting gcp creds"

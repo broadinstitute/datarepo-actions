@@ -27,7 +27,6 @@ gradleinttest () {
   else
     echo "Skipping importing environment vars for gradleinttest"
   fi
-  echo $(kubectl get pods --namespace=integration-6)
 
   # hardcode data project for connected tests
   if [[ "${test_to_run}" == "testConnected" ]]; then
@@ -53,6 +52,7 @@ gradleinttest () {
     fi
     pg_isready -h ${PGHOST} -p ${PGPORT}
     psql -U postgres -f ./db/create-data-repo-db
+    # required for tests
     ./gradlew assemble
     ./gradlew check --scan
     ./gradlew ${test_to_run} --scan
