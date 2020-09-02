@@ -37,11 +37,13 @@ gradleinttest () {
     echo "Running ${test_to_run} test with data project env var unset: ${google_data_project}"
   fi
 
-  if [[ -n "${google_project}" ]] && [[ "${google_application_credentials}" != "" ]] && [ -f ${google_application_credentials} ] && [[ "${test_to_run}" != "" ]]; then
+  if [[ -n "${google_project}" ]] && [[ "${google_application_credentials}" != "" ]] && [ -f ${google_application_credentials} ] && [[ "${google_application_credentials_pem}" != "" ]] && [ -f ${google_application_credentials_pem} ] && [[ "${test_to_run}" != "" ]]; then
     export PGHOST=$(ip route show default | awk '/default/ {print $3}')
     export DB_DATAREPO_URI="jdbc:postgresql://${PGHOST}:5432/datarepo"
     export DB_STAIRWAY_URI="jdbc:postgresql://${PGHOST}:5432/stairway"
     export GOOGLE_APPLICATION_CREDENTIALS=${google_application_credentials}
+    export IT_JADE_PEM_FILE_NAME=${google_application_credentials_pem}
+    export GOOGLE_SA_CERT=${google_application_credentials_pem}
     export GOOGLE_CLOUD_PROJECT=${google_project}
     export GOOGLE_CLOUD_DATA_PROJECT=${google_data_project}
     if [[ "${test_to_run}" == "testIntegration" ]]; then
