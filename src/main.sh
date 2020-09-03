@@ -107,24 +107,26 @@ configureCredentials () {
 
 googleAuth () {
   account_status=$(gcloud auth list --filter=status:ACTIVE --format="value(account)")
-  if [[ -n "${account_status}" ]]; then
-    echo "Service account has alredy been activated skipping googleAuth function"
-  else
-    if [[ "${google_zone}" != "" ]] && [[ "${google_project}" != "" ]]; then
-      gcloud auth activate-service-account --key-file ${GOOGLE_APPLICATION_CREDENTIALS}
-      # configure integration prerequisites
-      gcloud config set compute/zone ${google_zone} --quiet
-      gcloud config set project ${google_project} --quiet
-      gcloud auth configure-docker --quiet
-      echo 'Set google sdk to SA user'
-      if [[ -n "${K8_CLUSTER}" ]]; then
-        gcloud container clusters get-credentials ${K8_CLUSTER} --zone ${google_zone}
-      fi
-    else
-      echo "Required var not defined for function googleAuth"
-      exit 1
+  echo "before: account_status"
+  echo ${account_status}
+  if [[ "${google_zone}" != "" ]] && [[ "${google_project}" != "" ]]; then
+    gcloud auth activate-service-account --key-file ${GOOGLE_APPLICATION_CREDENTIALS}
+    # configure integration prerequisites
+    gcloud config set compute/zone ${google_zone} --quiet
+    gcloud config set project ${google_project} --quiet
+    gcloud auth configure-docker --quiet
+    echo 'Set google sdk to SA user'
+    if [[ -n "${K8_CLUSTER}" ]]; then
+      gcloud container clusters get-credentials ${K8_CLUSTER} --zone ${google_zone}
     fi
+    account_status=$(gcloud auth list --filter=status:ACTIVE --format="value(account)")
+    echo "ba: account_status"
+    echo ${account_status}
+  else
+    echo "Required var not defined for function googleAuth"
+    exit 1
   fi
+
 }
 
 helmprerun () {
