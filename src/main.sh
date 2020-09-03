@@ -28,6 +28,12 @@ parseInputs () {
   if [ -n "${INPUT_K8_NAMESPACES}" ]; then
     export k8_namespaces="${INPUT_K8_NAMESPACES}"
   fi
+  if [ -n "${INPUT_ALWAYS_VAULT_AUTH}" ]; then
+    export always_vault_auth="${INPUT_ALWAYS_VAULT_AUTH}"
+  fi
+  if [ -n "${INPUT_ALWAYS_GCLOUD_AUTH}" ]; then
+    export always_gcloud_auth="${INPUT_ALWAYS_GCLOUD_AUTH}"
+  fi
   helm_secret_chart_version=""
   if [ -n "${INPUT_HELM_SECRET_CHART_VERSION}" ]; then
     export helm_secret_chart_version="${INPUT_HELM_SECRET_CHART_VERSION}"
@@ -87,7 +93,10 @@ configureCredentials () {
   else
     echo "Skipping importing environment vars for configureCredentials"
   fi
-  if [[ "${role_id}" != "" ]] && [[ "${secret_id}" != "" ]] && [[ "${vault_address}" != "" ]]; then
+  if [[ ${always_vault_auth} == 0 ]] && [[ -n "${VAULT_TOKEN}"]]; then
+    echo "Skipping Configure Credentials"
+  else
+    if [[ "${role_id}" != "" ]] && [[ "${secret_id}" != "" ]] && [[ "${vault_address}" != "" ]]; then
       export VAULT_ADDR=${vault_address}
       export VAULT_TOKEN=$(curl \
         --request POST \
@@ -99,34 +108,36 @@ configureCredentials () {
       jq -r .private_key ${GOOGLE_APPLICATION_CREDENTIALS} > ${GOOGLE_SA_CERT}
       chmod 600 ${GOOGLE_SA_CERT}
       echo 'Configured google sdk credentials from vault'
-  else
-    echo "required var not defined for function configureCredentials"
-    exit 1
+    else
+      echo "required var not defined for function configureCredentials"
+      exit 1
+    fi
   fi
 }
 
 googleAuth () {
   account_status=$(gcloud auth list --filter=status:ACTIVE --format="value(account)")
-  echo "before: account_status"
-  echo ${account_status}
-  if [[ "${google_zone}" != "" ]] && [[ "${google_project}" != "" ]]; then
-    gcloud auth activate-service-account --key-file ${GOOGLE_APPLICATION_CREDENTIALS}
-    # configure integration prerequisites
-    gcloud config set compute/zone ${google_zone} --quiet
-    gcloud config set project ${google_project} --quiet
-    gcloud auth configure-docker --quiet
-    echo 'Set google sdk to SA user'
-    if [[ -n "${K8_CLUSTER}" ]]; then
-      gcloud container clusters get-credentials ${K8_CLUSTER} --zone ${google_zone}
-    fi
-    account_status=$(gcloud auth list --filter=status:ACTIVE --format="value(account)")
-    echo "ba: account_status"
-    echo ${account_status}
+  if [[ ${always_gcloud_auth} == 0 ]] && [ -n "${account_status}"]; then
+    echo "Skipping gcloud auth"
   else
-    echo "Required var not defined for function googleAuth"
-    exit 1
+    if [[ "${google_zone}" != "" ]] && [[ "${google_project}" != "" ]]; then
+      gcloud auth activate-service-account --key-file ${GOOGLE_APPLICATION_CREDENTIALS}
+      # configure integration prerequisites
+      gcloud config set compute/zone ${google_zone} --quiet
+      gcloud config set project ${google_project} --quiet
+      gcloud auth configure-docker --quiet
+      echo 'Set google sdk to SA user'
+      if [[ -n "${K8_CLUSTER}" ]]; then
+        gcloud container clusters get-credentials ${K8_CLUSTER} --zone ${google_zone}
+      fi
+      account_status=$(gcloud auth list --filter=status:ACTIVE --format="value(account)")
+      echo "ba: account_status"
+      echo ${account_status}
+    else
+      echo "Required var not defined for function googleAuth"
+      exit 1
+    fi
   fi
-
 }
 
 helmprerun () {
