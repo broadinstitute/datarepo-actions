@@ -25,9 +25,6 @@ inputs:
     default: "broad-jade-dev"
   k8_cluster:
     description: "Google kubernetes cluster for sdk ie:integration-master"
-  google_application_credentials_pem:
-    description: "Path where google credential pem is stored"
-    default: "/tmp/jade-dev-account.pem"
   release_name:
     description: "release name for chart tester"
     default: "integration-temp-jade"
