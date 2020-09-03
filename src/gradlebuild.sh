@@ -7,8 +7,7 @@ gradlebuild () {
   if [[ -n "$2" ]]; then
     export alpharelease=$2
   fi
-  if [[ "${DEV_PROJECT}" != "" ]] && [[ "${google_application_credentials}" != "" ]]; then
-    export GOOGLE_APPLICATION_CREDENTIALS=${google_application_credentials}
+  if [[ "${DEV_PROJECT}" != "" ]] && [[ ${GOOGLE_APPLICATION_CREDENTIALS} != "" ]]; then
     if [[ -n "${alpharelease}" ]]; then
       printf "running gradle with alpha tag ${alpharelease}"
       export GCR_TAG="${alpharelease}"
