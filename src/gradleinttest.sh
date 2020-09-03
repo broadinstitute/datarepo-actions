@@ -37,7 +37,7 @@ gradleinttest () {
     echo "Running ${test_to_run} test with data project env var unset: ${google_data_project}"
   fi
 
-  if [[ -n "${google_project}" ]] && [ -f ${GOOGLE_APPLICATION_CREDENTIALS} ] && [[ "${test_to_run}" != "" ]]; then
+  if [[ -n "${google_project}" ]] && [ -f ${GOOGLE_APPLICATION_CREDENTIALS} ] && [ -f ${GOOGLE_SA_CERT} ] && [[ "${test_to_run}" != "" ]]; then
     export PGHOST=$(ip route show default | awk '/default/ {print $3}')
     export DB_DATAREPO_URI="jdbc:postgresql://${PGHOST}:5432/datarepo"
     export DB_STAIRWAY_URI="jdbc:postgresql://${PGHOST}:5432/stairway"
