@@ -1,7 +1,7 @@
 #!/bin/bash
 helmdeploy () {
   eval $(cat env_vars)
-  if [[ "${google_zone}" != "" ]] && [[ "${k8_cluster}" != "" ]] && [[ "${helm_imagetag_update}" != "" ]]; then
+  if [[ "${google_zone}" != "" ]] && [[ "${K8_CLUSTER}" != "" ]] && [[ "${helm_imagetag_update}" != "" ]]; then
     helm namespace upgrade ${NAMESPACEINUSE}-secrets datarepo-helm/create-secret-manager-secret --version=${helm_secret_chart_version} \
       --install --namespace ${NAMESPACEINUSE} -f \
       "https://raw.githubusercontent.com/broadinstitute/datarepo-helm-definitions/master/integration/${NAMESPACEINUSE}/${NAMESPACEINUSE}Secrets.yaml"

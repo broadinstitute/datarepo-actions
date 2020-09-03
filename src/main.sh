@@ -24,10 +24,6 @@ parseInputs () {
   export google_zone="${INPUT_GOOGLE_ZONE}"
   export google_project="${INPUT_GOOGLE_PROJECT}"
   export DEV_PROJECT="${INPUT_GCR_GOOGLE_PROJECT}"
-  k8_cluster=""
-  if [ -n "${INPUT_K8_CLUSTER}" ]; then
-    export k8_cluster="${INPUT_K8_CLUSTER}"
-  fi
   k8_namespaces=""
   if [ -n "${INPUT_K8_NAMESPACES}" ]; then
     export k8_namespaces="${INPUT_K8_NAMESPACES}"
@@ -91,10 +87,7 @@ configureCredentials () {
   else
     echo "Skipping importing environment vars for configureCredentials"
   fi
-  if [ -n "$VAULT_TOKEN" ]; then
-    echo "Vault token already set skipping configureCredentials function"
-  else
-    if [[ "${role_id}" != "" ]] && [[ "${secret_id}" != "" ]] && [[ "${vault_address}" != "" ]]; then
+  if [[ "${role_id}" != "" ]] && [[ "${secret_id}" != "" ]] && [[ "${vault_address}" != "" ]]; then
       export VAULT_ADDR=${vault_address}
       export VAULT_TOKEN=$(curl \
         --request POST \
@@ -106,10 +99,9 @@ configureCredentials () {
       jq -r .private_key ${GOOGLE_APPLICATION_CREDENTIALS} > ${GOOGLE_SA_CERT}
       chmod 600 ${GOOGLE_SA_CERT}
       echo 'Configured google sdk credentials from vault'
-    else
-      echo "required var not defined for function configureCredentials"
-      exit 1
-    fi
+  else
+    echo "required var not defined for function configureCredentials"
+    exit 1
   fi
 }
 
@@ -125,8 +117,8 @@ googleAuth () {
       gcloud config set project ${google_project} --quiet
       gcloud auth configure-docker --quiet
       echo 'Set google sdk to SA user'
-      if [[ -n "${k8_cluster}" ]]; then
-        gcloud container clusters get-credentials ${k8_cluster} --zone ${google_zone}
+      if [[ -n "${K8_CLUSTER}" ]]; then
+        gcloud container clusters get-credentials ${K8_CLUSTER} --zone ${google_zone}
       fi
     else
       echo "Required var not defined for function googleAuth"
