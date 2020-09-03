@@ -24,11 +24,7 @@ parseInputs () {
   export google_zone="${INPUT_GOOGLE_ZONE}"
   export google_project="${INPUT_GOOGLE_PROJECT}"
   export DEV_PROJECT="${INPUT_GCR_GOOGLE_PROJECT}"
-  #export google_application_credentials=""
   export google_application_credentials_pem=""
-  #if [ -n "${INPUT_GOOGLE_APPLICATION_CREDENTIALS}" ]; then
-  #  export google_application_credentials="${INPUT_GOOGLE_APPLICATION_CREDENTIALS}"
-  #fi
   if [ -n "${INPUT_GOOGLE_APPLICATION_CREDENTIALS_PEM}" ]; then
     export google_application_credentials_pem="${INPUT_GOOGLE_APPLICATION_CREDENTIALS_PEM}"
   fi

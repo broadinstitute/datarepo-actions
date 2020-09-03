@@ -2,7 +2,7 @@
 
 gradletestrunnersmoketest () {
 
-  if [[ -n "${google_project}" ]] && [[ "${GOOGLE_APPLICATION_CREDENTIALS}" != "" ]] && [ -f ${GOOGLE_APPLICATION_CREDENTIALS} ]; then
+  if [[ -n "${google_project}" ]] && [ -f ${GOOGLE_APPLICATION_CREDENTIALS} ]; then
     export TEST_RUNNER_SERVER_SPECIFICATION_FILE="${NAMESPACEINUSE}.json"
     cd ${GITHUB_WORKSPACE}/${workingDir}/datarepo-client
     ../gradlew clean assemble  
