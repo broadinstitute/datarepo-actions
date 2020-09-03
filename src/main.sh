@@ -24,10 +24,6 @@ parseInputs () {
   export google_zone="${INPUT_GOOGLE_ZONE}"
   export google_project="${INPUT_GOOGLE_PROJECT}"
   export DEV_PROJECT="${INPUT_GCR_GOOGLE_PROJECT}"
-  export google_application_credentials=""
-  if [ -n "${INPUT_GOOGLE_APPLICATION_CREDENTIALS}" ]; then
-    export google_application_credentials="${INPUT_GOOGLE_APPLICATION_CREDENTIALS}"
-  fi
   k8_cluster=""
   if [ -n "${INPUT_K8_CLUSTER}" ]; then
     export k8_cluster="${INPUT_K8_CLUSTER}"
@@ -106,9 +102,9 @@ configureCredentials () {
         ${vault_address}/v1/auth/approle/login | jq -r .auth.client_token)
         echo "export VAULT_TOKEN=${VAULT_TOKEN}" >> env_vars
       /usr/local/bin/vault read -format=json secret/dsde/datarepo/dev/sa-key.json | \
-        jq .data > jade-dev-account.json
-      jq -r .private_key jade-dev-account.json > jade-dev-account.pem
-      chmod 600 jade-dev-account.pem
+        jq .data > ${GOOGLE_APPLICATION_CREDENTIALS}
+      jq -r .private_key ${GOOGLE_APPLICATION_CREDENTIALS} > ${GOOGLE_SA_CERT}
+      chmod 600 ${GOOGLE_SA_CERT}
       echo 'Configured google sdk credentials from vault'
     else
       echo "required var not defined for function configureCredentials"
@@ -123,7 +119,7 @@ googleAuth () {
     echo "Service account has alredy been activated skipping googleAuth function"
   else
     if [[ "${google_zone}" != "" ]] && [[ "${google_project}" != "" ]]; then
-      gcloud auth activate-service-account --key-file jade-dev-account.json
+      gcloud auth activate-service-account --key-file ${GOOGLE_APPLICATION_CREDENTIALS}
       # configure integration prerequisites
       gcloud config set compute/zone ${google_zone} --quiet
       gcloud config set project ${google_project} --quiet
@@ -160,6 +156,7 @@ main () {
   source ${scriptDir}/checknamespaceclean.sh
   source ${scriptDir}/gradlebuild.sh
   source ${scriptDir}/gradleinttest.sh
+  source ${scriptDir}/gradletestrunnersmoketest.sh
   source ${scriptDir}/deploytagupdate.sh
   source ${scriptDir}/waitfordeployment.sh
   source ${scriptDir}/charttestdeploy.sh
@@ -198,6 +195,9 @@ main () {
         ;;
       gradleinttest)
         gradleinttest ${*}
+        ;;
+      gradletestrunnersmoketest)
+        gradletestrunnersmoketest ${*}
         ;;
       deploytagupdate)
         deploytagupdate ${*}
