@@ -93,7 +93,7 @@ configureCredentials () {
   else
     echo "Skipping importing environment vars for configureCredentials"
   fi
-  if [[ ${always_vault_auth} == 0 ]] && [ -n "${VAULT_TOKEN}"]; then
+  if [[ ${always_vault_auth} == 0 ]] && [ -n "$VAULT_TOKEN"]; then
     echo "Skipping Configure Credentials"
   else
     if [[ "${role_id}" != "" ]] && [[ "${secret_id}" != "" ]] && [[ "${vault_address}" != "" ]]; then
@@ -117,7 +117,7 @@ configureCredentials () {
 
 googleAuth () {
   account_status=$(gcloud auth list --filter=status:ACTIVE --format="value(account)")
-  if [[ ${always_gcloud_auth} == 0 ]] && [ -n "${account_status}"]; then
+  if [[ ${always_gcloud_auth} == 0 ]] && [[ -n "${account_status}" ]]; then
     echo "Skipping gcloud auth"
   else
     if [[ "${google_zone}" != "" ]] && [[ "${google_project}" != "" ]]; then
