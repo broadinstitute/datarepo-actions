@@ -24,10 +24,6 @@ parseInputs () {
   export google_zone="${INPUT_GOOGLE_ZONE}"
   export google_project="${INPUT_GOOGLE_PROJECT}"
   export DEV_PROJECT="${INPUT_GCR_GOOGLE_PROJECT}"
-  export google_application_credentials_pem=""
-  if [ -n "${INPUT_GOOGLE_APPLICATION_CREDENTIALS_PEM}" ]; then
-    export google_application_credentials_pem="${INPUT_GOOGLE_APPLICATION_CREDENTIALS_PEM}"
-  fi
   always_auth=""
   if [ -n "${INPUT_ALWAYS_AUTH}" ]; then
     export always_auth="${INPUT_ALWAYS_AUTH}"
@@ -111,8 +107,8 @@ configureCredentials () {
         echo "export VAULT_TOKEN=${VAULT_TOKEN}" >> env_vars
       /usr/local/bin/vault read -format=json secret/dsde/datarepo/dev/sa-key.json | \
         jq .data > ${GOOGLE_APPLICATION_CREDENTIALS}
-      jq -r .private_key ${GOOGLE_APPLICATION_CREDENTIALS} > ${google_application_credentials_pem}
-      chmod 600 ${google_application_credentials_pem}
+      jq -r .private_key ${GOOGLE_APPLICATION_CREDENTIALS} > ${GOOGLE_SA_CERT}
+      chmod 600 ${GOOGLE_SA_CERT}
       echo 'Configured google sdk credentials from vault'
     else
       echo "required var not defined for function configureCredentials"
