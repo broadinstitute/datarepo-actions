@@ -114,6 +114,7 @@ googleAuth () {
   echo $account_status
   if [[ "${account_status}" != "" ]]; then
     echo "Service account has already been activated skipping googleAuth function"
+    echo $(cat ${GOOGLE_APPLICATION_CREDENTIALS})
   else
     if [[ "${google_zone}" != "" ]] && [[ "${google_project}" != "" ]]; then
       gcloud auth activate-service-account --key-file ${GOOGLE_APPLICATION_CREDENTIALS}
