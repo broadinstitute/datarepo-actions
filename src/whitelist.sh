@@ -8,7 +8,7 @@ whitelist () {
       NEW_IPS=$(printf '%s\n' $CUR_IPS $RUNNER_IP | jq -s -r 'add | unique | join(",")')
     for i in {1..5}
     do
-      if gcloud container clusters update ${K8_CLUSTER} \
+      if gcloud container clusters update ${k8_cluster} \
         --enable-master-authorized-networks \
         --master-authorized-networks ${NEW_IPS}; then
           echo "successful whitelist"
