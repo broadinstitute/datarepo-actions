@@ -87,7 +87,7 @@ configureCredentials () {
   else
     echo "Skipping importing environment vars for configureCredentials"
   fi
-  if [[ "$VAULT_TOKEN" != "" ]] && [ -n "$VAULT_TOKEN" ]; then
+  if [[ "$VAULT_TOKEN" != "" ]]; then
     echo "Vault token already set skipping configureCredentials function"
   else
     if [[ "${role_id}" != "" ]] && [[ "${secret_id}" != "" ]] && [[ "${vault_address}" != "" ]]; then
