@@ -8,6 +8,10 @@ This is a collections of functions that run in a github actions specific to Broa
 ### inputs
 -  actions_subcommand:
     - description: 'subcommand to execute.'
+- role_id:
+    - description: 'role_id for vault'
+-  secret_id:
+    - description: 'secret_id for vault'
 -  vault_address:
     - description: 'https address for vault'
     - default: 'https://clotho.broadinstitute.org:8200'
