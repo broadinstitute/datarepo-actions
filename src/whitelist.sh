@@ -19,6 +19,7 @@ whitelist () {
         if [ i == 5 ]; then
           echo "FAILURE TO WHITELIST"
           exit 1
+        fi
       fi
     done
   else
