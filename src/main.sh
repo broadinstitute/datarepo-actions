@@ -87,38 +87,48 @@ configureCredentials () {
   else
     echo "Skipping importing environment vars for configureCredentials"
   fi
-  if [[ "${role_id}" != "" ]] && [[ "${secret_id}" != "" ]] && [[ "${vault_address}" != "" ]]; then
-    export VAULT_ADDR=${vault_address}
-    export VAULT_TOKEN=$(curl \
-      --request POST \
-      --data '{"role_id":"'"${role_id}"'","secret_id":"'"${secret_id}"'"}' \
-      ${vault_address}/v1/auth/approle/login | jq -r .auth.client_token)
-      echo "export VAULT_TOKEN=${VAULT_TOKEN}" >> env_vars
-    /usr/local/bin/vault read -format=json secret/dsde/datarepo/dev/sa-key.json | \
-      jq .data > ${GOOGLE_APPLICATION_CREDENTIALS}
-    jq -r .private_key ${GOOGLE_APPLICATION_CREDENTIALS} > ${GOOGLE_SA_CERT}
-    chmod 600 ${GOOGLE_SA_CERT}
-    echo 'Configured google sdk credentials from vault'
+  if [[ "$VAULT_TOKEN" != "" ]] && [ -n "$VAULT_TOKEN" ]; then
+    echo "Vault token already set skipping configureCredentials function"
   else
-    echo "required var not defined for function configureCredentials"
-    exit 1
+    if [[ "${role_id}" != "" ]] && [[ "${secret_id}" != "" ]] && [[ "${vault_address}" != "" ]]; then
+      export VAULT_ADDR=${vault_address}
+      export VAULT_TOKEN=$(curl \
+        --request POST \
+        --data '{"role_id":"'"${role_id}"'","secret_id":"'"${secret_id}"'"}' \
+        ${vault_address}/v1/auth/approle/login | jq -r .auth.client_token)
+        echo "export VAULT_TOKEN=${VAULT_TOKEN}" >> env_vars
+      /usr/local/bin/vault read -format=json secret/dsde/datarepo/dev/sa-key.json | \
+        jq .data > ${GOOGLE_APPLICATION_CREDENTIALS}
+      jq -r .private_key ${GOOGLE_APPLICATION_CREDENTIALS} > ${GOOGLE_SA_CERT}
+      chmod 600 ${GOOGLE_SA_CERT}
+      echo 'Configured google sdk credentials from vault'
+    else
+      echo "required var not defined for function configureCredentials"
+      exit 1
+    fi
   fi
 }
 
 googleAuth () {
-  if [[ "${google_zone}" != "" ]] && [[ "${google_project}" != "" ]]; then
-    gcloud auth activate-service-account --key-file ${GOOGLE_APPLICATION_CREDENTIALS}
-    # configure integration prerequisites
-    gcloud config set compute/zone ${google_zone} --quiet
-    gcloud config set project ${google_project} --quiet
-    gcloud auth configure-docker --quiet
-    echo 'Set google sdk to SA user'
-    if [[ -n "${K8_CLUSTER}" ]]; then
-      gcloud container clusters get-credentials ${K8_CLUSTER} --zone ${google_zone}
-    fi
+  account_status=""
+  account_status=$(gcloud auth list --filter=status:ACTIVE --format="value(account)")
+  if [[ "${account_status}" != "" ]]; then
+    echo "Service account has alredy been activated skipping googleAuth function"
   else
-    echo "Required var not defined for function googleAuth"
-    exit 1
+    if [[ "${google_zone}" != "" ]] && [[ "${google_project}" != "" ]]; then
+      gcloud auth activate-service-account --key-file ${GOOGLE_APPLICATION_CREDENTIALS}
+      # configure integration prerequisites
+      gcloud config set compute/zone ${google_zone} --quiet
+      gcloud config set project ${google_project} --quiet
+      gcloud auth configure-docker --quiet
+      echo 'Set google sdk to SA user'
+      if [[ -n "${K8_CLUSTER}" ]]; then
+        gcloud container clusters get-credentials ${K8_CLUSTER} --zone ${google_zone}
+      fi
+    else
+      echo "Required var not defined for function googleAuth"
+      exit 1
+    fi
   fi
 }
 
