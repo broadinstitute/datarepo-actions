@@ -7,7 +7,7 @@ whitelist () {
       RUNNER_IP=$(curl 'https://api.ipify.org/?format=text' | xargs printf '[ "%s/32" ]')
       NEW_IPS=$(printf '%s\n' $CUR_IPS $RUNNER_IP | jq -s -r 'add | unique | join(",")')
     for i in {1..5}; do
-      if gcloud container clusters update ${k8_cluster} \
+      if gcloud container clusters update ${K8_CLUSTER} \
         --enable-master-authorized-networks \
         --master-authorized-networks ${NEW_IPS}; then
           echo "Successful whitelist"
