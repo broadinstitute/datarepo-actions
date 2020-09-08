@@ -110,8 +110,9 @@ configureCredentials () {
 googleAuth () {
   account_status=""
   account_status=$(gcloud auth list --filter=status:ACTIVE --format="value(account)")
+  echo $account_status
   if [[ "${account_status}" != "" ]]; then
-    echo "Service account has alredy been activated skipping googleAuth function"
+    echo "Service account has already been activated skipping googleAuth function"
   else
     if [[ "${google_zone}" != "" ]] && [[ "${google_project}" != "" ]]; then
       gcloud auth activate-service-account --key-file ${GOOGLE_APPLICATION_CREDENTIALS}
