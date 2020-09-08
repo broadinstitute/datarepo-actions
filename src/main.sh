@@ -87,7 +87,9 @@ configureCredentials () {
   else
     echo "Skipping importing environment vars for configureCredentials"
   fi
-  if [[ "${role_id}" != "" ]] && [[ "${secret_id}" != "" ]] && [[ "${vault_address}" != "" ]]; then
+  if [[ "$VAULT_TOKEN" != "" ]]; then
+    echo "Vault token already set skipping configureCredentials function"
+  elif [[ "${role_id}" != "" ]] && [[ "${secret_id}" != "" ]] && [[ "${vault_address}" != "" ]]; then
     export VAULT_ADDR=${vault_address}
     export VAULT_TOKEN=$(curl \
       --request POST \
@@ -106,7 +108,11 @@ configureCredentials () {
 }
 
 googleAuth () {
-  if [[ "${google_zone}" != "" ]] && [[ "${google_project}" != "" ]]; then
+  account_status=""
+  account_status=$(gcloud auth list --filter=status:ACTIVE --format="value(account)")
+  if [[ "${account_status}" != "" ]]; then
+    echo "Service account has already been activated skipping googleAuth function"
+  elif [[ "${google_zone}" != "" ]] && [[ "${google_project}" != "" ]]; then
     gcloud auth activate-service-account --key-file ${GOOGLE_APPLICATION_CREDENTIALS}
     # configure integration prerequisites
     gcloud config set compute/zone ${google_zone} --quiet
