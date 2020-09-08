@@ -110,7 +110,7 @@ configureCredentials () {
 googleAuth () {
   account_status=""
   account_status=$(gcloud auth list --filter=status:ACTIVE --format="value(account)")
-  echo $(ls -al $HOME/tmp/)
+  echo $(ls -al /tmp/)
   echo $account_status
   if [[ "${account_status}" != "" ]]; then
     echo "Service account has already been activated skipping googleAuth function"
