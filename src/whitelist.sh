@@ -16,7 +16,7 @@ whitelist () {
         echo "failed to whitelist. Retrying."
         sleep 15
         if [ i == 5 ]; then
-          echo "failed to whitelist"
+          echo "failed to whitelist. Terminating."
           exit 1
         fi
       fi
