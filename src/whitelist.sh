@@ -10,13 +10,13 @@ whitelist () {
       if gcloud container clusters update ${k8_cluster} \
         --enable-master-authorized-networks \
         --master-authorized-networks ${NEW_IPS}; then
-          echo "successful whitelist"
+          echo "Successful whitelist"
           break
       else
-        echo "failed to whitelist. Retrying."
+        echo "Failed to whitelist - Retrying"
         sleep 15
         if [ i == 5 ]; then
-          echo "failed to whitelist. Terminating."
+          echo "Failed to whitelist - Terminating"
           exit 1
         fi
       fi
