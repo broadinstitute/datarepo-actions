@@ -87,9 +87,9 @@ configureCredentials () {
   else
     echo "Skipping importing environment vars for configureCredentials"
   fi
-  if [ -n "$VAULT_TOKEN" ]; then
-    echo "Vault token already set skipping configureCredentials function"
-  else
+  #if [ -n "$VAULT_TOKEN" ]; then
+  #  echo "Vault token already set skipping configureCredentials function"
+  #else
     if [[ "${role_id}" != "" ]] && [[ "${secret_id}" != "" ]] && [[ "${vault_address}" != "" ]]; then
       export VAULT_ADDR=${vault_address}
       export VAULT_TOKEN=$(curl \
@@ -106,14 +106,14 @@ configureCredentials () {
       echo "required var not defined for function configureCredentials"
       exit 1
     fi
-  fi
+  #fi
 }
 
 googleAuth () {
   account_status=$(gcloud auth list --filter=status:ACTIVE --format="value(account)")
-  if [[ -n "${account_status}" ]]; then
-    echo "Service account has alredy been activated skipping googleAuth function"
-  else
+  #if [[ -n "${account_status}" ]]; then
+  #  echo "Service account has alredy been activated skipping googleAuth function"
+  #else
     if [[ "${google_zone}" != "" ]] && [[ "${google_project}" != "" ]]; then
       gcloud auth activate-service-account --key-file ${GOOGLE_APPLICATION_CREDENTIALS}
       # configure integration prerequisites
@@ -131,7 +131,7 @@ googleAuth () {
       echo "Required var not defined for function googleAuth"
       exit 1
     fi
-  fi
+  #fi
 }
 
 helmprerun () {
