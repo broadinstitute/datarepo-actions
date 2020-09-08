@@ -87,9 +87,7 @@ configureCredentials () {
   else
     echo "Skipping importing environment vars for configureCredentials"
   fi
-  if [[ "$VAULT_TOKEN" != "" ]]; then
-    echo "Vault token already set skipping configureCredentials function"
-  elif [[ "${role_id}" != "" ]] && [[ "${secret_id}" != "" ]] && [[ "${vault_address}" != "" ]]; then
+  if [[ "${role_id}" != "" ]] && [[ "${secret_id}" != "" ]] && [[ "${vault_address}" != "" ]]; then
     export VAULT_ADDR=${vault_address}
     export VAULT_TOKEN=$(curl \
       --request POST \
@@ -108,28 +106,19 @@ configureCredentials () {
 }
 
 googleAuth () {
-  account_status=""
-  account_status=$(gcloud auth list --filter=status:ACTIVE --format="value(account)")
-  echo $(ls -al /tmp/)
-  echo $account_status
-  if [[ "${account_status}" != "" ]]; then
-    echo "Service account has already been activated skipping googleAuth function"
-    echo $(cat ${GOOGLE_APPLICATION_CREDENTIALS})
-  else
-    if [[ "${google_zone}" != "" ]] && [[ "${google_project}" != "" ]]; then
-      gcloud auth activate-service-account --key-file ${GOOGLE_APPLICATION_CREDENTIALS}
-      # configure integration prerequisites
-      gcloud config set compute/zone ${google_zone} --quiet
-      gcloud config set project ${google_project} --quiet
-      gcloud auth configure-docker --quiet
-      echo 'Set google sdk to SA user'
-      if [[ -n "${K8_CLUSTER}" ]]; then
-        gcloud container clusters get-credentials ${K8_CLUSTER} --zone ${google_zone}
-      fi
-    else
-      echo "Required var not defined for function googleAuth"
-      exit 1
+  if [[ "${google_zone}" != "" ]] && [[ "${google_project}" != "" ]]; then
+    gcloud auth activate-service-account --key-file ${GOOGLE_APPLICATION_CREDENTIALS}
+    # configure integration prerequisites
+    gcloud config set compute/zone ${google_zone} --quiet
+    gcloud config set project ${google_project} --quiet
+    gcloud auth configure-docker --quiet
+    echo 'Set google sdk to SA user'
+    if [[ -n "${K8_CLUSTER}" ]]; then
+      gcloud container clusters get-credentials ${K8_CLUSTER} --zone ${google_zone}
     fi
+  else
+    echo "Required var not defined for function googleAuth"
+    exit 1
   fi
 }
 
