@@ -6,18 +6,17 @@ whitelist () {
       jq -r '[.masterAuthorizedNetworksConfig.cidrBlocks[] | .cidrBlock]')
       RUNNER_IP=$(curl 'https://api.ipify.org/?format=text' | xargs printf '[ "%s/32" ]')
       NEW_IPS=$(printf '%s\n' $CUR_IPS $RUNNER_IP | jq -s -r 'add | unique | join(",")')
-    for i in {1..5}
-    do
-      if gcloud container clusters update ${K8_CLUSTER} \
+    for i in {1..5}; do
+      if gcloud container clusters update ${k8_cluster} \
         --enable-master-authorized-networks \
         --master-authorized-networks ${NEW_IPS}; then
-          echo "successful whitelist"
+          echo "Successful whitelist"
           break
       else
-        echo "failed to whitelist"
+        echo "Failed to whitelist - Retrying"
         sleep 15
         if [ i == 5 ]; then
-          echo "FAILURE TO WHITELIST"
+          echo "Failed to whitelist - Terminating"
           exit 1
         fi
       fi
