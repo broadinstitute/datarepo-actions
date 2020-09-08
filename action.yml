@@ -7,12 +7,6 @@ inputs:
   actions_subcommand:
     description: "subcommand to execute."
     required: true
-  always_gcloud_auth:
-    description: "flag to force gcloud to auth"
-    default: 0
-  always_vault_auth:
-    description: "flag to force vault auth"
-    default: 0
   role_id:
     description: "role_id for vault"
   secret_id:

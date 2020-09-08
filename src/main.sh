@@ -28,12 +28,6 @@ parseInputs () {
   if [ -n "${INPUT_K8_NAMESPACES}" ]; then
     export k8_namespaces="${INPUT_K8_NAMESPACES}"
   fi
-  if [ -n "${INPUT_ALWAYS_VAULT_AUTH}" ]; then
-    export always_vault_auth="${INPUT_ALWAYS_VAULT_AUTH}"
-  fi
-  if [ -n "${INPUT_ALWAYS_GCLOUD_AUTH}" ]; then
-    export always_gcloud_auth="${INPUT_ALWAYS_GCLOUD_AUTH}"
-  fi
   helm_secret_chart_version=""
   if [ -n "${INPUT_HELM_SECRET_CHART_VERSION}" ]; then
     export helm_secret_chart_version="${INPUT_HELM_SECRET_CHART_VERSION}"
@@ -93,8 +87,8 @@ configureCredentials () {
   else
     echo "Skipping importing environment vars for configureCredentials"
   fi
-  if [[ ${always_vault_auth} == 0 ]] && [ -n "$VAULT_TOKEN" ]; then
-    echo "Skipping Configure Credentials"
+  if [ -n "$VAULT_TOKEN" ]; then
+    echo "Vault token already set skipping configureCredentials function"
   else
     if [[ "${role_id}" != "" ]] && [[ "${secret_id}" != "" ]] && [[ "${vault_address}" != "" ]]; then
       export VAULT_ADDR=${vault_address}
@@ -117,8 +111,8 @@ configureCredentials () {
 
 googleAuth () {
   account_status=$(gcloud auth list --filter=status:ACTIVE --format="value(account)")
-  if [[ ${always_gcloud_auth} == 0 ]] && [[ -n "${account_status}" ]]; then
-    echo "Skipping gcloud auth"
+  if [[ -n "${account_status}" ]]; then
+    echo "Service account has alredy been activated skipping googleAuth function"
   else
     if [[ "${google_zone}" != "" ]] && [[ "${google_project}" != "" ]]; then
       gcloud auth activate-service-account --key-file ${GOOGLE_APPLICATION_CREDENTIALS}
