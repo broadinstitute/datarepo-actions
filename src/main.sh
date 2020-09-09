@@ -89,8 +89,6 @@ configureCredentials () {
   fi
   if [[ "$VAULT_TOKEN" != "" ]]; then
     echo "Vault token already set skipping configureCredentials function"
-    echo $(pwd)
-    echo $(ls -al /tmp/)
   elif [[ "${role_id}" != "" ]] && [[ "${secret_id}" != "" ]] && [[ "${vault_address}" != "" ]]; then
     export VAULT_ADDR=${vault_address}
     export VAULT_TOKEN=$(curl \
@@ -103,8 +101,6 @@ configureCredentials () {
     jq -r .private_key ${GOOGLE_APPLICATION_CREDENTIALS} > ${GOOGLE_SA_CERT}
     chmod 600 ${GOOGLE_SA_CERT}
     echo 'Configured google sdk credentials from vault'
-    echo $(pwd)
-    echo $(ls -al /tmp/)
   else
     echo "required var not defined for function configureCredentials"
     exit 1
