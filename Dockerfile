@@ -48,6 +48,7 @@ COPY ./lib/semver ./lib/semver
 RUN install ./lib/semver /usr/local/bin
 
 VOLUME ["/root/.config"]
+VOLUME ["/tmp"]
 
 # install kubectl needs to be after sdk install
 RUN apt-get update -qqy && apt-get install -qqy \
