@@ -72,4 +72,5 @@ runs:
   using: "docker"
   image: "./Dockerfile"
   args:
-    - -v "/home/runner/work/jade-data-repo/jade-data-repo/tmp":"/github/workspace/tmp"
+    volumes:
+      - /home/runner/work/jade-data-repo/jade-data-repo/tmp:/github/workspace/tmp
