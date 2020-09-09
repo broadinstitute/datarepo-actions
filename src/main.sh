@@ -86,6 +86,8 @@ configureCredentials () {
     eval $(cat env_vars)
   else
     echo "Skipping importing environment vars for configureCredentials"
+    echo $(pwd)
+    echo $(ls -al /tmp/)
   fi
   if [[ "$VAULT_TOKEN" != "" ]]; then
     echo "Vault token already set skipping configureCredentials function"
