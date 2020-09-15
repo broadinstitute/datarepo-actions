@@ -23,8 +23,6 @@ inputs:
   gcr_google_project:
     description: "Google project for GCR image ie:broad-jade-dev"
     default: "broad-jade-dev"
-  k8_cluster:
-    description: "Google kubernetes cluster for sdk ie:integration-master"
   release_name:
     description: "release name for chart tester"
     default: "integration-temp-jade"

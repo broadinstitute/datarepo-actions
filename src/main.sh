@@ -24,14 +24,6 @@ parseInputs () {
   export google_zone="${INPUT_GOOGLE_ZONE}"
   export google_project="${INPUT_GOOGLE_PROJECT}"
   export DEV_PROJECT="${INPUT_GCR_GOOGLE_PROJECT}"
-  export google_application_credentials=""
-  if [ -n "${INPUT_GOOGLE_APPLICATION_CREDENTIALS}" ]; then
-    export google_application_credentials="${INPUT_GOOGLE_APPLICATION_CREDENTIALS}"
-  fi
-  k8_cluster=""
-  if [ -n "${INPUT_K8_CLUSTER}" ]; then
-    export k8_cluster="${INPUT_K8_CLUSTER}"
-  fi
   k8_namespaces=""
   if [ -n "${INPUT_K8_NAMESPACES}" ]; then
     export k8_namespaces="${INPUT_K8_NAMESPACES}"
@@ -95,47 +87,44 @@ configureCredentials () {
   else
     echo "Skipping importing environment vars for configureCredentials"
   fi
-  if [ -n "$VAULT_TOKEN" ]; then
+  if [[ "$VAULT_TOKEN" != "" ]]; then
     echo "Vault token already set skipping configureCredentials function"
+  elif [[ "${role_id}" != "" ]] && [[ "${secret_id}" != "" ]] && [[ "${vault_address}" != "" ]]; then
+    export VAULT_ADDR=${vault_address}
+    export VAULT_TOKEN=$(curl \
+      --request POST \
+      --data '{"role_id":"'"${role_id}"'","secret_id":"'"${secret_id}"'"}' \
+      ${vault_address}/v1/auth/approle/login | jq -r .auth.client_token)
+      echo "export VAULT_TOKEN=${VAULT_TOKEN}" >> env_vars
+    /usr/local/bin/vault read -format=json secret/dsde/datarepo/dev/sa-key.json | \
+      jq .data > ${GOOGLE_APPLICATION_CREDENTIALS}
+    jq -r .private_key ${GOOGLE_APPLICATION_CREDENTIALS} > ${GOOGLE_SA_CERT}
+    chmod 600 ${GOOGLE_SA_CERT}
+    echo 'Configured google sdk credentials from vault'
   else
-    if [[ "${role_id}" != "" ]] && [[ "${secret_id}" != "" ]] && [[ "${vault_address}" != "" ]]; then
-      export VAULT_ADDR=${vault_address}
-      export VAULT_TOKEN=$(curl \
-        --request POST \
-        --data '{"role_id":"'"${role_id}"'","secret_id":"'"${secret_id}"'"}' \
-        ${vault_address}/v1/auth/approle/login | jq -r .auth.client_token)
-        echo "export VAULT_TOKEN=${VAULT_TOKEN}" >> env_vars
-      /usr/local/bin/vault read -format=json secret/dsde/datarepo/dev/sa-key.json | \
-        jq .data > jade-dev-account.json
-      jq -r .private_key jade-dev-account.json > jade-dev-account.pem
-      chmod 600 jade-dev-account.pem
-      echo 'Configured google sdk credentials from vault'
-    else
-      echo "required var not defined for function configureCredentials"
-      exit 1
-    fi
+    echo "required var not defined for function configureCredentials"
+    exit 1
   fi
 }
 
 googleAuth () {
+  account_status=""
   account_status=$(gcloud auth list --filter=status:ACTIVE --format="value(account)")
-  if [[ -n "${account_status}" ]]; then
-    echo "Service account has alredy been activated skipping googleAuth function"
-  else
-    if [[ "${google_zone}" != "" ]] && [[ "${google_project}" != "" ]]; then
-      gcloud auth activate-service-account --key-file jade-dev-account.json
-      # configure integration prerequisites
-      gcloud config set compute/zone ${google_zone} --quiet
-      gcloud config set project ${google_project} --quiet
-      gcloud auth configure-docker --quiet
-      echo 'Set google sdk to SA user'
-      if [[ -n "${k8_cluster}" ]]; then
-        gcloud container clusters get-credentials ${k8_cluster} --zone ${google_zone}
-      fi
-    else
-      echo "Required var not defined for function googleAuth"
-      exit 1
+  if [[ "${account_status}" != "" ]]; then
+    echo "Service account has already been activated skipping googleAuth function"
+  elif [[ "${google_zone}" != "" ]] && [[ "${google_project}" != "" ]]; then
+    gcloud auth activate-service-account --key-file ${GOOGLE_APPLICATION_CREDENTIALS}
+    # configure integration prerequisites
+    gcloud config set compute/zone ${google_zone} --quiet
+    gcloud config set project ${google_project} --quiet
+    gcloud auth configure-docker --quiet
+    echo 'Set google sdk to SA user'
+    if [[ -n "${K8_CLUSTER}" ]]; then
+      gcloud container clusters get-credentials ${K8_CLUSTER} --zone ${google_zone}
     fi
+  else
+    echo "Required var not defined for function googleAuth"
+    exit 1
   fi
 }
 
@@ -160,6 +149,7 @@ main () {
   source ${scriptDir}/checknamespaceclean.sh
   source ${scriptDir}/gradlebuild.sh
   source ${scriptDir}/gradleinttest.sh
+  source ${scriptDir}/gradletestrunnersmoketest.sh
   source ${scriptDir}/deploytagupdate.sh
   source ${scriptDir}/waitfordeployment.sh
   source ${scriptDir}/charttestdeploy.sh
@@ -198,6 +188,9 @@ main () {
         ;;
       gradleinttest)
         gradleinttest ${*}
+        ;;
+      gradletestrunnersmoketest)
+        gradletestrunnersmoketest ${*}
         ;;
       deploytagupdate)
         deploytagupdate ${*}

@@ -24,9 +24,6 @@ This is a collections of functions that run in a github actions specific to Broa
 -  gcr_google_project:
     - description: 'Google project for GCR image ie:broad-jade-dev'
     - default: 'broad-jade-dev'
--  k8_cluster:
-    - description: 'Google kubernetes cluster for sdk ie:integration-master'
-    - default: 'integration-master'
 -  k8_namespaces:
     - description: 'Google kubernetes cluster namespaces must be comma separated ie:"integration-1,integration-2"'
     - default: 'integration-1,integration-2,integration-3,integration-4,integration-5'
