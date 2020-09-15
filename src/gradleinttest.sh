@@ -5,7 +5,7 @@ cleaniampolicy () {
   namespace_number=$(echo ${NAMESPACEINUSE} | sed 's/integration-//g')
   google_data_project="broad-jade-int-${namespace_number}-data"
   echo "Cleaning up IAM policy for data project: ${google_data_project}"
-
+  
   # get the policy bindings for the project
   bindings=$(gcloud projects get-iam-policy ${google_data_project} --format=json)
 
@@ -40,10 +40,13 @@ gradleinttest () {
     echo "Running ${test_to_run} test with data project env var unset: ${google_data_project}"
   fi
 
-  if [[ -n "${google_project}" ]] && [ -f ${GOOGLE_APPLICATION_CREDENTIALS} ] && [ -f ${GOOGLE_SA_CERT} ] && [[ "${test_to_run}" != "" ]]; then
+  if [[ -n "${google_project}" ]] && [ -f jade-dev-account.json ] && [ -f jade-dev-account.pem ] && [[ "${test_to_run}" != "" ]]; then
     export PGHOST=$(ip route show default | awk '/default/ {print $3}')
     export DB_DATAREPO_URI="jdbc:postgresql://${PGHOST}:5432/datarepo"
     export DB_STAIRWAY_URI="jdbc:postgresql://${PGHOST}:5432/stairway"
+    export GOOGLE_APPLICATION_CREDENTIALS=jade-dev-account.json
+    export IT_JADE_PEM_FILE_NAME=jade-dev-account.pem
+    export GOOGLE_SA_CERT=jade-dev-account.pem
     export GOOGLE_CLOUD_PROJECT=${google_project}
     export GOOGLE_CLOUD_DATA_PROJECT=${google_data_project}
     if [[ "${test_to_run}" == "testIntegration" ]]; then
