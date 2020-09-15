@@ -15,8 +15,11 @@ cleaniampolicy () {
   # Loop through the members that start with "group:policy-" That is the signature of a SAM group. And I hope nothing else important!
   # Remove the members one by one - this is noisy, but leaving it that way for now so we see the results in the log
   for row in $(echo $members | jq -r '.[] | select(startswith("group:policy-"))'); do
-      echo "removing member: ${row}"
-      gcloud projects remove-iam-policy-binding ${google_data_project} --member=$row --role=roles/bigquery.jobUser
+    if gcloud projects remove-iam-policy-binding ${google_data_project} --member=$row --role=roles/bigquery.jobUser; then
+      echo "Successfully removed member: ${row}"
+    else
+      echo "Failed to remove member: ${row}"
+    fi
   done
 }
 
