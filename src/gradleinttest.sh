@@ -6,21 +6,10 @@ cleaniampolicy () {
   google_data_project="broad-jade-int-${namespace_number}-data"
   echo "Cleaning up IAM policy for data project: ${google_data_project}"
 
-  # get the policy bindings for the project
-  bindings=$(gcloud projects get-iam-policy ${google_data_project} --format=json)
-
-  # get the members of the BigQuery Job User role
-  members=$(echo $bindings | jq '.bindings[] | if .role == "roles/bigquery.jobUser" then .members else empty end')
-
-  # Loop through the members that start with "group:policy-" That is the signature of a SAM group. And I hope nothing else important!
-  # Remove the members one by one - this is noisy, but leaving it that way for now so we see the results in the log
-  for row in $(echo $members | jq -r '.[] | select(startswith("group:policy-"))'); do
-    if gcloud projects remove-iam-policy-binding ${google_data_project} --member=$row --role=roles/bigquery.jobUser; then
-      echo "Successfully removed member: ${row}"
-    else
-      echo "Failed to remove member: ${row}"
-    fi
-  done
+  BINDINGS=$(gcloud projects get-iam-policy ${google_data_project} --format=json)
+  OK_BINDINGS=$(echo ${BINDINGS} | jq 'del(.bindings[] | select(.role=="roles/bigquery.jobUser") | .members[] | select(startswith("group:policy-") or startswith("deleted:group:policy-")))')
+  echo ${OK_BINDINGS} | jq > policy.json
+  gcloud projects set-iam-policy ${google_data_project} policy.json
 }
 
 gradleinttest () {
