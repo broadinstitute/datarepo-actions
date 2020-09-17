@@ -6,8 +6,13 @@ cleaniampolicy () {
   google_data_project="broad-jade-int-${namespace_number}-data"
   echo "Cleaning up IAM policy for data project: ${google_data_project}"
 
+  # retrieve all IAM policies for data project
   BINDINGS=$(gcloud projects get-iam-policy ${google_data_project} --format=json)
+  # remove any policies that start with group:policy- or deleted:group:policy-
+  # group policies are created as a part of our test run and need to be cleared out
+  # to avoid hitting 250 IAM policy limit
   OK_BINDINGS=$(echo ${BINDINGS} | jq 'del(.bindings[] | select(.role=="roles/bigquery.jobUser") | .members[] | select(startswith("group:policy-") or startswith("deleted:group:policy-")))')
+  # replace the IAM policy, including only non-group policies/users
   echo ${OK_BINDINGS} | jq '.' > policy.json
   gcloud projects set-iam-policy ${google_data_project} policy.json
 }
