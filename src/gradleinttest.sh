@@ -8,7 +8,7 @@ cleaniampolicy () {
 
   BINDINGS=$(gcloud projects get-iam-policy ${google_data_project} --format=json)
   OK_BINDINGS=$(echo ${BINDINGS} | jq 'del(.bindings[] | select(.role=="roles/bigquery.jobUser") | .members[] | select(startswith("group:policy-") or startswith("deleted:group:policy-")))')
-  echo ${OK_BINDINGS} | jq > policy.json
+  echo ${OK_BINDINGS} | jq '.' > policy.json
   gcloud projects set-iam-policy ${google_data_project} policy.json
 }
 
