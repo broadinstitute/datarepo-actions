@@ -21,6 +21,14 @@ cleaniampolicy () {
       echo "Failed to remove member: ${row}"
     fi
   done
+  #remove any members marked deleted
+  for row in $(echo $members | jq -r '.[] | select(startswith("deleted:group:policy-"))'); do
+    if gcloud projects remove-iam-policy-binding ${google_data_project} --member=$row --role=roles/bigquery.jobUser; then
+      echo "Successfully removed [deleted] member: ${row}"
+    else
+      echo "Failed to remove [deleted] member: ${row}"
+    fi
+  done
 }
 
 gradleinttest () {
