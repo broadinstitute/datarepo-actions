@@ -123,8 +123,7 @@ bumper () {
     else
         SUFFIX=SNAPSHOT
         if [ "${INPUT_VERSION_FILE_PATH#*.}" == "gradle" ]; then
-            VERSION_LINE=$(cat $INPUT_VERSION_FILE_PATH | grep -e "^${INPUT_VERSION_VARIABLE_NAME}")
-            sed -i "s/${VERSION_LINE}/${INPUT_VERSION_VARIABLE_NAME} '${new}-${SUFFIX}'/" $INPUT_VERSION_FILE_PATH
+            sed -i "s/    ${INPUT_VERSION_VARIABLE_NAME}.*/    ${INPUT_VERSION_VARIABLE_NAME} '${new}-${SUFFIX}'/" $INPUT_VERSION_FILE_PATH
         elif [ "${INPUT_VERSION_FILE_PATH#*.}" == "json" ]; then
             sed -i "s/\"version\":.*/\"version\": \"${new}\",/" $INPUT_VERSION_FILE_PATH
         fi
