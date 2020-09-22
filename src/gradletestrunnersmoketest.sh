@@ -1,11 +1,6 @@
 #!/bin/bash
 
 gradletestrunnersmoketest () {
-  export TEST_RUNNER_SERVER_SPECIFICATION_FILE="${NAMESPACEINUSE}.json"
-  export TEST_RUNNER_KEY_DIRECTORY_PATH="/github/workspace"
-  echo "GITHUB_WORKSPACE = ${GITHUB_WORKSPACE}"
-  echo "TEST_RUNNER_SERVER_SPECIFICATION_FILE = ${TEST_RUNNER_SERVER_SPECIFICATION_FILE}"
-  echo "TEST_RUNNER_KEY_DIRECTORY_PATH = ${TEST_RUNNER_KEY_DIRECTORY_PATH}"
   cd ${GITHUB_WORKSPACE}/${workingDir}/datarepo-client
 
   echo "Building Data Repo client library"
@@ -18,7 +13,13 @@ gradletestrunnersmoketest () {
   ./gradlew spotlessCheck
   ./gradlew spotbugsMain
 
-  echo "Running TestRunner suite"
+  echo "Setting Test Runner environment variables"
+  export TEST_RUNNER_SERVER_SPECIFICATION_FILE="${NAMESPACEINUSE}.json"
+  export TEST_RUNNER_KEY_DIRECTORY_PATH="${GITHUB_WORKSPACE}"
+  echo "TEST_RUNNER_SERVER_SPECIFICATION_FILE = ${TEST_RUNNER_SERVER_SPECIFICATION_FILE}"
+  echo "TEST_RUNNER_KEY_DIRECTORY_PATH = ${TEST_RUNNER_KEY_DIRECTORY_PATH}"
+
+  echo "Running test suite"
   ./gradlew runTest --args="suites/PRSmokeTests.json tmp/TestRunnerResults"
 
   echo "Collecting measurements"
