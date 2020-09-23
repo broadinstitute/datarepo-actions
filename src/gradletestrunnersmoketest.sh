@@ -8,7 +8,7 @@ gradletestrunnersmoketest () {
   echo "Building Data Repo client library"
   ../gradlew clean assemble  
   cd ${GITHUB_WORKSPACE}/${workingDir}/datarepo-clienttests
-  export ORG_GRADLE_PROJECT_datarepoclientjar=$(ls ../datarepo-client/build/libs/*jar)
+  export ORG_GRADLE_PROJECT_datarepoclientjar=$(find .. -type f -name "datarepo-client*.jar")
   echo "Running TestRunner suite"
   ./gradlew runTest --args="suites/PRSmokeTests.json tmp/TestRunnerResults"
   cd ${GITHUB_WORKSPACE}/${workingDir}
