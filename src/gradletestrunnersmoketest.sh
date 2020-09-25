@@ -12,7 +12,7 @@ gradletestrunnersmoketest () {
   ./gradlew spotbugsMain
 
   echo "Setting Test Runner environment variables"
-  export ORG_GRADLE_PROJECT_datarepoclientjar=$(ls ../datarepo-client/build/libs/*jar)
+  export ORG_GRADLE_PROJECT_datarepoclientjar=$(find .. -type f -name "datarepo-client*.jar")
   export TEST_RUNNER_SERVER_SPECIFICATION_FILE="${NAMESPACEINUSE}.json"
   export TEST_RUNNER_SA_KEY_DIRECTORY_PATH="${GITHUB_WORKSPACE}"
   echo "ORG_GRADLE_PROJECT_datarepoclientjar = ${ORG_GRADLE_PROJECT_datarepoclientjar}"
