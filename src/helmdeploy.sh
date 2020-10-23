@@ -7,8 +7,9 @@ helmdeploy () {
       "https://raw.githubusercontent.com/broadinstitute/datarepo-helm-definitions/ms-integrationrework/integration/${NAMESPACEINUSE}/create-secret-manager-secret.yaml"
 
     # Delete the previous API deployment
-    helm delete --namespace ${NAMESPACEINUSE} ${NAMESPACEINUSE}-jade-datarepo-api
-
+    if [[ "${helm_imagetag_update}" == "api" ]]; then
+      helm delete --namespace ${NAMESPACEINUSE} ${NAMESPACEINUSE}-jade-datarepo-api
+    fi
     release_name="${NAMESPACEINUSE}-jade"
 
     helm namespace upgrade ${release_name}-gcloud-sqlproxy datarepo-helm/gcloud-sqlproxy --version=${helm_gcloud_sqlproxy_chart_version} \
