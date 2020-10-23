@@ -2,7 +2,7 @@
 helmdeploy () {
   eval $(cat env_vars)
   if [[ "${google_zone}" != "" ]] && [[ "${K8_CLUSTER}" != "" ]] && [[ "${helm_imagetag_update}" != "" ]]; then
-    helm namespace upgrade ${NAMESPACEINUSE}-create-secret-manager-secret datarepo-helm/create-secret-manager-secret --version=${helm_secret_chart_version} \
+    helm namespace upgrade ${NAMESPACEINUSE}-create-secret-manager-secret datarepo-helm/create-secret-manager-secret --version=${helm_create_secret_manager_secret_version} \
       --install --namespace ${NAMESPACEINUSE} -f \
       "https://raw.githubusercontent.com/broadinstitute/datarepo-helm-definitions/ms-integrationrework/integration/${NAMESPACEINUSE}/create-secret-manager-secret.yaml"
 
