@@ -2,15 +2,16 @@
 helmdeploy () {
   eval $(cat env_vars)
   if [[ "${google_zone}" != "" ]] && [[ "${K8_CLUSTER}" != "" ]] && [[ "${helm_imagetag_update}" != "" ]]; then
-    helm namespace upgrade ${NAMESPACEINUSE}-create-secret-manager-secret datarepo-helm/create-secret-manager-secret --version=${helm_create_secret_manager_secret_version} \
+    # Delete the previous API deployment
+    release_name="${NAMESPACEINUSE}-jade"
+    
+    if [[ "${helm_imagetag_update}" == "api" ]]; then
+      helm delete --namespace ${NAMESPACEINUSE} ${release_name}-datarepo-api
+    fi
+
+    helm namespace upgrade ${release_name}-create-secret-manager-secret datarepo-helm/create-secret-manager-secret --version=${helm_create_secret_manager_secret_version} \
       --install --namespace ${NAMESPACEINUSE} -f \
       "https://raw.githubusercontent.com/broadinstitute/datarepo-helm-definitions/ms-integrationrework/integration/${NAMESPACEINUSE}/create-secret-manager-secret.yaml"
-
-    # Delete the previous API deployment
-    if [[ "${helm_imagetag_update}" == "api" ]]; then
-      helm delete --namespace ${NAMESPACEINUSE} ${NAMESPACEINUSE}-jade-datarepo-api
-    fi
-    release_name="${NAMESPACEINUSE}-jade"
 
     helm namespace upgrade ${release_name}-gcloud-sqlproxy datarepo-helm/gcloud-sqlproxy --version=${helm_gcloud_sqlproxy_chart_version} \
          --install --namespace ${NAMESPACEINUSE} -f \
