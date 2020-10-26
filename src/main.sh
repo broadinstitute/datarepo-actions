@@ -29,8 +29,8 @@ parseInputs () {
     export k8_namespaces="${INPUT_K8_NAMESPACES}"
   fi
   helm_create_secret_manager_secret_version=""
-  if [ -n "${INPUT_helm_create_secret_manager_secret_version}" ]; then
-    export helm_create_secret_manager_secret_version="${INPUT_helm_create_secret_manager_secret_version}"
+  if [ -n "${INPUT_HELM_CREATE_SECRET_MANAGER_SECRET_VERSION}" ]; then
+    export helm_create_secret_manager_secret_version="${INPUT_HELM_CREATE_SECRET_MANAGER_SECRET_VERSION}"
   fi
   helm_datarepo_api_chart_version=""
   if [ -n "${INPUT_HELM_DATAREPO_API_CHART_VERSION}" ]; then
