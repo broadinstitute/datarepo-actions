@@ -27,7 +27,7 @@ This is a collections of functions that run in a github actions specific to Broa
 -  k8_namespaces:
     - description: 'Google kubernetes cluster namespaces must be comma separated ie:"integration-1,integration-2"'
     - default: 'integration-1,integration-2,integration-3,integration-4,integration-5'
--  helm_secret_chart_version:
+-  helm_create_secret_manager_secret_version:
     - description: 'Helm chart version for datarepo-helm/create-secret-manager-secret ie:0.0.4'
 -  helm_datarepo_chart_version:
     - description: 'Helm chart version for datarepo-helm/datarepo ie:0.0.8'
