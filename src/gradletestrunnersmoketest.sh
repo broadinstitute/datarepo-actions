@@ -6,10 +6,6 @@ gradletestrunnersmoketest () {
   ENABLE_SUBPROJECT_TASKS=1 ./gradlew :datarepo-client:clean :datarepo-client:assemble
   cd ${GITHUB_WORKSPACE}/${workingDir}/datarepo-clienttests
 
-  echo "Running spotless and spotbugs"
-  ./gradlew spotlessCheck
-  ./gradlew spotbugsMain
-
   echo "Setting Test Runner environment variables"
   export ORG_GRADLE_PROJECT_datarepoclientjar=$(find .. -type f -name "datarepo-client*.jar")
   export TEST_RUNNER_SERVER_SPECIFICATION_FILE="${NAMESPACEINUSE}.json"
@@ -17,6 +13,10 @@ gradletestrunnersmoketest () {
   echo "ORG_GRADLE_PROJECT_datarepoclientjar = ${ORG_GRADLE_PROJECT_datarepoclientjar}"
   echo "TEST_RUNNER_SERVER_SPECIFICATION_FILE = ${TEST_RUNNER_SERVER_SPECIFICATION_FILE}"
   echo "TEST_RUNNER_SA_KEY_DIRECTORY_PATH = ${TEST_RUNNER_SA_KEY_DIRECTORY_PATH}"
+  
+  echo "Running spotless and spotbugs"
+  ./gradlew spotlessCheck
+  ./gradlew spotbugsMain
 
   echo "Running test suite"
   ./gradlew runTest --args="suites/PRSmokeTests.json tmp/TestRunnerResults"
