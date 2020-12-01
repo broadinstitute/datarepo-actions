@@ -20,25 +20,19 @@ gradletestrunnersmoketest () {
 
   outputDir="tmp/TestRunnerResults"
 
+  # if runTest fails, then try to uploadResults before exiting with an error
   echo "Running test suite"
-  runTestOutput=$(./gradlew runTest --args="suites/PRSmokeTests.json $outputDir" 2>&1)
-  runTestExitCode=$?
-  echo "$runTestOutput"
-  if [ $runTestExitCode -eq 1 ]; then
-    echo "Running test suite failed, Uploading results"
-    ./gradlew uploadResults --args="BroadJadeDev.json $outputDir"
-    exit $runTestExitCode
-  fi
+  ./gradlew runTest --args="suites/PRSmokeTests.json $outputDir" ||
+  echo "Running test suite failed, Uploading results" &&
+  ./gradlew uploadResults --args="BroadJadeDev.json $outputDir" &&
+  exit 1
 
+  # if collectMeasurements fails, then try to uploadResults before exiting with an error
   echo "Collecting measurements"
-  collectMeasurementsOutput=$(./gradlew collectMeasurements --args="PRSmokeTests.json $outputDir" 2>&1)
-  collectMeasurementsExitCode=$?
-  echo "$collectMeasurementsOutput"
-  if  [ $collectMeasurementsExitCode -eq 1 ]; then
-    echo "Collecting measurements failed, Uploading results"
-    ./gradlew uploadResults --args="BroadJadeDev.json $outputDir"
-    exit $collectMeasurementsExitCode
-  fi
+  ./gradlew collectMeasurements --args="PRSmokeTests.json $outputDir" ||
+  echo "Collecting measurements failed, Uploading results" &&
+  ./gradlew uploadResults --args="BroadJadeDev.json $outputDir" &&
+  exit 1
 
   echo "Uploading results"
   ./gradlew uploadResults --args="BroadJadeDev.json $outputDir"
