@@ -23,16 +23,16 @@ gradletestrunnersmoketest () {
   # if runTest fails, then try to uploadResults before exiting with an error
   echo "Running test suite"
   ./gradlew runTest --args="suites/PRSmokeTests.json $outputDir" ||
-  echo "Running test suite failed, Uploading results" &&
-  ./gradlew uploadResults --args="BroadJadeDev.json $outputDir" &&
-  exit 1
+    echo "Running test suite failed, Uploading results" &&
+    ./gradlew uploadResults --args="BroadJadeDev.json $outputDir" &&
+    exit 1
 
   # if collectMeasurements fails, then try to uploadResults before exiting with an error
   echo "Collecting measurements"
   ./gradlew collectMeasurements --args="PRSmokeTests.json $outputDir" ||
-  echo "Collecting measurements failed, Uploading results" &&
-  ./gradlew uploadResults --args="BroadJadeDev.json $outputDir" &&
-  exit 1
+    echo "Collecting measurements failed, Uploading results" &&
+    ./gradlew uploadResults --args="BroadJadeDev.json $outputDir" &&
+    exit 1
 
   echo "Uploading results"
   ./gradlew uploadResults --args="BroadJadeDev.json $outputDir"
