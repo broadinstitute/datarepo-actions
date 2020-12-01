@@ -195,7 +195,7 @@ main () {
       deploytagupdate)
         deploytagupdate ${*}
         ;;
-      wait_for_deployment)
+      waitfordeployment)
         waitfordeployment ${*}
         ;;
       charttestdeploy)
