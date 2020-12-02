@@ -14,10 +14,9 @@ gradletestrunnersmoketest () {
   echo "TEST_RUNNER_SERVER_SPECIFICATION_FILE = ${TEST_RUNNER_SERVER_SPECIFICATION_FILE}"
   echo "TEST_RUNNER_SA_KEY_DIRECTORY_PATH = ${TEST_RUNNER_SA_KEY_DIRECTORY_PATH}"
   
-  echo "Skipping spotless and spotbugs for now..."
-  # echo "Running spotless and spotbugs"
-  # ./gradlew spotlessCheck
-  # ./gradlew spotbugsMain
+  echo "Running spotless and spotbugs"
+  ./gradlew spotlessCheck
+  ./gradlew spotbugsMain
 
   local outputDir="/tmp/TestRunnerResults"
   echo "Output directory set to: $outputDir"
@@ -29,11 +28,12 @@ gradletestrunnersmoketest () {
     return 1)
   echo "Running test suite SUCCEEDED"
 
-  # echo "Collecting measurements"
-  # ./gradlew collectMeasurements --args="PRSmokeTests.json $outputDir" ||
-  #   (echo "Collecting measurements FAILED" &&
-  #   ./gradlew uploadResults --args="BroadJadeDev.json $outputDir" &&
-  #   return 1
+  echo "Collecting measurements"
+  ./gradlew collectMeasurements --args="PRSmokeTests.json $outputDir" ||
+    (echo "Collecting measurements FAILED" &&
+    ./gradlew uploadResults --args="BroadJadeDev.json $outputDir" &&
+    return 1)
+  echo "Collecting measurements SUCCEEDED"
 
   echo "Uploading results"
   ./gradlew uploadResults --args="BroadJadeDev.json $outputDir"
