@@ -19,13 +19,13 @@ gradletestrunnersmoketest () {
   ./gradlew spotbugsMain
 
   echo "Running test suite"
-  ./gradlew runTest --args="suites/PRSmokeTests.json $outputDir"
+  ./gradlew runTest --args="suites/PRSmokeTests.json tmp/TestRunnerResults"
 
   echo "Collecting measurements"
-  ./gradlew collectMeasurements --args="PRSmokeTests.json $outputDir"
+  ./gradlew collectMeasurements --args="PRSmokeTests.json tmp/TestRunnerResults"
 
   echo "Uploading results"
-  ./gradlew uploadResults --args="BroadJadeDev.json $outputDir"
+  ./gradlew uploadResults --args="BroadJadeDev.json tmp/TestRunnerResults"
 
   cd ${GITHUB_WORKSPACE}/${workingDir}
 }
