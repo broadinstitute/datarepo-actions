@@ -18,24 +18,14 @@ gradletestrunnersmoketest () {
   ./gradlew spotlessCheck
   ./gradlew spotbugsMain
 
-  outputDir="tmp/TestRunnerResults"
-
-  # if runTest fails, then try to uploadResults before exiting with an error
   echo "Running test suite"
-  ./gradlew runTest --args="suites/PRSmokeTests.json $outputDir" ||
-    echo "Running test suite failed, Uploading results" &&
-    ./gradlew uploadResults --args="BroadJadeDev.json $outputDir" &&
-    exit 1
+  ./gradlew runTest --args="suites/PRSmokeTests.json tmp/TestRunnerResults"
 
-  # if collectMeasurements fails, then try to uploadResults before exiting with an error
   echo "Collecting measurements"
-  ./gradlew collectMeasurements --args="PRSmokeTests.json $outputDir" ||
-    echo "Collecting measurements failed, Uploading results" &&
-    ./gradlew uploadResults --args="BroadJadeDev.json $outputDir" &&
-    exit 1
+  ./gradlew collectMeasurements --args="PRSmokeTests.json tmp/TestRunnerResults"
 
   echo "Uploading results"
-  ./gradlew uploadResults --args="BroadJadeDev.json $outputDir"
+  ./gradlew uploadResults --args="BroadJadeDev.json tmp/TestRunnerResults"
 
   cd ${GITHUB_WORKSPACE}/${workingDir}
 }
