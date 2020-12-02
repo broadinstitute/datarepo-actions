@@ -22,17 +22,17 @@ gradletestrunnersmoketest () {
   local outputDir="/tmp/TestRunnerResults"
   echo "Output directory set to: $outputDir"
   
-  echo "Running test suite"
+  echo "Running tests"
   ./gradlew runTest --args="suites/PRSmokeTests.json $outputDir" ||
-    echo "Running test suite FAILED" &&
+    (echo "Running tests FAILED" &&
     ./gradlew uploadResults --args="BroadJadeDev.json $outputDir" &&
-    return 1
+    return 1)
   echo "Running test suite SUCCEEDED"
 
   # echo "Collecting measurements"
-  # ./gradlew collectMeasurements --args="PRSmokeTests.json tmp/TestRunnerResults" ||
-  #   echo "Collecting measurements failed, uploading results" &&
-  #   ./gradlew uploadResults --args="BroadJadeDev.json tmp/TestRunnerResults" &&
+  # ./gradlew collectMeasurements --args="PRSmokeTests.json $outputDir" ||
+  #   (echo "Collecting measurements FAILED" &&
+  #   ./gradlew uploadResults --args="BroadJadeDev.json $outputDir" &&
   #   return 1
 
   echo "Uploading results"
