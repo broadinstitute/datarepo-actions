@@ -48,8 +48,8 @@ gradleinttest () {
     psql -U postgres -f ./db/create-data-repo-db
     # required for tests
     ./gradlew assemble
-    ./gradlew check --scan
-    ./gradlew ${test_to_run} --scan
+    ./gradlew -w check --scan
+    ./gradlew -w ${test_to_run} --scan
   else
     echo "missing vars for function gradleinttest"
     exit 1
