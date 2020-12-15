@@ -49,6 +49,7 @@ gradleinttest () {
     # required for tests
     ./gradlew assemble
     ./gradlew -w check --scan
+    echo "Running ${test_to_run}"
     ./gradlew -w ${test_to_run} --scan
   else
     echo "missing vars for function gradleinttest"
