@@ -16,7 +16,8 @@ bumper () {
 
     current_branch=$(git rev-parse --abbrev-ref HEAD)
 
-    pre_release="true"
+    #TODO - SWITCH BACK TO TRUE BEFORE MERGING!!
+    pre_release="false"
     IFS=',' read -ra branch <<< "$release_branches"
     for b in "${branch[@]}"; do
         echo "Is $b a match for ${current_branch}"
