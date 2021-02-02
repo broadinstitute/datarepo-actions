@@ -6,8 +6,7 @@ bumper () {
     # config
     default_semvar_bump=${DEFAULT_BUMP:-minor}
     with_v=${WITH_V:-false}
-    #TODO - remove "sh-bump-to-latest" from release branches
-    release_branches=${INPUT_RELEASE_BRANCHES:-develop,master,sh-bump-to-latest}
+    release_branches=${INPUT_RELEASE_BRANCHES:-develop,master}
     custom_tag=${CUSTOM_TAG}
     source=${SOURCE:-.}
     dryrun=${DRY_RUN:-false}
