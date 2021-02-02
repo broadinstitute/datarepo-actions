@@ -31,7 +31,7 @@ deploytagupdate () {
       else
         git add integration/\*.yaml
       fi
-      git commit -m "Updated images to latest jade-data-repo commit '${GCR_TAG}'"
+      git commit --allow-empty -m "Updated images to latest jade-data-repo commit '${GCR_TAG}'"
       git push origin master
     done
   else
