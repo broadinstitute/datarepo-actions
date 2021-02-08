@@ -34,7 +34,7 @@ gcrcherrypick() {
         echo '${GCR_IMG_VERSION} must be defined'; exit 1
     fi
 
-    cherry_pick_msg ${GCR_IMG_VERSION} ${GCR_WHICH_REPO} ${GCR_DEV_URL} ${GCR_PRD_URL}
+    cherry_pick_msg "${GCR_IMG_VERSION}" "${GCR_WHICH_REPO}" "${GCR_DEV_URL}" "${GCR_PRD_URL}"
 
-    gcloud container images add-tag --quiet ${GCR_DEV_URL} ${GCR_PRD_URL}
+    gcloud container images add-tag --quiet "${GCR_DEV_URL}" "${GCR_PRD_URL}"
 }
