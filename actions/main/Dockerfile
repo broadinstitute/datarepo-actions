@@ -1,7 +1,7 @@
 FROM docker:17.12.0-ce as static-docker-source
 
-FROM openjdk:8u242-slim
-# FROM openjdk:8u242-slim
+FROM openjdk:11-slim
+# FROM openjdk:11-slim
 ARG CLOUD_SDK_VERSION=334.0.0
 ENV CLOUD_SDK_VERSION=$CLOUD_SDK_VERSION \
     CLOUDSDK_PYTHON=python3 \
