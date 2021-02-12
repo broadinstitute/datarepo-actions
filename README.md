@@ -54,3 +54,7 @@ This is a collections of functions that run in a github actions specific to Broa
     - description: 'which image you would like to update the tag of in helm definitions ie:ui or api'
 -  test_to_run:
     - description: 'which test you would like to run on the pods ie:testConnected or testIntegration'
+-  gcr_which_repo:
+    - description: "whether the 'api' or 'ui' GCR will be used for copying images"
+-  gcr_img_version:
+    - description: "the version of the image that will be copied into another GCR"

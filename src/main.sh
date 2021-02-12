@@ -76,6 +76,14 @@ parseInputs () {
   if [[ -n "${INPUT_ALPHARELEASE}" ]]; then
     export alpharelease=${INPUT_ALPHARELEASE}
   fi
+  GCR_WHICH_REPO=""
+  if [[ -n "${INPUT_GCR_WHICH_REPO}" ]]; then
+    export GCR_WHICH_REPO=${INPUT_GCR_WHICH_REPO}
+  fi
+  GCR_IMG_VERSION=""
+  if [[ -n "${INPUT_GCR_IMG_VERSION}" ]]; then
+    export GCR_IMG_VERSION=${INPUT_GCR_IMG_VERSION}
+  fi
 export helm_charts_to_test=${INPUT_HELM_CHARTS_TO_TEST}
 # non chanable vars for testing
 }
@@ -157,6 +165,7 @@ main () {
   source ${scriptDir}/testcharts.sh
   source ${scriptDir}/bumper.sh
   source ${scriptDir}/alpharelease.sh
+  source ${scriptDir}/gcrcherrypick.sh
 
   parseInputs
   helmprerun
@@ -212,6 +221,9 @@ main () {
         ;;
       alpharelease)
         alpharelease ${*}
+        ;;
+      gcrcherrypick)
+        gcrcherrypick ${*}
         ;;
       *)
         echo "Error: Must provide a valid value for actions_subcommand"

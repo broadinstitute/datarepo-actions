@@ -68,6 +68,10 @@ inputs:
     description: "a comma-separated list of branches to treat as release, default develop,master"
   alpharelease:
     description: "semantic release version for alpha nightly release"
+  gcr_which_repo:
+    description: "whether the 'api' or 'ui' GCR will be used for copying images"
+  gcr_img_version:
+    description: "the version of the image that will be copied into another GCR"
 runs:
   using: "docker"
   image: "./Dockerfile"
