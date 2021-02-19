@@ -6,7 +6,7 @@ bumper () {
     # config
     default_semvar_bump=${DEFAULT_BUMP:-minor}
     with_v=${WITH_V:-false}
-    release_branches=${INPUT_RELEASE_BRANCHES:-develop,master,sh-dr-1593-part-2-fix}
+    release_branches=${INPUT_RELEASE_BRANCHES:-develop,master,sh-dr-1510-test}
     custom_tag=${CUSTOM_TAG}
     source=${SOURCE:-.}
     dryrun=${DRY_RUN:-false}
