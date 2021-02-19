@@ -127,12 +127,19 @@ bumper () {
         elif [ "${INPUT_VERSION_FILE_PATH#*.}" == "json" ]; then
             sed -i "s/\"version\":.*/\"version\": \"${new}\",/" $INPUT_VERSION_FILE_PATH
         fi
+        echo "[INFO] git config email"
         git config --global user.email "robot@jade.team"
+        echo "[INFO] git config name"
         git config --global user.name "bumptagbot"
+        echo "[INFO] git add file $INPUT_VERSION_FILE_PATH"
         git add $INPUT_VERSION_FILE_PATH
+        echo "[INFO] commit ${new}"
         git commit -m "bump ${new}"
+        echo "[INFO] git push $current_branch"
         git push origin $current_branch
+        echo "[INFO] post push"
         commit=$(git rev-parse HEAD)
+        echo "[INFO] commit: $commit"
     fi
 
     # push new tag ref to github
