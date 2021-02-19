@@ -136,7 +136,7 @@ bumper () {
         echo "[INFO] commit ${new}"
         git commit -m "bump ${new}"
         echo "[INFO] git push $current_branch"
-        git push origin $current_branch
+        git push origin $current_branch --force
         echo "[INFO] post push"
         commit=$(git rev-parse HEAD)
         echo "[INFO] commit: $commit"
