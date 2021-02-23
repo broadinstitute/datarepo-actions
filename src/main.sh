@@ -161,6 +161,7 @@ main () {
   source ${scriptDir}/deploytagupdate.sh
   source ${scriptDir}/waitfordeployment.sh
   source ${scriptDir}/charttestdeploy.sh
+  source ${scriptDir}/chartversion.sh
   source ${scriptDir}/charttestdelete.sh
   source ${scriptDir}/testcharts.sh
   source ${scriptDir}/bumper.sh
@@ -209,6 +210,9 @@ main () {
         ;;
       charttestdeploy)
         charttestdeploy ${*}
+        ;;
+      chartversion)
+        chartversion ${*}
         ;;
       charttestdelete)
         charttestdelete ${*}
