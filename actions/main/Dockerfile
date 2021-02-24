@@ -44,7 +44,7 @@ RUN apt-get update -qqy && apt-get install -qqy \
     gcloud config set metrics/environment github_docker_image && \
     gcloud --version
 
-COPY ./lib/semver ./lib/semver
+COPY ../../lib/semver ./lib/semver
 RUN install ./lib/semver /usr/local/bin
 
 VOLUME ["/root/.config"]
