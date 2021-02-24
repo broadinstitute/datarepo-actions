@@ -1,8 +1,9 @@
 FROM docker:17.12.0-ce as static-docker-source
 
-RUN apt-get update && \
-    apt-get upgrade -y && \
-    apt-get install -y git
+COPY --from=static-docker-source /usr/local/bin/docker /usr/local/bin/docker
+RUN apt-get update -qqy && \
+    apt-get install -qqy \
+      git
 
 COPY entrypoint.sh /entrypoint.sh
 
