@@ -15,3 +15,6 @@ commit_msg:
   default: "commit merged via github action"
 merge_branch:
   description: Branch to merge commit into
+switch_directories:
+  description: defaults to false, when working with multiple repos set to true
+  default: false
