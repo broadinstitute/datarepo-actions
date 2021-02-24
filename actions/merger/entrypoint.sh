@@ -11,10 +11,9 @@ commit_msg="${COMMIT_MESSAGE:-"commit merged via github action"}"
 merge_branch=${MERGE_BRANCH:-develop}
 switch_directories=${SWITCH_DIRECTORIES:-"false"}
 
-if ${switch_directories}
-then
-echo "[INFO] change directory to ${github_workspace}/${github_repo}"
-cd ${github_workspace}/${github_repo}
+if ${switch_directories} ; then
+  echo "[INFO] change directory to ${github_workspace}/${github_repo}"
+  cd ${github_workspace}/${github_repo}
 fi
 
 echo "[INFO] git config email to ${github_user_email}"
