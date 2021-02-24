@@ -20,6 +20,5 @@ git config --global user.name "${GITHUB_USER_NAME}"
 git add .
 git commit -m "${COMMIT_MESSAGE}"
 git push origin "${MERGE_BRANCH}"
-commit=$(git rev-parse HEAD)
 
 set +x
