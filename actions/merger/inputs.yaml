@@ -3,7 +3,7 @@ github_repo:
   description: Used as base directory for merging
   default: jade-data-repo
 github_user_email:
-  description: User to be configured as commiter
+  description: User to be configured as committer
   default: broadbot@broadinstitute.org
 github_user_name:
   description: User to be configured as commiter
