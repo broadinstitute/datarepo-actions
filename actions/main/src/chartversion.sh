@@ -13,7 +13,7 @@ chartversion () {
   echo "[INFO] git add all"
   git add jade-data-repo/.github/workflows/alpha-promotion.yaml
   echo "[INFO] commit w/ msg: $COMMIT_MESSAGE"
-  git commit -m "Datarepo chart version update: ${{ steps.chartversion.outputs.version }}"
+  git commit --allow-empty -m "Datarepo chart version update: ${{ steps.chartversion.outputs.version }}"
   echo "[INFO] git push $DESTINATION_BRANCH"
   git push origin develop
   echo "[INFO] post push"
