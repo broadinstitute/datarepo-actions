@@ -1,10 +1,8 @@
-FROM docker:17.12.0-ce as static-docker-source
+# Container image that runs your code
+FROM alpine/git:latest
 
-COPY --from=static-docker-source /usr/local/bin/docker /usr/local/bin/docker
-RUN apt-get update -qqy && \
-    apt-get install -qqy \
-      git
-
+# Copies your code file from your action repository to the filesystem path `/` of the container
 COPY entrypoint.sh /entrypoint.sh
 
+# Code file to execute when the docker container starts up (`entrypoint.sh`)
 ENTRYPOINT ["/entrypoint.sh"]
