@@ -25,8 +25,10 @@ echo "[INFO] git add all"
 git add .
 echo "[INFO] commit w/ msg"
 git commit -m "${commit_msg}"
+echo "[INFO] Show ref"
+git show-ref
 echo "[INFO] git push"
-git push origin ${merge_branch}
+git push origin
 echo "[INFO] post push"
 commit=$(git rev-parse HEAD)
 echo "[INFO] commit: $commit"
