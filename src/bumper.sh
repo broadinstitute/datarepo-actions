@@ -6,7 +6,7 @@ bumper () {
     # config
     default_semvar_bump=${DEFAULT_BUMP:-minor}
     with_v=${WITH_V:-false}
-    release_branches=${INPUT_RELEASE_BRANCHES:-develop,master,sh-dr-1510-test}
+    release_branches=${INPUT_RELEASE_BRANCHES:-develop,master,sh-dr-action-change}
     custom_tag=${CUSTOM_TAG}
     source=${SOURCE:-.}
     dryrun=${DRY_RUN:-false}
@@ -134,7 +134,7 @@ bumper () {
         echo "[INFO] git add file $INPUT_VERSION_FILE_PATH"
         git add $INPUT_VERSION_FILE_PATH
         echo "[INFO] commit ${new}"
-        git commit -m "bump ${new}"
+        git commit --allow-empty -m "bump ${new}"
         echo "[INFO] git push $current_branch"
         git push origin $current_branch
         echo "[INFO] post push"
