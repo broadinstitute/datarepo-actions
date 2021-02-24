@@ -25,8 +25,8 @@ Commits and merges code changed in earlier steps of workflow
 ```
 
 ### Important note:
-Must check out repo w/ user that has admin access to override 2 thumb requirement. 
 
+Must check out repo w/ user that has admin access to override 2 thumb requirement. 
 
 ### inputs
 github_repo:
