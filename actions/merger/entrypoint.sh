@@ -7,7 +7,7 @@ github_repo=${GITHUB_REPO:-jade-data-repo}
 github_user_email=${GITHUB_USER_EMAIL:-broadbot@broadinstitute.org}
 github_user_name=${GITHUB_USER_NAME:-broadbot}
 github_workspace=${GITHUB_WORKSPACE}
-commit_msg=${COMMIT_MESSAGE:-"commit merged via github action"}
+commit_msg="${COMMIT_MESSAGE:-"commit merged via github action"}"
 merge_branch=${MERGE_BRANCH:-develop}
 
 echo "[INFO] change directory to ${github_workspace}/${github_repo}"
