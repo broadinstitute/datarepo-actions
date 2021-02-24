@@ -31,23 +31,23 @@ Must check out repo w/ user that has admin access to override 2 thumb requiremen
 ### inputs
 
 ```
-github_repo:
+GITHUB_REPO:
   description: Used as base directory for merging
   default: jade-data-repo
-github_user_email:
-  description: User to be configured as commiter
+GITHUB_USER_EMAIL:
+  description: User to be configured as committer
   default: broadbot@broadinstitute.org
-github_user_name:
-  description: User to be configured as commiter
+GITHUB_USER_NAME:
+  description: User to be configured as committer
   default: broadbot
-github_workspace:
+GITHUB_WORKSPACE:
   description: base directory
-commit_msg:
+COMMIT_MESSAGE:
   description: msg provided with commit
   default: "commit merged via github action"
-merge_branch:
+MERGE_BRANCH:
   description: Branch to merge commit into
-switch_directories:
+SWITCH_DIRECTORIES:
   description: defaults to false, when working with multiple repos set to true
   default: false
 ```
