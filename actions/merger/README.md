@@ -28,7 +28,7 @@ Commits and merges code changed in earlier steps of workflow
 
 Must check out repo w/ user that has admin access to override 2 thumb requirement. 
 
-### Inputs
+### Environment Variables
 
 ```
 GITHUB_REPO:
@@ -40,8 +40,6 @@ GITHUB_USER_EMAIL:
 GITHUB_USER_NAME:
   description: User to be configured as committer
   default: broadbot
-GITHUB_WORKSPACE:
-  description: base directory
 COMMIT_MESSAGE:
   description: msg provided with commit
   default: "commit merged via github action"
