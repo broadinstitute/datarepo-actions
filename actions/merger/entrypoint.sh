@@ -21,6 +21,5 @@ git add .
 git commit -m "${COMMIT_MESSAGE}"
 git push origin "${MERGE_BRANCH}"
 commit=$(git rev-parse HEAD)
-echo "[INFO] commit: $commit"
 
 set +x
