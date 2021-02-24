@@ -1,12 +1,8 @@
 name: "Commits and Merges Code"
-description: "Runs various commands via GitHub Actions."
+description: "Commits and merges code changed in earlier steps of workflow"
 branding:
   icon: "terminal"
   color: "purple"
-inputs:
-  actions_subcommand:
-    description: "subcommand to execute."
-    required: false
 runs:
   using: "docker"
   image: "Dockerfile"

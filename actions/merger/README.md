@@ -1,60 +1,27 @@
-# datarepo-actions
+# Merger Action
 
 
 ### Overview
+Commits and merges code changed in earlier steps of workflow
 
-This is a collections of functions that run in a github actions specific to Broadinstitute's Jade team
 
 ### inputs
--  actions_subcommand:
-    - description: 'subcommand to execute.'
-- role_id:
-    - description: 'role_id for vault'
--  secret_id:
-    - description: 'secret_id for vault'
--  vault_address:
-    - description: 'https address for vault'
-    - default: 'https://clotho.broadinstitute.org:8200'
--  google_zone:
-    - description: 'Google zone for sdk ie:us-central1'
-    - default: 'us-central1'
--  google_project:
-    - description: 'Google project for sdk ie:broad-jade-integration'
-    - default: 'broad-jade-integration'
--  gcr_google_project:
-    - description: 'Google project for GCR image ie:broad-jade-dev'
-    - default: 'broad-jade-dev'
--  k8_namespaces:
-    - description: 'Google kubernetes cluster namespaces must be comma separated ie:"integration-1,integration-2"'
-    - default: 'integration-1,integration-2,integration-3,integration-4,integration-5'
--  helm_create_secret_manager_secret_version:
-    - description: 'Helm chart version for datarepo-helm/create-secret-manager-secret ie:0.0.4'
--  helm_datarepo_chart_version:
-    - description: 'Helm chart version for datarepo-helm/datarepo ie:0.0.8'
--  helm_datarepo_api_chart_version:
-    - description: 'Helm chart version for datarepo-helm/datarepo-api ie:0.0.8'
--  helm_datarepo_ui_chart_version:
-    - description: 'Helm chart version for datarepo-helm/datarepo-ui ie:0.0.8'
--  helm_gcloud_sqlproxy_chart_version:
-    - description: 'Helm chart version for datarepo-helm/gcloud-sqlproxy ie:0.0.8'
--  helm_oidc_proxy_chart_version:
-    - description: 'Helm chart version for datarepo-helm/oidc-proxy ie:0.0.8'
--  actions_working_dir:
-    - description: 'working directory.'
-    - default: '.'
--  pgport:
-    - description: 'postgres port'
--  pgpassword:
-    - description: 'postgres password'
-    - default: 'postgres'
--  helm_env_prefix:
-    - description: 'prefix for helm deploy config comma spearated can be multiple ie:dev,integration-1,integration-2'
-    - default: 'dev'
--  helm_imagetag_update:
-    - description: 'which image you would like to update the tag of in helm definitions ie:ui or api'
--  test_to_run:
-    - description: 'which test you would like to run on the pods ie:testConnected or testIntegration'
--  gcr_which_repo:
-    - description: "whether the 'api' or 'ui' GCR will be used for copying images"
--  gcr_img_version:
-    - description: "the version of the image that will be copied into another GCR"
+github_repo:
+  description: Used as base directory for merging
+  default: jade-data-repo
+github_user_email:
+  description: User to be configured as commiter
+  default: broadbot@broadinstitute.org
+github_user_name:
+  description: User to be configured as commiter
+  default: broadbot
+github_workspace:
+  description: base directory
+commit_msg:
+  description: msg provided with commit
+  default: "commit merged via github action"
+merge_branch:
+  description: Branch to merge commit into
+switch_directories:
+  description: defaults to false, when working with multiple repos set to true
+  default: false
