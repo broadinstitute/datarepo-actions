@@ -29,6 +29,7 @@ Commits and merges code changed in earlier steps of workflow
 Must check out repo w/ user that has admin access to override 2 thumb requirement. 
 
 ### inputs
+
 github_repo:
   description: Used as base directory for merging
   default: jade-data-repo
