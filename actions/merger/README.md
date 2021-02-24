@@ -30,6 +30,7 @@ Must check out repo w/ user that has admin access to override 2 thumb requiremen
 
 ### inputs
 
+```
 github_repo:
   description: Used as base directory for merging
   default: jade-data-repo
@@ -49,3 +50,4 @@ merge_branch:
 switch_directories:
   description: defaults to false, when working with multiple repos set to true
   default: false
+```
