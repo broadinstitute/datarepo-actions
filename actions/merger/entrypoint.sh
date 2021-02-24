@@ -20,7 +20,7 @@ git config --global user.name ${github_user_name}
 echo "[INFO] git add all"
 git add .
 echo "[INFO] commit w/ msg"
-git commit -m ${commit_msg}
+git commit -m "${commit_msg}"
 echo "[INFO] git push"
 git push origin ${merge_branch}
 echo "[INFO] post push"
