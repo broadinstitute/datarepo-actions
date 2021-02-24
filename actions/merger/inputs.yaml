@@ -6,7 +6,7 @@ github_user_email:
   description: User to be configured as committer
   default: broadbot@broadinstitute.org
 github_user_name:
-  description: User to be configured as commiter
+  description: User to be configured as committer
   default: broadbot
 github_workspace:
   description: base directory
