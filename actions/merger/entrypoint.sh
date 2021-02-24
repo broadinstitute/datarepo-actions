@@ -2,6 +2,4 @@
 
 set -e
 
-main () {
-    echo "HELLO FROM merger action"
-}
+echo "HELLO FROM merger action"
