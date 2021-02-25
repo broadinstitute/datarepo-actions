@@ -17,6 +17,7 @@ fi
 
 git config --global user.email "${GITHUB_USER_EMAIL}"
 git config --global user.name "${GITHUB_USER_NAME}"
+git config pull.rebase false
 git pull origin "${MERGE_BRANCH}"
 git add .
 git commit -m "${COMMIT_MESSAGE}"
