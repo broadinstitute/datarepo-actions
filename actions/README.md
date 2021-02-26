@@ -6,7 +6,7 @@ Github actions to be used by jade-data-repo and associated repositories.
 
 ```
 - name: "Merge using new merge action"
-    uses: broadinstitute/datarepo-actions/actions/merger@0.37.0
+    uses: broadinstitute/datarepo-actions/actions/merger@0.39.0
 ```
 
 # Adding new actions

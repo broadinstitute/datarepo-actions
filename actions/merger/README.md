@@ -17,7 +17,7 @@ Commits and merges code changed in earlier steps of workflow
     - name: "Make change"
         run: <make some change to datarepo-helm-definitions repo here>
     - name: "Merge using new merge action"
-        uses: broadinstitute/datarepo-actions/actions/merger@0.37.0
+        uses: broadinstitute/datarepo-actions/actions/merger@0.39.0
         env:
           COMMIT_MESSAGE: "Datarepo Integration mutli chart version update"
           GITHUB_REPO: datarepo-helm-definitions
