@@ -1,0 +1,8 @@
+name: "Configure GCloud SDK"
+description: "Configure Google Cloud SDK"
+branding:
+  icon: "terminal"
+  color: "purple"
+runs:
+  using: "docker"
+  image: "Dockerfile"
