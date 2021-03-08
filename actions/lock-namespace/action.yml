@@ -1,0 +1,8 @@
+name: "Lock namespace"
+description: "Lock namespace for use"
+branding:
+  icon: "terminal"
+  color: "purple"
+runs:
+  using: "docker"
+  image: "Dockerfile"
