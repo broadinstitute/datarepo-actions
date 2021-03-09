@@ -1,0 +1,8 @@
+name: "GCR cherry-pick"
+description: "Cherry-pick an image from dev to public GCR"
+branding:
+  icon: "terminal"
+  color: "purple"
+runs:
+  using: "docker"
+  image: "Dockerfile"
