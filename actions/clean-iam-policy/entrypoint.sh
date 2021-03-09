@@ -3,8 +3,7 @@
 set -eu
 
 # determine id of integration project
-NAMESPACE_NUMBER=$(echo "${NAMESPACEINUSE}" | sed 's/integration-//g')
-GOOGLE_INT_DATA_PROJECT="broad-jade-int-${NAMESPACE_NUMBER}-data"
+GOOGLE_INT_DATA_PROJECT="broad-jade-int-${NAMESPACEINUSE#integration-}-data"
 echo "Cleaning up IAM policy for data project: ${GOOGLE_INT_DATA_PROJECT}"
 
 # retrieve all IAM policies for data project
