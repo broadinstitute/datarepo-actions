@@ -1,0 +1,8 @@
+name: "Clean IAM Policy"
+description: "Clean IAM policies in a particular integration namespace"
+branding:
+  icon: "terminal"
+  color: "purple"
+runs:
+  using: "docker"
+  image: "Dockerfile"
