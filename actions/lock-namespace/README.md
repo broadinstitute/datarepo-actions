@@ -15,8 +15,17 @@ Lock namespace for use
 
 ### Environment Variables
 
+#### Inputs
+
 ```
 K8_NAMESPACES:
   description: Comma seperated list of namespaces to use
   default: none
+```
+
+#### Outputs
+
+```
+NAMESPACEINUSE:
+  description: Set to the name of which namespace was locked
 ```
