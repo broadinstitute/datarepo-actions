@@ -1,0 +1,8 @@
+name: "Wait for deployment"
+description: "Ensure that the UI pod is running in the namespace before continuing"
+branding:
+  icon: "terminal"
+  color: "purple"
+runs:
+  using: "docker"
+  image: "Dockerfile"
