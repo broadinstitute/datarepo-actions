@@ -1,0 +1,8 @@
+name: "Gradle test runner smoke tests"
+description: "Runs Gradle test runner smoke tests"
+branding:
+  icon: "terminal"
+  color: "purple"
+runs:
+  using: "docker"
+  image: "Dockerfile"
