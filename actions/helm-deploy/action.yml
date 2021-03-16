@@ -1,0 +1,8 @@
+name: "Helm Deploy"
+description: "Adds the Runner IP to the Kubernetes allowlist"
+branding:
+  icon: "terminal"
+  color: "purple"
+runs:
+  using: "docker"
+  image: "Dockerfile"
