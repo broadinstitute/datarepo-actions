@@ -1,0 +1,8 @@
+name: "Gradle connected and integration tests"
+description: "Runs Gradle connected and integration tests"
+branding:
+  icon: "terminal"
+  color: "purple"
+runs:
+  using: "docker"
+  image: "Dockerfile"
