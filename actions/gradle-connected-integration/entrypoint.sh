@@ -16,6 +16,7 @@ fi
 
 # export environment variables for tests
 export PGHOST=localhost
+export PGPORT=5432
 export DB_DATAREPO_URI="jdbc:postgresql://${PGHOST}:5432/datarepo"
 export DB_STAIRWAY_URI="jdbc:postgresql://${PGHOST}:5432/stairway"
 export GOOGLE_CLOUD_DATA_PROJECT
