@@ -12,10 +12,10 @@ else
     return 1;
 fi
 
-PGHOST=$(ip route show default | awk '/default/ {print $3}')
+#PGHOST=$(ip route show default | awk '/default/ {print $3}')
 
 # export environment variables for tests
-export PGHOST
+export PGHOST=localhost
 export DB_DATAREPO_URI="jdbc:postgresql://${PGHOST}:5432/datarepo"
 export DB_STAIRWAY_URI="jdbc:postgresql://${PGHOST}:5432/stairway"
 export GOOGLE_CLOUD_DATA_PROJECT
