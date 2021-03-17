@@ -1,6 +1,7 @@
 #!/bin/sh
 
-#Required variables - google_zone, K8_CLUSTER, helm_imagetag_update, NAMESPACEINUSE 
+set -e
+set -x
 
 helm_create_secret_manager_secret_version=""
 if [ -n "${INPUT_HELM_CREATE_SECRET_MANAGER_SECRET_VERSION}" ]; then
