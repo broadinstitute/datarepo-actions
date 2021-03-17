@@ -4,38 +4,38 @@ echo "hello"
 
 #Required variables - google_zone, K8_CLUSTER, helm_imagetag_update, NAMESPACEINUSE 
 
-# helm_create_secret_manager_secret_version=""
-# if [ -n "${INPUT_HELM_CREATE_SECRET_MANAGER_SECRET_VERSION}" ]; then
-#     export helm_create_secret_manager_secret_version="${INPUT_HELM_CREATE_SECRET_MANAGER_SECRET_VERSION}"
-#     echo "1 - helm_create_secret_manager_secret_version: ${helm_create_secret_manager_secret_version}"
-# fi
-# helm_datarepo_api_chart_version=""
-# if [ -n "${INPUT_HELM_DATAREPO_API_CHART_VERSION}" ]; then
-#     export helm_datarepo_api_chart_version="${INPUT_HELM_DATAREPO_API_CHART_VERSION}"
-#     echo "2 - helm_datarepo_api_chart_version: ${helm_datarepo_api_chart_version}"
-# fi
-# helm_datarepo_ui_chart_version=""
-# if [ -n "${INPUT_HELM_DATAREPO_UI_CHART_VERSION}" ]; then
-#     export helm_datarepo_ui_chart_version="${INPUT_HELM_DATAREPO_UI_CHART_VERSION}"
-#     echo "3 - helm_datarepo_ui_chart_version: ${helm_datarepo_ui_chart_version}"
-# fi
-# helm_oidc_proxy_chart_version=""
-# if [ -n "${INPUT_HELM_OIDC_PROXY_CHART_VERSION}" ]; then
-#     export helm_oidc_proxy_chart_version="${INPUT_OIDC_PROXY_CHART_VERSION}"
-#     echo "4 - helm_oidc_proxy_chart_version: ${helm_oidc_proxy_chart_version}"
-# fi
-# helm_gcloud_sqlproxy_chart_version=""
-# if [ -n "${INPUT_HELM_GCLOUD_SQLPROXY_CHART_VERSION}" ]; then
-#     export helm_gcloud_sqlproxy_chart_version="${INPUT_GCLOUD_SQLPROXY_CHART_VERSION}"
-#     echo "5 - helm_gcloud_sqlproxy_chart_version: ${helm_gcloud_sqlproxy_chart_version}"
-# fi
-# helm_imagetag_update=""
-# if [[ -n "${INPUT_HELM_IMAGETAG_UPDATE}" ]]; then
-#     export helm_imagetag_update=${INPUT_HELM_IMAGETAG_UPDATE}
-#     echo "6 - helm_imagetag_update: ${helm_imagetag_update}"
-# fi
+helm_create_secret_manager_secret_version=""
+if [ -n "${INPUT_HELM_CREATE_SECRET_MANAGER_SECRET_VERSION}" ]; then
+    export helm_create_secret_manager_secret_version="${INPUT_HELM_CREATE_SECRET_MANAGER_SECRET_VERSION}"
+    echo "1 - helm_create_secret_manager_secret_version: ${helm_create_secret_manager_secret_version}"
+fi
+helm_datarepo_api_chart_version=""
+if [ -n "${INPUT_HELM_DATAREPO_API_CHART_VERSION}" ]; then
+    export helm_datarepo_api_chart_version="${INPUT_HELM_DATAREPO_API_CHART_VERSION}"
+    echo "2 - helm_datarepo_api_chart_version: ${helm_datarepo_api_chart_version}"
+fi
+helm_datarepo_ui_chart_version=""
+if [ -n "${INPUT_HELM_DATAREPO_UI_CHART_VERSION}" ]; then
+    export helm_datarepo_ui_chart_version="${INPUT_HELM_DATAREPO_UI_CHART_VERSION}"
+    echo "3 - helm_datarepo_ui_chart_version: ${helm_datarepo_ui_chart_version}"
+fi
+helm_oidc_proxy_chart_version=""
+if [ -n "${INPUT_HELM_OIDC_PROXY_CHART_VERSION}" ]; then
+    export helm_oidc_proxy_chart_version="${INPUT_OIDC_PROXY_CHART_VERSION}"
+    echo "4 - helm_oidc_proxy_chart_version: ${helm_oidc_proxy_chart_version}"
+fi
+helm_gcloud_sqlproxy_chart_version=""
+if [ -n "${INPUT_HELM_GCLOUD_SQLPROXY_CHART_VERSION}" ]; then
+    export helm_gcloud_sqlproxy_chart_version="${INPUT_GCLOUD_SQLPROXY_CHART_VERSION}"
+    echo "5 - helm_gcloud_sqlproxy_chart_version: ${helm_gcloud_sqlproxy_chart_version}"
+fi
+helm_imagetag_update=""
+if [[ -n "${INPUT_HELM_IMAGETAG_UPDATE}" ]]; then
+    export helm_imagetag_update=${INPUT_HELM_IMAGETAG_UPDATE}
+    echo "6 - helm_imagetag_update: ${helm_imagetag_update}"
+fi
 
-# echo "NAMESPACEINUSE: ${NAMESPACEINUSE}"
+echo "NAMESPACEINUSE: ${NAMESPACEINUSE}"
 
 ## Delete the previous API deployment
 #release_name="${NAMESPACEINUSE}-jade"
