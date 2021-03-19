@@ -3,6 +3,15 @@
 set -e
 set -x
 
+if [ -f helmprerundone ]; then
+  printf "Skipping helmprerun\n"
+else
+  helm plugin install https://github.com/thomastaylor312/helm-namespace
+  helm repo add datarepo-helm https://broadinstitute.github.io/datarepo-helm
+  helm repo update
+  touch helmprerundone
+fi
+
 helm_create_secret_manager_secret_version=""
 if [ -n "${INPUT_HELM_CREATE_SECRET_MANAGER_SECRET_VERSION}" ]; then
     export helm_create_secret_manager_secret_version="${INPUT_HELM_CREATE_SECRET_MANAGER_SECRET_VERSION}"
