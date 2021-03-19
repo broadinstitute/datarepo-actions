@@ -13,5 +13,5 @@ requires that the checkout step include `fetch-depth: 0` to pull all the tags.
         with:
           fetch-depth: 0
     - name: Deploy the latest dev image tag to datarepo-helm-definitions
-        uses: broadinstitute/datarepo-actions/actions/helm-tag-update@0.37.0
+        uses: broadinstitute/datarepo-actions/actions/deploy-tag-update@0.37.0
 ```
