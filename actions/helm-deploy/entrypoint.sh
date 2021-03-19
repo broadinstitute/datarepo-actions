@@ -52,6 +52,8 @@ if [[ "${helm_imagetag_update}" == "api" ]]; then
     helm delete --namespace ${NAMESPACEINUSE} ${release_name}-datarepo-api
 fi
 
+GCR_TAG=$(git rev-parse --short HEAD)
+
 helm namespace upgrade ${release_name}-create-secret-manager-secret datarepo-helm/create-secret-manager-secret --version=${helm_create_secret_manager_secret_version} \
     --install --namespace ${NAMESPACEINUSE} -f \
     "https://raw.githubusercontent.com/broadinstitute/datarepo-helm-definitions/master/integration/${NAMESPACEINUSE}/create-secret-manager-secret.yaml"
