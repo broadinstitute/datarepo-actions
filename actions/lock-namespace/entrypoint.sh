@@ -15,7 +15,6 @@ while true; do
             echo "Namespace ${NS} not in use -- Locking"
             kubectl create secret generic -n "${NS}" "${NS}-inuse" --from-literal=inuse="${NS}"
             echo "NAMESPACEINUSE=${NS}" >> "$GITHUB_ENV"
-            echo "::set-output name=NAMESPACEINUSE::${NS}"
             # break out of double loop
             break 2
         fi
