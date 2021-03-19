@@ -1,0 +1,8 @@
+name: "Deploy Tag Update"
+description: "Updates the datarepo-helm-definitions dev image tag to the latest version"
+branding:
+  icon: "terminal"
+  color: "purple"
+runs:
+  using: "docker"
+  image: "Dockerfile"
