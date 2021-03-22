@@ -9,7 +9,7 @@ case "${PWD}" in
 esac
 
 # get latest semantic version
-REPO_TAG=$(git describe --tags --abbrev=0)
+REPO_TAG=$(git describe --tags "$(git rev-list --tags --max-count=1)")
 
 cd datarepo-helm-definitions
 
