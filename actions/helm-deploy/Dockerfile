@@ -1,11 +1,10 @@
-FROM alpine/helm:3.2.1
+FROM google/cloud-sdk:slim
 
-ARG KUBECTL_VERSION=1.18.12
+RUN apt-get install -y kubectl
 
-RUN apk add --update --no-cache curl bash git && \
-    curl -LO https://storage.googleapis.com/kubernetes-release/release/v${KUBECTL_VERSION}/bin/linux/amd64/kubectl && \
-    mv kubectl /usr/bin/kubectl && \
-    chmod +x /usr/bin/kubectl
+RUN curl -fsSL -o get_helm.sh https://raw.githubusercontent.com/helm/helm/v3.5.3/scripts/get-helm-3 && \
+    chmod 700 get_helm.sh && \
+    ./get_helm.sh
 
 COPY entrypoint.sh /entrypoint.sh
 
