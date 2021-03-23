@@ -110,7 +110,7 @@ else
 fi
 
 # add the latest semantic version to git tags
-if [ -z "${GITHUB_REPOSITORY}" ]; then
+if [ -n "${GITHUB_REPOSITORY}" ]; then
     CURRENT_DATE=$(date '+%Y-%m-%dT%H:%M:%SZ')
     GIT_REFS_URL=$(jq .repository.git_refs_url "${GITHUB_EVENT_PATH}" | tr -d '"' | sed 's/{\/sha}//g')
 
