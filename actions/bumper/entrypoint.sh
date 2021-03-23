@@ -29,7 +29,6 @@ IFS=${PREVIFS}
 
 # get all commits since last semantic version
 CURRENT_SEMVER=$(git for-each-ref --sort=-v:refname --count=1 --format '%(refname)' refs/tags/[0-9]*.[0-9]*.[0-9]* refs/tags/v[0-9]*.[0-9]*.[0-9]* | cut -d / -f 3-)
-CURRENT_SEMVER=0.50.0
 if [ -z "${CURRENT_SEMVER}" ]; then
     echo "No semantic versions. Starting from ${INITIAL_VERSION}"
     GIT_LOG=$(git log --pretty='%B')
