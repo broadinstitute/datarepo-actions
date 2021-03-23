@@ -1,0 +1,27 @@
+name: "Semantic version bumper"
+description: "Bumps the git tag to a new semantic version"
+branding:
+  icon: "terminal"
+  color: "purple"
+runs:
+  using: "docker"
+  image: "Dockerfile"
+inputs:
+  github_token:
+    description: "Authentication token required for adding semantic version to repository"
+    required: true
+  release_branch_list:
+    description: "Comma separated list of branches to semantically version"
+    default: develop,master
+  semver_bump:
+    description: "Whether to bump the major, minor, or patch portion of the semantic version. Setting to 'none' skips this step."
+    default: minor
+  version_file_path:
+    description: "Bump the semantic version in this file"
+    default:
+  initial_version:
+    description: "Which version to use as the first semantic version"
+    default: 0.0.0
+  semver_with_v:
+    description: "Whether or not the semantic version should be prefixed with a 'v'"
+    default: false
