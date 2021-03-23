@@ -28,6 +28,7 @@ NAMESPACEINUSE
 ```
 
 ### Inputs
+
 ```
 helm_create_secret_manager_secret_version:
   description: "Helm chart version for datarepo-helm/create-secret-manager-secret ie:0.0.4"
