@@ -14,7 +14,7 @@ inputs:
     description: "Comma separated list of branches to semantically version"
     default: develop,master
   semver_bump:
-    description: "Whether to bump the major, minor, or patch portion of the semantic version"
+    description: "Whether to bump the major, minor, or patch portion of the semantic version. Setting to 'none' skips this step."
     default: minor
   version_file_path:
     description: "Bump the semantic version in this file"
