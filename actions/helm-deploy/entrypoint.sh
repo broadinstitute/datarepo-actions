@@ -1,7 +1,6 @@
 #!/bin/sh
 
-set -e
-set -x
+set -eux
 
 if [ -f helmprerundone ]; then
   printf "Skipping helmprerun\n"
