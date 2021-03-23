@@ -21,12 +21,14 @@ Deploys new helm version to new integration deployment
 ```
 
 ### Environment Variables
+
 ```
 NAMESPACEINUSE
   description: "The integration namespace to use for the helm deployment"
 ```
 
 ### Inputs
+
 ```
 HELM_CREATE_SECRET_MANAGER_SECRET_VERSION:
   description: "Helm chart version for datarepo-helm/create-secret-manager-secret ie:0.0.4"
