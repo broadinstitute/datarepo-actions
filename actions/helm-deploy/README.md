@@ -21,6 +21,7 @@ Deploys new helm version to new integration deployment
 ```
 
 ### Environment Variables
+
 ```
 NAMESPACEINUSE
   description: "The integration namespace to use for the helm deployment"
