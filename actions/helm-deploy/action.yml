@@ -7,15 +7,15 @@ runs:
   using: "docker"
   image: "Dockerfile"
 inputs:
-  helm_create_secret_manager_secret_version:
+  HELM_CREATE_SECRET_MANAGER_SECRET_VERSION:
     description: "Helm chart version for datarepo-helm/create-secret-manager-secret ie:0.0.4"
-  helm_datarepo_api_chart_version:
+  HELM_DATAREPO_API_CHART_VERSION:
     description: "Helm chart version for datarepo-helm/datarepo ie:0.0.8"
-  helm_datarepo_ui_chart_version:
+  HELM_DATAREPO_UI_CHART_VERSION:
     description: "Helm chart version for datarepo-helm/datarepo ie:0.0.8"
-  helm_oidc_proxy_chart_version:
+  HELM_OIDC_PROXY_CHART_VERSION:
     description: "Helm chart version for datarepo-helm/datarepo ie:0.0.8"
-  helm_gcloud_sqlproxy_chart_version:
+  HELM_GCLOUD_SQLPROXY_CHART_VERSION:
     description: "Helm chart version for datarepo-helm/datarepo ie:0.0.8"
-  helm_imagetag_update:
+  HELM_IMAGETAG_UPDATE:
     description: "api or ui"
