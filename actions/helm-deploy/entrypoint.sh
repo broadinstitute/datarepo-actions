@@ -39,7 +39,7 @@ fi
 # Delete the previous API deployment
 RELEASE_NAME="${NAMESPACEINUSE}-jade"
 
-if [ "${helm_imagetag_update}" = "api" ]; then
+if [ "${HELM_IMAGETAG_UPDATE}" = "api" ]; then
     helm delete --namespace "${NAMESPACEINUSE}" "${RELEASE_NAME}-datarepo-api"
 fi
 
@@ -49,12 +49,12 @@ helm namespace upgrade "${RELEASE_NAME}-create-secret-manager-secret" datarepo-h
     --install --namespace "${NAMESPACEINUSE}" -f \
     "https://raw.githubusercontent.com/broadinstitute/datarepo-helm-definitions/master/integration/${NAMESPACEINUSE}/create-secret-manager-secret.yaml"
 
-helm namespace upgrade "${RELEASE_NAME}-gcloud-sqlproxy" datarepo-helm/gcloud-sqlproxy --version="${helm_gcloud_sqlproxy_chart_version}" \
+helm namespace upgrade "${RELEASE_NAME}-gcloud-sqlproxy" datarepo-helm/gcloud-sqlproxy --version="${HELM_GCLOUD_SQLPROXY_CHART_VERSION}" \
     --install --namespace "${NAMESPACEINUSE}" -f \
     "https://raw.githubusercontent.com/broadinstitute/datarepo-helm-definitions/master/integration/${NAMESPACEINUSE}/gcloud-sqlproxy.yaml"
 sleep 3
 
-if [ "${helm_imagetag_update}" = "api" ]; then
+if [ "${HELM_IMAGETAG_UPDATE}" = "api" ]; then
     helm namespace upgrade "${RELEASE_NAME}-datarepo-api" datarepo-helm/datarepo-api --version="${HELM_DATAREPO_API_CHART_VERSION}" \
         --install --namespace "${NAMESPACEINUSE}" -f \
         "https://raw.githubusercontent.com/broadinstitute/datarepo-helm-definitions/master/integration/${NAMESPACEINUSE}/datarepo-api.yaml" \
@@ -67,7 +67,7 @@ else
     sleep 3
 fi
 
-if [ "${helm_imagetag_update}" = "ui" ]; then
+if [ "${HELM_IMAGETAG_UPDATE}" = "ui" ]; then
     helm namespace upgrade "${RELEASE_NAME}-datarepo-ui" datarepo-helm/datarepo-ui --version="${HELM_DATAREPO_UI_CHART_VERSION}" \
         --install --namespace "${NAMESPACEINUSE}" -f \
         "https://raw.githubusercontent.com/broadinstitute/datarepo-helm-definitions/master/integration/${NAMESPACEINUSE}/datarepo-ui.yaml" \
@@ -80,7 +80,7 @@ else
     sleep 3
 fi
 
-helm namespace upgrade "${RELEASE_NAME}-oidc-proxy" datarepo-helm/oidc-proxy --version="${helm_oidc_proxy_chart_version}" \
+helm namespace upgrade "${RELEASE_NAME}-oidc-proxy" datarepo-helm/oidc-proxy --version="${HELM_OIDC_PROXY_CHART_VERSION}" \
     --install --namespace "${NAMESPACEINUSE}" -f \
     "https://raw.githubusercontent.com/broadinstitute/datarepo-helm-definitions/master/integration/${NAMESPACEINUSE}/oidc-proxy.yaml"
 sleep 3
