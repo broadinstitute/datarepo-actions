@@ -1,0 +1,21 @@
+name: "Helm Deploy"
+description: "Deploys new helm version to new integration deployment"
+branding:
+  icon: "terminal"
+  color: "purple"
+runs:
+  using: "docker"
+  image: "Dockerfile"
+inputs:
+  HELM_CREATE_SECRET_MANAGER_SECRET_VERSION:
+    description: "Helm chart version for datarepo-helm/create-secret-manager-secret ie:0.0.4"
+  HELM_DATAREPO_API_CHART_VERSION:
+    description: "Helm chart version for datarepo-helm/datarepo ie:0.0.8"
+  HELM_DATAREPO_UI_CHART_VERSION:
+    description: "Helm chart version for datarepo-helm/datarepo ie:0.0.8"
+  HELM_OIDC_PROXY_CHART_VERSION:
+    description: "Helm chart version for datarepo-helm/datarepo ie:0.0.8"
+  HELM_GCLOUD_SQLPROXY_CHART_VERSION:
+    description: "Helm chart version for datarepo-helm/datarepo ie:0.0.8"
+  HELM_IMAGETAG_UPDATE:
+    description: "api or ui"
