@@ -123,8 +123,8 @@ googleAuth () {
   elif [[ "${google_zone}" != "" ]] && [[ "${google_project}" != "" ]]; then
     gcloud auth activate-service-account --key-file ${GOOGLE_APPLICATION_CREDENTIALS}
     # configure integration prerequisites
-    gcloud config set compute/zone ${google_zone} --quiet
     gcloud config set project ${google_project} --quiet
+    gcloud config set compute/zone ${google_zone} --quiet
     gcloud auth configure-docker --quiet
     echo 'Set google sdk to SA user'
     if [[ -n "${K8_CLUSTER}" ]]; then
