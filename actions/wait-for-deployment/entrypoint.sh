@@ -2,6 +2,9 @@
 
 set -eu
 
+# wait for deployment to happen
+echo "sleep 15 seconds to wait for ui pod to go down after helm deploy..."
+sleep 15
 while true; do
     if kubectl get deployments -n "${NAMESPACEINUSE}" "${NAMESPACEINUSE}-jade-datarepo-ui" -o jsonpath="{.status}" | grep unavailable; then
         echo "UI pod in ${NAMESPACEINUSE} unavailable -- Retrying"
