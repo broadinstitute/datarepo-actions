@@ -3,10 +3,10 @@ waitfordeployment () {
   eval $(cat env_vars)
   #----------- [API Deployment Only] Wait for Integration API Pod to spin back up with correct version --------------
   if [[ ${DEPLOYMENT_TYPE} == 'api' ]]; then
-    echo "Checking ${IT_JADE_API_URL}"
-    CURRENT_GITHASH=$(curl -s -X GET "${IT_JADE_API_URL}/configuration" -H "accept: application/json" | jq -R '. | try fromjson catch {"gitHash":"failedToContact"}' | jq -r '.gitHash')
+    echo "Checking ${API_URL}"
+    CURRENT_GITHASH=$(curl -s -X GET "${API_URL}/configuration" -H "accept: application/json" | jq -R '. | try fromjson catch {"gitHash":"failedToContact"}' | jq -r '.gitHash')
     if [[ "$DESIRED_GITHASH" == "$CURRENT_GITHASH" ]]; then
-      echo "${IT_JADE_API_URL} successfully running on new version: $DESIRED_GITHASH"
+      echo "${API_URL} successfully running on new version: $DESIRED_GITHASH"
     else
       echo "Waiting 10 seconds for $DESIRED_GITHASH to equal $CURRENT_GITHASH"
       sleep 10
