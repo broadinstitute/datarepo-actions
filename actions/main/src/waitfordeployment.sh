@@ -1,27 +1,29 @@
 #!/bin/bash
 waitfordeployment () {
-  eval $(cat env_vars)
   #----------- [API Deployment Only] Wait for Integration API Pod to spin back up with correct version --------------
-  if [[ ${DEPLOYMENT_TYPE} == 'api' ]]; then
-    echo "Checking ${API_URL}"
-    CURRENT_GITHASH=$(curl -s -X GET "${API_URL}/configuration" -H "accept: application/json" | jq -R '. | try fromjson catch {"gitHash":"failedToContact"}' | jq -r '.gitHash')
-    if [[ "$DESIRED_GITHASH" == "$CURRENT_GITHASH" ]]; then
-      echo "${API_URL} successfully running on new version: $DESIRED_GITHASH"
-    else
-      echo "Waiting 10 seconds for $DESIRED_GITHASH to equal $CURRENT_GITHASH"
-      sleep 10
-      waitfordeployment
+  while true; do 
+    if [[ ${DEPLOYMENT_TYPE} == 'api' ]]; then
+        echo "Checking ${API_URL}"
+        CURRENT_GITHASH=$(curl -s -X GET "${API_URL}/configuration" -H "accept: application/json" | jq -R '. | try fromjson catch {"gitHash":"failedToContact"}' | jq -r '.gitHash')
+        if [[ "$DESIRED_GITHASH" == "$CURRENT_GITHASH" ]]; then
+            echo "${API_URL} successfully running on new version: $DESIRED_GITHASH"
+            break
+        else
+            echo "Waiting 10 seconds for $DESIRED_GITHASH to equal $CURRENT_GITHASH"
+            sleep 10
+        fi
     fi
-  fi
+  done
   #----------- [API or UI Deployment] Wait for UI Pod to spin back up --------------
-  if kubectl get deployments -n ${NAMESPACEINUSE} ${NAMESPACEINUSE}-jade-datarepo-ui -o jsonpath="{.status}" | grep unavailable; then
-    echo "ui pod unavailable waiting 10 seconds..."
-    sleep 10
-    waitfordeployment
-  else
-    pod=$(kubectl get deployments -n ${NAMESPACEINUSE} ${NAMESPACEINUSE}-jade-datarepo-ui -o jsonpath="{..metadata.name}")
-    echo "${pod} has been deployed and in ready state"
-    #sleep 5 to be safe
-    sleep 5
-  fi
+  while true; do
+    if kubectl get deployments -n "${NAMESPACEINUSE}" "${NAMESPACEINUSE}-jade-datarepo-ui" -o jsonpath="{.status}" | grep unavailable; then
+        echo "UI pod in ${NAMESPACEINUSE} unavailable -- Retrying"
+        sleep 10
+    else
+        K8_POD=$(kubectl get deployments -n "${NAMESPACEINUSE}" "${NAMESPACEINUSE}-jade-datarepo-ui" -o jsonpath="{..metadata.name}")
+        sleep 5
+        echo "${K8_POD} has been deployed and is in ready state"
+        break
+    fi
+  done
 }
