@@ -5,9 +5,21 @@ waitfordeployment () {
     # wait for deployment to happen
     echo "sleep 15 seconds to wait for ui pod to go down after helm deploy..."
     sleep 15
+    #----------- [API Deployment Only] Wait for Integration API Pod to spin back up with correct version --------------
+    if ${DEPLOYMENT_TYPE} == 'api'; then
+      CURRENT_GITHASH=$(curl -s -X GET "${API_URL}/configuration" -H "accept: application/json" | jq -R '. | try fromjson catch {"gitHash":"failedToContact"}' | jq -r '.gitHash')
+      if [[ "$DESIRED_GITHASH" == "$CURRENT_GITHASH" ]]; do
+        echo "${API_URL} successfully running on new version: $BRANCH_HASH"
+      else
+        echo "Waiting 10 seconds for $DESIRED_GITHASH to equal $CURRENT_GITHASH"
+        sleep 10
+        waitfordeployment
+      fi
+    fi
+    #----------- [API or UI Deployment] Wait for UI Pod to spin back up --------------
     if kubectl get deployments -n ${NAMESPACEINUSE} ${NAMESPACEINUSE}-jade-datarepo-ui -o jsonpath="{.status}" | grep unavailable; then
-      sleep 10
       echo "ui pod unavailable waiting 10 seconds..."
+      sleep 10
       waitfordeployment
     else
       pod=$(kubectl get deployments -n ${NAMESPACEINUSE} ${NAMESPACEINUSE}-jade-datarepo-ui -o jsonpath="{..metadata.name}")
