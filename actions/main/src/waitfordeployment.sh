@@ -9,7 +9,7 @@ waitfordeployment () {
     if [[ ${DEPLOYMENT_TYPE} == 'api' ]]; then
       CURRENT_GITHASH=$(curl -s -X GET "${API_URL}/configuration" -H "accept: application/json" | jq -R '. | try fromjson catch {"gitHash":"failedToContact"}' | jq -r '.gitHash')
       if [[ "$DESIRED_GITHASH" == "$CURRENT_GITHASH" ]]; then
-        echo "${API_URL} successfully running on new version: $BRANCH_HASH"
+        echo "${API_URL} successfully running on new version: $DESIRED_GITHASH"
       else
         echo "Waiting 10 seconds for $DESIRED_GITHASH to equal $CURRENT_GITHASH"
         sleep 10
