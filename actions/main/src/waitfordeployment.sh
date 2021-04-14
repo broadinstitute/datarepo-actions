@@ -6,9 +6,9 @@ waitfordeployment () {
     echo "sleep 15 seconds to wait for ui pod to go down after helm deploy..."
     sleep 15
     #----------- [API Deployment Only] Wait for Integration API Pod to spin back up with correct version --------------
-    if ${DEPLOYMENT_TYPE} == 'api'; then
+    if [[ ${DEPLOYMENT_TYPE} == 'api' ]]; then
       CURRENT_GITHASH=$(curl -s -X GET "${API_URL}/configuration" -H "accept: application/json" | jq -R '. | try fromjson catch {"gitHash":"failedToContact"}' | jq -r '.gitHash')
-      if [[ "$DESIRED_GITHASH" == "$CURRENT_GITHASH" ]]; do
+      if [[ "$DESIRED_GITHASH" == "$CURRENT_GITHASH" ]]; then
         echo "${API_URL} successfully running on new version: $BRANCH_HASH"
       else
         echo "Waiting 10 seconds for $DESIRED_GITHASH to equal $CURRENT_GITHASH"
