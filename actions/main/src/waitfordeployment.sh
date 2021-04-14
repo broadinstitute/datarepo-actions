@@ -1,19 +1,20 @@
 #!/bin/bash
 waitfordeployment () {
   #----------- [API Deployment Only] Wait for Integration API Pod to spin back up with correct version --------------
-  while true; do 
-    if [[ ${DEPLOYMENT_TYPE} == 'api' ]]; then
-        echo "Checking ${API_URL}"
-        CURRENT_GITHASH=$(curl -s -X GET "${API_URL}/configuration" -H "accept: application/json" | jq -R '. | try fromjson catch {"gitHash":"failedToContact"}' | jq -r '.gitHash')
-        if [[ "$DESIRED_GITHASH" == "$CURRENT_GITHASH" ]]; then
-            echo "${API_URL} successfully running on new version: $DESIRED_GITHASH"
-            break
-        else
-            echo "Waiting 10 seconds for $DESIRED_GITHASH to equal $CURRENT_GITHASH"
-            sleep 10
-        fi
-    fi
-  done
+  if [[ ${DEPLOYMENT_TYPE} == 'api' ]]; then
+    echo "Checking ${API_URL}"
+    while true; do
+      CURRENT_GITHASH=$(curl -s -X GET "${API_URL}/configuration" -H "accept: application/json" | jq -R '. | try fromjson catch {"gitHash":"failedToContact"}' | jq -r '.gitHash')
+      if [[ "$DESIRED_GITHASH" == "$CURRENT_GITHASH" ]]; then
+        echo "${API_URL} successfully running on new version: $DESIRED_GITHASH"
+        break
+      else
+        echo "Waiting 10 seconds for $DESIRED_GITHASH to equal $CURRENT_GITHASH"
+        sleep 10
+      fi
+    done
+  fi
+  
   #----------- [API or UI Deployment] Wait for UI Pod to spin back up --------------
   while true; do
     if kubectl get deployments -n "${NAMESPACEINUSE}" "${NAMESPACEINUSE}-jade-datarepo-ui" -o jsonpath="{.status}" | grep unavailable; then
