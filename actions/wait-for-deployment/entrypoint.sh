@@ -1,13 +1,13 @@
-#!/bin/bash
+#!/bin/sh
 
 set -eu
 
 #----------- [API Deployment Only] Wait for Integration API Pod to spin back up with correct version --------------
 while true; do
-    if [[ ${DEPLOYMENT_TYPE} == 'api' ]]; then
+    if [ ${DEPLOYMENT_TYPE} == 'api' ]; then
         echo "Checking ${API_URL}"
         CURRENT_GITHASH=$(curl -s -X GET "${API_URL}/configuration" -H "accept: application/json" | jq -R '. | try fromjson catch {"gitHash":"failedToContact"}' | jq -r '.gitHash')
-        if [[ "$DESIRED_GITHASH" == "$CURRENT_GITHASH" ]]; then
+        if [ "$DESIRED_GITHASH" == "$CURRENT_GITHASH" ]; then
             echo "${API_URL} successfully running on new version: $DESIRED_GITHASH"
             break
         else
