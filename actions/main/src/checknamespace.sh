@@ -18,6 +18,7 @@ checknamespace () {
         api_url="https://jade-${tail}.datarepo-integration.broadinstitute.org"
         echo "::set-output name=api_url::${api_url}"
         echo "export IT_JADE_API_URL=${api_url}" >> env_vars
+        echo "::set-output name=namespace::${i}"
         echo "export NAMESPACEINUSE=${i}" >> env_vars
         return 0
       fi
