@@ -3,8 +3,8 @@
 set -eu
 
 #----------- [API Deployment Only] Wait for Integration API Pod to spin back up with correct version --------------
-while true; do
-    if [ "${DEPLOYMENT_TYPE}" = "api" ]; then
+if [ "${DEPLOYMENT_TYPE}" = "api" ]; then
+    while true; do
         echo "Checking ${API_URL}"
         CURRENT_GITHASH=$(curl -s -X GET "${API_URL}/configuration" -H "accept: application/json" | jq -R '. | try fromjson catch {"gitHash":"failedToContact"}' | jq -r '.gitHash')
         if [ "${DESIRED_GITHASH}" = "${CURRENT_GITHASH}" ]; then
@@ -14,8 +14,8 @@ while true; do
             echo "Waiting 10 seconds for ${DESIRED_GITHASH} to equal ${CURRENT_GITHASH}"
             sleep 10
         fi
-    fi
-done
+    done
+fi
 #----------- [API or UI Deployment] Wait for UI Pod to spin back up --------------
 while true; do
     if kubectl get deployments -n "${NAMESPACEINUSE}" "${NAMESPACEINUSE}-jade-datarepo-ui" -o jsonpath="{.status}" | grep unavailable; then
