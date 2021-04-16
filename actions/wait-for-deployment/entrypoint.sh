@@ -16,7 +16,8 @@ if [ "${DEPLOYMENT_TYPE}" = "api" ]; then
         fi
     done
 fi
-#----------- [API or UI Deployment] Wait for UI Pod to spin back up --------------
+
+# [API or UI Deployment] Wait for UI Pod to spin back up
 while true; do
     if kubectl get deployments -n "${NAMESPACEINUSE}" "${NAMESPACEINUSE}-jade-datarepo-ui" -o jsonpath="{.status}" | grep unavailable; then
         echo "UI pod in ${NAMESPACEINUSE} unavailable -- Retrying"
