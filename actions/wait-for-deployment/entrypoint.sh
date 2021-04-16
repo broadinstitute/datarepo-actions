@@ -2,7 +2,7 @@
 
 set -eu
 
-#----------- [API Deployment Only] Wait for Integration API Pod to spin back up with correct version --------------
+# [API Deployment Only] Wait for Integration API Pod to spin back up with correct version
 if [ "${DEPLOYMENT_TYPE}" = "api" ]; then
     while true; do
         echo "Checking ${API_URL}"
