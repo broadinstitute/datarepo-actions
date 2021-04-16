@@ -28,7 +28,7 @@ DEPLOYMENT_TYPE
   description: Declare 'api' or 'ui' deployment
   default: none
 API_URL
-  description: The url to check the /configuraiton endpoint for the current running version
+  description: The url to check the /configuration endpoint for the current running version
   default: none
 DESIRED_GITHASH
   description: The git hash against which to compare the current running version
