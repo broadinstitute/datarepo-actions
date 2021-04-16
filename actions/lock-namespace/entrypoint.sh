@@ -19,7 +19,7 @@ while true; do
         
             #Set the integration api url
             if echo "${NS}" | grep -q "-"; then
-                TAIL=$(echo "${NS}" | awk -F- {'print $2'})
+                TAIL=$(echo "${NS}" | awk -F- '{print $2}')
                 echo "Stripping - from namespace for IT_JADE_API_URL"
             else
                 TAIL=${NS}
