@@ -18,8 +18,8 @@ while true; do
             echo "::set-output name=namespace::${NS}"
         
             #Set the integration api url
-            if [[ "${NS}" =~ "-" ]]; then
-                TAIL=$(echo ${NS} | awk -F- {'print $2'})
+            if [ "${NS}" =~ "-" ]; then
+                TAIL=$(echo "${NS}" | awk -F- {'print $2'})
                 echo "Stripping - from namespace for IT_JADE_API_URL"
             else
                 TAIL=${NS}
