@@ -1,6 +1,6 @@
 FROM google/cloud-sdk:slim
 
-RUN apt-get install -y kubectl jq
+RUN apt-get install -y kubectl
 
 COPY entrypoint.sh /entrypoint.sh
 
