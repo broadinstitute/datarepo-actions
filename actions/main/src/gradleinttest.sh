@@ -50,7 +50,11 @@ gradleinttest () {
     ./gradlew assemble
     ./gradlew -w check --scan
     echo "Running ${test_to_run}"
-    ./gradlew -w ${test_to_run} --scan
+    if [[ "${test_to_run}" == "testIntegration" ]]; then
+      ./gradlew -w ${test_to_run} --tests "bio.terra.service.filedata.DrsTest" --scan
+    else
+      ./gradlew -w ${test_to_run} --scan
+    fi
   else
     echo "missing vars for function gradleinttest"
     exit 1
