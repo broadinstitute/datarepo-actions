@@ -17,7 +17,7 @@ while true; do
             echo "NAMESPACEINUSE=${NS}" >> "$GITHUB_ENV"
         
             #Set the integration api url
-            TAIL=$(echo ${NS} | sed -r 's/.*\-([0-9]+)/\1/')
+            TAIL=$(echo "${NS}" | sed -r 's/.*\-([0-9]+)/\1/')
             API_URL="https://jade-${TAIL}.datarepo-integration.broadinstitute.org"
             echo "IT_JADE_API_URL=${API_URL}" >> "$GITHUB_ENV"
             
