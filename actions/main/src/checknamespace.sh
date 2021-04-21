@@ -18,6 +18,9 @@ checknamespace () {
         api_url="https://jade-${tail}.datarepo-integration.broadinstitute.org"
         echo "export IT_JADE_API_URL=${api_url}" >> env_vars
         echo "export NAMESPACEINUSE=${i}" >> env_vars
+        #Needed for new containerized actions
+        echo "IT_JADE_API_URL=${api_url}" >> "$GITHUB_ENV"
+        echo "NAMESPACEINUSE=${i}" >> "$GITHUB_ENV"
         return 0
       fi
     done
