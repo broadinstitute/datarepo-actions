@@ -14,7 +14,7 @@ This action completes a two layered check:
         env:
           NAMESPACEINUSE: integration-1
           DEPLOYMENT_TYPE: api
-          API_URL: 'https://jade-1.datarepo-integration.broadinstitute.org'
+          IT_JADE_API_URL: 'https://jade-1.datarepo-integration.broadinstitute.org'
           DESIRED_GITHASH: ${{ steps.configuration.outputs.git_hash }}
 ```
 
@@ -27,7 +27,7 @@ NAMESPACEINUSE:
 DEPLOYMENT_TYPE
   description: Declare 'api' or 'ui' deployment
   default: none
-API_URL
+IT_JADE_API_URL
   description: The url to check the /configuration endpoint for the current running version
   default: none
 DESIRED_GITHASH
