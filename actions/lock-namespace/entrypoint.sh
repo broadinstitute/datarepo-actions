@@ -15,6 +15,12 @@ while true; do
             echo "Namespace ${NS} not in use -- Locking"
             kubectl create secret generic -n "${NS}" "${NS}-inuse" --from-literal=inuse="${NS}"
             echo "NAMESPACEINUSE=${NS}" >> "$GITHUB_ENV"
+        
+            #Set the integration api url
+            TAIL=$(echo "${NS}" | sed -r 's/.*\-([0-9]+)/\1/')
+            API_URL="https://jade-${TAIL}.datarepo-integration.broadinstitute.org"
+            echo "IT_JADE_API_URL=${API_URL}" >> "$GITHUB_ENV"
+            
             # break out of double loop
             break 2
         fi

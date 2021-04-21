@@ -159,7 +159,6 @@ main () {
   source ${scriptDir}/gradleinttest.sh
   source ${scriptDir}/gradletestrunnersmoketest.sh
   source ${scriptDir}/deploytagupdate.sh
-  source ${scriptDir}/waitfordeployment.sh
   source ${scriptDir}/charttestdeploy.sh
   source ${scriptDir}/charttestdelete.sh
   source ${scriptDir}/testcharts.sh
@@ -203,9 +202,6 @@ main () {
         ;;
       deploytagupdate)
         deploytagupdate ${*}
-        ;;
-      waitfordeployment)
-        waitfordeployment ${*}
         ;;
       charttestdeploy)
         charttestdeploy ${*}

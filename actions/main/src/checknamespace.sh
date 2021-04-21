@@ -8,15 +8,13 @@ checknamespace () {
       else
         printf "Namespace ${i} not in use Deploying integration test to ${i}\n"
         kubectl create secret generic ${i}-inuse --from-literal=inuse=${i} -n ${i}
-        if [[ "$i" =~ "-" ]]; then
-          tail=$(echo $i | awk -F- {'print $2'})
-          echo "Stripping - from namespace for IT_JADE_API_URL"
-        else
-          tail=$i
-          echo "using full namespace for IT_JADE_API_URL"
-        fi
-        echo "export IT_JADE_API_URL=https://jade-${tail}.datarepo-integration.broadinstitute.org" >> env_vars
+        TAIL=$(echo ${i} | sed -r 's/.*\-([0-9]+)/\1/')
+        API_URL="https://jade-${TAIL}.datarepo-integration.broadinstitute.org"
+        echo "export IT_JADE_API_URL=${API_URL}" >> env_vars
         echo "export NAMESPACEINUSE=${i}" >> env_vars
+        #Needed for new containerized actions
+        echo "IT_JADE_API_URL=${API_URL}" >> "$GITHUB_ENV"
+        echo "NAMESPACEINUSE=${i}" >> "$GITHUB_ENV"
         return 0
       fi
     done
