@@ -26,8 +26,7 @@ while true; do
                 echo "using full namespace for IT_JADE_API_URL"
             fi
             API_URL="https://jade-${TAIL}.datarepo-integration.broadinstitute.org"
-            echo "IT_JADE_API_URL=${API_URL}"
-            echo "::set-output name=api_url::${API_URL}"
+            echo "IT_JADE_API_URL=${API_URL}" >> "$GITHUB_ENV"
             
             # break out of double loop
             break 2
