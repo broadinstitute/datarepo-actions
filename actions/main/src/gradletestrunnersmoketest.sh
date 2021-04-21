@@ -28,15 +28,5 @@ gradletestrunnersmoketest () {
     return 1)
   echo "Running test suite SUCCEEDED"
 
-  echo "Collecting measurements"
-  ./gradlew collectMeasurements --args="PRSmokeTests.json $outputDir" ||
-    (echo "Collecting measurements FAILED" &&
-    ./gradlew uploadResults --args="BroadJadeDev.json $outputDir" &&
-    return 1)
-  echo "Collecting measurements SUCCEEDED"
-
-  echo "Uploading results"
-  ./gradlew uploadResults --args="BroadJadeDev.json $outputDir"
-
   cd ${GITHUB_WORKSPACE}/${workingDir}
 }
