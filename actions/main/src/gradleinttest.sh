@@ -51,7 +51,12 @@ gradleinttest () {
     ./gradlew -w check --scan
     echo "Running ${test_to_run}"
     if [[ "${test_to_run}" == "testIntegration" ]]; then
-      ./gradlew -w ${test_to_run} --tests "bio.terra.service.filedata.DrsTest" --scan
+      for i in 1 2 3 4 5 6 7 8 9 10
+      do
+        ./gradlew -w ${test_to_run} --tests "bio.terra.service.filedata.DrsTest" --scan
+        echo "-----------Run $i done---------"
+        sleep 10
+      done
     else
       ./gradlew -w ${test_to_run} --scan
     fi
