@@ -15,7 +15,6 @@ while true; do
             echo "Namespace ${NS} not in use -- Locking"
             kubectl create secret generic -n "${NS}" "${NS}-inuse" --from-literal=inuse="${NS}"
             echo "NAMESPACEINUSE=${NS}" >> "$GITHUB_ENV"
-            echo "::set-output name=namespace::${NS}"
         
             #Set the integration api url
             if echo "${NS}" | grep -q "-"; then
