@@ -17,13 +17,7 @@ while true; do
             echo "NAMESPACEINUSE=${NS}" >> "$GITHUB_ENV"
         
             #Set the integration api url
-            if echo "${NS}" | grep -q "-"; then
-                TAIL=$(echo "${NS}" | awk -F- '{print $2}')
-                echo "Stripping - from namespace for IT_JADE_API_URL"
-            else
-                TAIL=${NS}
-                echo "using full namespace for IT_JADE_API_URL"
-            fi
+            TAIL=$(echo ${NS} | sed -r 's/.*\-([0-9]+)/\1/')
             API_URL="https://jade-${TAIL}.datarepo-integration.broadinstitute.org"
             echo "IT_JADE_API_URL=${API_URL}" >> "$GITHUB_ENV"
             
