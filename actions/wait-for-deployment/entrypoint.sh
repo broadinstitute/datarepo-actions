@@ -2,6 +2,11 @@
 
 set -eu
 
+# Set timeout
+MAIN_PID=$$
+(sleep 3; echo "TIMEOUT after 6 minutes."; kill ${MAIN_PID}; exit 1) &
+#TODO change to sleep 360 after test
+
 # [API Deployment Only] Wait for Integration API Pod to spin back up with correct version
 if [ "${DEPLOYMENT_TYPE}" = "api" ]; then
     while true; do
