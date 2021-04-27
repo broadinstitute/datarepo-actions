@@ -2,10 +2,12 @@
 
 set -eu
 
+# Set default env variables
+TIMEOUT="${TIMEOUT:-360}"
+
 # Set timeout
 MAIN_PID=$$
-(sleep 3; echo "TIMEOUT after 6 minutes."; kill ${MAIN_PID}; exit 1) &
-#TODO change to sleep 360 after test
+(sleep ${TIMEOUT}; echo "TIMEOUT after ${TIMEOUT} seconds."; kill ${MAIN_PID}; exit 1) &
 
 # [API Deployment Only] Wait for Integration API Pod to spin back up with correct version
 if [ "${DEPLOYMENT_TYPE}" = "api" ]; then

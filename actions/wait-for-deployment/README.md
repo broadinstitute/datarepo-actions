@@ -33,4 +33,7 @@ IT_JADE_API_URL
 DESIRED_GITHASH
   description: The git hash against which to compare the current running version
   default: none
+TIMEOUT
+  description: Seconds the wait will run before terminating and throwing error
+  default: 360
 ```
