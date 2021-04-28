@@ -40,6 +40,7 @@ RELEASE_NAME="${NAMESPACEINUSE}-jade"
 
 if [ "${HELM_IMAGETAG_UPDATE}" = "api" ]; then
     helm delete --namespace "${NAMESPACEINUSE}" "${RELEASE_NAME}-datarepo-api"
+    helm delete --namespace "${NAMESPACEINUSE}" "${RELEASE_NAME}-datarepo-ui"
 fi
 
 GCR_TAG=$(git rev-parse --short HEAD)
