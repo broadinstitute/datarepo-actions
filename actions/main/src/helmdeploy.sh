@@ -10,6 +10,10 @@ helmdeploy () {
       helm delete --namespace ${NAMESPACEINUSE} ${release_name}-datarepo-ui
     fi
 
+    if [ "${HELM_IMAGETAG_UPDATE}" = "ui" ]; then
+      helm delete --namespace ${NAMESPACEINUSE} ${release_name}-datarepo-ui
+    fi
+
     helm namespace upgrade ${release_name}-create-secret-manager-secret datarepo-helm/create-secret-manager-secret --version=${helm_create_secret_manager_secret_version} \
       --install --namespace ${NAMESPACEINUSE} -f \
       "https://raw.githubusercontent.com/broadinstitute/datarepo-helm-definitions/master/integration/${NAMESPACEINUSE}/create-secret-manager-secret.yaml"
