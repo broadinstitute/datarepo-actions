@@ -50,7 +50,7 @@ gradleinttest () {
     ./gradlew assemble
     ./gradlew -w check --scan
     echo "Running ${test_to_run}"
-    ./gradlew -w ${test_to_run} --scan
+    ./gradlew -w testIntegration --tests DrsTest --scan
   else
     echo "missing vars for function gradleinttest"
     exit 1
