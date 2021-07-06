@@ -110,7 +110,7 @@ configureCredentials () {
     chmod 600 ${GOOGLE_SA_CERT}
     echo 'Configured google sdk credentials from vault'
 
-    usr/local/bin/vault read -field=key secret/dsde/terra/kernel/integration/tools/buffer/client-sa | \
+    /usr/local/bin/vault read -field=key secret/dsde/terra/kernel/integration/tools/buffer/client-sa | \
       base64 -d > ${RBS_CLIENT_CREDENTIAL_FILE_PATH}
     chmod 600 ${RBS_CLIENT_CREDENTIAL_FILE_PATH}
     echo 'Configured RBS credentials from vault'
