@@ -3,7 +3,6 @@ FROM docker:17.12.0-ce as static-docker-source
 FROM openjdk:11-slim
 # FROM openjdk:11-slim
 
-USER 1001
 ARG CLOUD_SDK_VERSION=334.0.0
 ENV CLOUD_SDK_VERSION=$CLOUD_SDK_VERSION \
     CLOUDSDK_PYTHON=python3 \
@@ -98,4 +97,5 @@ RUN set -o errexit -o nounset \
 # clean cache apks
 RUN apt-get clean -qqy
 
+USER 1001
 ENTRYPOINT ["/src/main.sh"]
