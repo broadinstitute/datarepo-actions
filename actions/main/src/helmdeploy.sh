@@ -1,6 +1,9 @@
 #!/bin/bash
 helmdeploy () {
   eval $(cat env_vars)
+
+  set -x
+
   if [[ "${google_zone}" != "" ]] && [[ "${K8_CLUSTER}" != "" ]] && [[ "${helm_imagetag_update}" != "" ]]; then
     # Delete the previous API deployment
     release_name="${NAMESPACEINUSE}-jade"
@@ -51,4 +54,6 @@ helmdeploy () {
     echo "required var not defined for function helmdeploy"
     exit 1
   fi
+
+  set +x
 }
