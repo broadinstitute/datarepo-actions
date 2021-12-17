@@ -137,14 +137,15 @@ googleAuth () {
 }
 
 helmprerun () {
-  # if [ -f helmprerundone ]; then
-  #   printf "Skipping helmprerun\n"
-  # else
-  helm plugin install https://github.com/thomastaylor312/helm-namespace
-  helm repo add datarepo-helm https://broadinstitute.github.io/datarepo-helm
-  helm repo update
-    # touch helmprerundone
-  # fi
+  if [ -f helmprerundone ]; then
+    helm repo update
+    printf "Skipping helmprerun\n"
+  else
+    helm plugin install https://github.com/thomastaylor312/helm-namespace
+    helm repo add datarepo-helm https://broadinstitute.github.io/datarepo-helm
+    helm repo update
+    touch helmprerundone
+  fi
 }
 
 main () {
