@@ -1,4 +1,4 @@
-FROM gradle:6.8.3-jdk11
+FROM gradle:7.3-jdk17
 
 COPY entrypoint.sh /entrypoint.sh
 
