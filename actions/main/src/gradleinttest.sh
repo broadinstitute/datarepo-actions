@@ -48,9 +48,6 @@ gradleinttest () {
     psql -U postgres -f ./db/create-data-repo-db
     # required for tests
     ./gradlew assemble
-    if [[ "${test_to_run}" == "testIntegration" ]]; then
-      ./gradlew -w check --scan
-    fi
     echo "Running ${test_to_run}"
     ./gradlew -w ${test_to_run} --scan
   else
