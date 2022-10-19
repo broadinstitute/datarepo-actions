@@ -34,6 +34,13 @@ gradleinttest () {
     echo "Running ${test_to_run} test with data project env var unset: ${google_data_project}"
   fi
 
+  if [[ "${test_filter}" == "" ]]; then
+    echo "Running all tests"
+    test_filter_cmd=""
+  else
+    echo "Running subset of tests: ${test_filter}"
+    test_filter_cmd="--tests ${test_filter}"
+  fi
   if [[ -n "${google_project}" ]] && [ -f ${GOOGLE_APPLICATION_CREDENTIALS} ] && [ -f ${GOOGLE_SA_CERT} ] && [[ "${test_to_run}" != "" ]]; then
     export PGHOST=$(ip route show default | awk '/default/ {print $3}')
     export DB_DATAREPO_URI="jdbc:postgresql://${PGHOST}:5432/datarepo"
@@ -49,7 +56,7 @@ gradleinttest () {
     # required for tests
     ./gradlew assemble
     echo "Running ${test_to_run}"
-    ./gradlew -w ${test_to_run} --scan
+    ./gradlew -w ${test_to_run} ${test_filter_cmd} --scan
   else
     echo "missing vars for function gradleinttest"
     exit 1

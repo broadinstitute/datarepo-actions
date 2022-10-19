@@ -55,6 +55,8 @@ inputs:
     default: "api"
   test_to_run:
     description: "which test you would like to run on the pods ie:testConnected or testIntegration"
+  test_filter:
+    description: "if you'd like to filter down what actual tests to run ie:*TestClass or bio.terra.common.MyTestClass.  Will add to the gradle command as a --tests filter"
   helm_charts_to_test:
     description: "list of helm charts you would like to test"
     default: "create-secret-manager-secret,gcloud-sqlproxy,datarepo-api,datarepo-ui,oidc-proxy"

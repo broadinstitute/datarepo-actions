@@ -68,6 +68,10 @@ parseInputs () {
   if [[ -n "${INPUT_TEST_TO_RUN}" ]]; then
     export test_to_run=${INPUT_TEST_TO_RUN}
   fi
+  test_filter=""
+  if [[ -n "${INPUT_TEST_FILTER}" ]]; then
+    export test_filter=${INPUT_TEST_FILTER}
+  fi
   release_name=""
   if [[ -n "${INPUT_RELEASE_NAME}" ]]; then
     export release_name=${INPUT_RELEASE_NAME}
