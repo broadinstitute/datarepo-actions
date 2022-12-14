@@ -131,7 +131,6 @@ googleAuth () {
   gcloud config set compute/zone ${google_zone} --quiet
   gcloud auth configure-docker --quiet
   echo 'Set google sdk to SA user'
-  gcloud components update
   if [[ -n "${K8_CLUSTER}" ]]; then
     gcloud container clusters get-credentials ${K8_CLUSTER} --zone ${google_zone}
   fi

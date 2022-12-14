@@ -50,8 +50,8 @@ VOLUME ["/root/.config"]
 
 # install kubectl needs to be after sdk install
 RUN apt-get update -qqy && apt-get install -qqy \
-  kubectl \
-  google-cloud-sdk-gke-gcloud-auth-plugin 
+  kubectl=1.25.4 \
+  google-cloud-sdk-gke-gcloud-auth-plugin
 
 # install helm
 RUN wget -q https://get.helm.sh/helm-${HELM_VERSION}-linux-amd64.tar.gz -O - | tar -xzO linux-amd64/helm > /usr/local/bin/helm \
