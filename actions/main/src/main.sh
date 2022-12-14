@@ -120,6 +120,10 @@ configureCredentials () {
 }
 
 googleAuth () {
+  if [[ -n "${K8_CLUSTER}" ]]; then
+    gcloud container clusters get-credentials ${K8_CLUSTER}
+    echo 'Gcloud get-credentials'
+  fi
   account_status=""
   account_status=$(gcloud auth list --filter=status:ACTIVE --format="value(account)")
   if [[ "${account_status}" != "" ]]; then
@@ -131,9 +135,6 @@ googleAuth () {
     gcloud config set compute/zone ${google_zone} --quiet
     gcloud auth configure-docker --quiet
     echo 'Set google sdk to SA user'
-    if [[ -n "${K8_CLUSTER}" ]]; then
-      gcloud container clusters get-credentials ${K8_CLUSTER} --zone ${google_zone}
-    fi
   else
     echo "Required var not defined for function googleAuth"
     exit 1
@@ -174,6 +175,7 @@ main () {
   helmprerun
   configureCredentials
   googleAuth
+  echo 'past googleAuth step'
   if [[ "${subcommand}" == "skip" ]]; then
     echo "skipping any sub command, only getting gcp creds"
   else
