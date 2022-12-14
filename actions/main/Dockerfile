@@ -52,6 +52,8 @@ VOLUME ["/root/.config"]
 RUN apt-get update -qqy && apt-get install -qqy \
   kubectl
 
+RUN apt-get install google-cloud-sdk-gke-gcloud-auth-plugin
+
 # install helm
 RUN wget -q https://get.helm.sh/helm-${HELM_VERSION}-linux-amd64.tar.gz -O - | tar -xzO linux-amd64/helm > /usr/local/bin/helm \
   && chmod +x /usr/local/bin/helm && \
