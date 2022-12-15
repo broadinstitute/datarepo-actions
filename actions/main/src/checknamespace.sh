@@ -7,7 +7,7 @@ checknamespace () {
         printf "Namespace ${i} in use Skipping\n"
       else
         printf "Namespace ${i} not in use Deploying integration test to ${i}\n"
-        echo "choover: kubectl version is: $( kubectl version --client )
+        echo "choover: kubectl version is: $( kubectl version --client )"
         echo "creating secret"
         kubectl create secret generic ${i}-inuse --from-literal=inuse=${i} -n ${i}
         echo "create secret returned: $?"
