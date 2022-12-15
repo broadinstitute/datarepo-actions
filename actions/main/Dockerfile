@@ -50,7 +50,7 @@ VOLUME ["/root/.config"]
 
 # install kubectl needs to be after sdk install
 RUN apt-get update -qqy && apt-get install -qqy \
-  kubectl=v1.25.0 \
+  kubectl \
   google-cloud-sdk-gke-gcloud-auth-plugin
 
 # install helm
