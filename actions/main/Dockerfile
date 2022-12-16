@@ -1,7 +1,7 @@
 FROM docker:17.12.0-ce as static-docker-source
 
 FROM openjdk:17-slim
-ARG CLOUD_SDK_VERSION=334.0.0
+ARG CLOUD_SDK_VERSION=412.0.0
 ENV CLOUD_SDK_VERSION=$CLOUD_SDK_VERSION \
     CLOUDSDK_PYTHON=python3 \
     HELM_VERSION=v3.1.2 \
@@ -10,7 +10,8 @@ ENV CLOUD_SDK_VERSION=$CLOUD_SDK_VERSION \
     VAULT_ADDR='https://clotho.broadinstitute.org:8200' \
     VAULT_TOKEN="" \
     GRADLE_HOME=/usr/local/bin/gradle \
-    GRADLE_VERSION=4.7
+    GRADLE_VERSION=4.7 \
+    USE_GKE_GCLOUD_AUTH_PLUGIN=True
 
 # install google sdk
 ARG INSTALL_COMPONENTS
@@ -37,11 +38,12 @@ RUN apt-get update -qqy && apt-get install -qqy \
     export CLOUD_SDK_REPO="cloud-sdk-$(lsb_release -c -s)" && \
     echo "deb https://packages.cloud.google.com/apt $CLOUD_SDK_REPO main" > /etc/apt/sources.list.d/google-cloud-sdk.list && \
     curl https://packages.cloud.google.com/apt/doc/apt-key.gpg | apt-key add - && \
-    apt-get update && apt-get install -y google-cloud-sdk=${CLOUD_SDK_VERSION}-0 $INSTALL_COMPONENTS && \
+    apt-get update && apt-get install -y google-cloud-sdk=${CLOUD_SDK_VERSION}-0 google-cloud-sdk-gke-gcloud-auth-plugin=${CLOUD_SDK_VERSION}-0 $INSTALL_COMPONENTS && \
     gcloud config set core/disable_usage_reporting true && \
     gcloud config set component_manager/disable_update_check true && \
     gcloud config set metrics/environment github_docker_image && \
-    gcloud --version
+    gcloud --version && \
+    gke-gcloud-auth-plugin --version
 
 COPY ./lib/semver ./lib/semver
 RUN install ./lib/semver /usr/local/bin
