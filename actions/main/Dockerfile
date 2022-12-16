@@ -41,7 +41,9 @@ RUN apt-get update -qqy && apt-get install -qqy \
     gcloud config set core/disable_usage_reporting true && \
     gcloud config set component_manager/disable_update_check true && \
     gcloud config set metrics/environment github_docker_image && \
-    gcloud --version
+    gcloud --version && \
+    gcloud components install gke-gcloud-auth-plugin && \
+    gke-gcloud-auth-plugin --version
 
 COPY ./lib/semver ./lib/semver
 RUN install ./lib/semver /usr/local/bin
