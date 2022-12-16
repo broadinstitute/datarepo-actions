@@ -10,7 +10,8 @@ ENV CLOUD_SDK_VERSION=$CLOUD_SDK_VERSION \
     VAULT_ADDR='https://clotho.broadinstitute.org:8200' \
     VAULT_TOKEN="" \
     GRADLE_HOME=/usr/local/bin/gradle \
-    GRADLE_VERSION=4.7
+    GRADLE_VERSION=4.7 \
+    USE_GKE_GCLOUD_AUTH_PLUGIN=True
 
 # install google sdk
 ARG INSTALL_COMPONENTS
