@@ -136,7 +136,7 @@ function compare-fields {
 
     while true
     do
-        [ $order -ne 0 ] && { echo $order ; return ; }
+        [ "${order}" -ne 0 ] && { echo "${order}" ; return ; }
 
         : $(( i++ ))
         left="${leftfield[$i]}"
