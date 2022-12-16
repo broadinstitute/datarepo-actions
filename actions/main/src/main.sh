@@ -132,7 +132,14 @@ googleAuth () {
     gcloud auth configure-docker --quiet
     echo 'Set google sdk to SA user'
     if [[ -n "${K8_CLUSTER}" ]]; then
-      gcloud container clusters get-credentials ${K8_CLUSTER} --zone ${google_zone}
+      echo "gcloud version:"
+      gcloud version
+      echo "kubectl version:"
+      kubectl version
+      echo "gke-gcloud-auth-plugin version:"
+      gke-gcloud-auth-plugin --version
+      echo "Authenticating kubectl to ${K8_CLUSTER}..."
+      gcloud --verbosity debug container clusters get-credentials ${K8_CLUSTER} --zone ${google_zone}
     fi
   else
     echo "Required var not defined for function googleAuth"
