@@ -8,5 +8,6 @@ gcloud config set compute/zone "${GOOGLE_REGION}"
 gcloud auth configure-docker
 
 if [ -n "${K8_CLUSTER}" ]; then
+    USE_GKE_GCLOUD_AUTH_PLUGIN=true
     gcloud container clusters get-credentials "${K8_CLUSTER}" --zone "${GOOGLE_REGION}"
 fi
