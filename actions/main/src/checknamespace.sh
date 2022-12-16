@@ -7,10 +7,7 @@ checknamespace () {
         printf "Namespace ${i} in use Skipping\n"
       else
         printf "Namespace ${i} not in use Deploying integration test to ${i}\n"
-        echo "choover: kubectl version is: $( kubectl version --client )"
-        echo "creating secret"
         kubectl create secret generic ${i}-inuse --from-literal=inuse=${i} -n ${i}
-        echo "create secret returned: $?"
         TAIL=$(echo ${i} | sed -r 's/.*\-([0-9]+)/\1/')
         API_URL="https://jade-${TAIL}.datarepo-integration.broadinstitute.org"
         echo "export IT_JADE_API_URL=${API_URL}" >> env_vars
