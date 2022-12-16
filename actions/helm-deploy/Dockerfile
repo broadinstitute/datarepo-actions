@@ -1,6 +1,6 @@
 FROM google/cloud-sdk:slim
 
-RUN apt-get install -y kubectl
+RUN apt-get install -y kubectl kubectl google-cloud-sdk-gke-gcloud-auth-plugin
 
 ENV HELM_DATA_HOME /usr/local/share/helm
 
