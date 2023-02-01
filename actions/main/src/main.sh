@@ -151,6 +151,10 @@ helmprerun () {
   fi
 }
 
+gitConfigure () {
+  git config --global --add safe.directory /github/workspace
+}
+
 main () {
   # Source the other files to gain access to their functions
   scriptDir=$(dirname ${0})
@@ -174,6 +178,7 @@ main () {
   helmprerun
   configureCredentials
   googleAuth
+  gitConfigure
   if [[ "${subcommand}" == "skip" ]]; then
     echo "skipping any sub command, only getting gcp creds"
   else

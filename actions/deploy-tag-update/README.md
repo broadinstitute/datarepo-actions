@@ -9,7 +9,7 @@ requires that the checkout step include `fetch-depth: 0` to pull all the tags.
 
 ```
     - name: Checkout jade-data-repo
-        uses: actions/checkout@v2
+        uses: actions/checkout@v3
         with:
           fetch-depth: 0
     - name: Deploy the latest dev image tag to datarepo-helm-definitions
