@@ -9,7 +9,7 @@ Commits and merges code changed in earlier steps of workflow
 
 ```
     - name: 'Checkout repo'
-        uses: actions/checkout@v2
+        uses: actions/checkout@v3
         with:
           repository: 'broadinstitute/datarepo-helm-definitions'
           token: ${{ secrets.BROADBOT_TOKEN }}
