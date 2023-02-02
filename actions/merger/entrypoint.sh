@@ -13,11 +13,12 @@ SWITCH_DIRECTORIES=${SWITCH_DIRECTORIES:-false}
 
 if ${SWITCH_DIRECTORIES} ; then
   cd "${GITHUB_WORKSPACE}"/"${GITHUB_REPO}"
+  git config --global --add safe.directory "${GITHUB_WORKSPACE}"/"${GITHUB_REPO}"
 fi
 
 git config --global user.email "${GITHUB_USER_EMAIL}"
 git config --global user.name "${GITHUB_USER_NAME}"
-git config --global --add safe.directory /github/workspace
+git config --global --add safe.directory "${GITHUB_WORKSPACE}"
 git config pull.rebase false
 git pull origin "${MERGE_BRANCH}"
 git add .

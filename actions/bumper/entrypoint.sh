@@ -16,7 +16,7 @@ PREVIFS=${IFS}
 IFS=','
 
 # check whether we are on a prerelease branch
-git config --global --add safe.directory /github/workspace
+git config --global --add safe.directory "${GITHUB_WORKSPACE}"
 CURRENT_BRANCH=$(git rev-parse --abbrev-ref HEAD)
 PRE_RELEASE=true
 for BRANCH in ${RELEASE_BRANCH_LIST} ; do
