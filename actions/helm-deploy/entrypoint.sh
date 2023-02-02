@@ -43,7 +43,7 @@ if [ "${HELM_IMAGETAG_UPDATE}" = "api" ]; then
     helm delete --namespace "${NAMESPACEINUSE}" "${RELEASE_NAME}-datarepo-ui"
 fi
 
-git config --global --add safe.directory /github/workspace
+git config --global --add safe.directory "${GITHUB_WORKSPACE}"
 GCR_TAG=$(git rev-parse --short HEAD)
 
 helm namespace upgrade "${RELEASE_NAME}-create-secret-manager-secret" datarepo-helm/create-secret-manager-secret --version="${HELM_CREATE_SECRET_MANAGER_SECRET_VERSION}" \
