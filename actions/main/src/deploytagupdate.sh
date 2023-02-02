@@ -26,7 +26,7 @@ deploytagupdate () {
       cd ${GITHUB_WORKSPACE}/${workingDir}/datarepo-helm-definitions
       git config --global user.email "robot@jade.team"
       git config --global user.name "imagetagbot"
-      git config --global --add safe.directory /github/workspace
+      git config --global --add safe.directory /github/workspace/datarepo-helm-definitions
       git config pull.rebase false
       # commit changes to helm definitions
       git pull origin master
