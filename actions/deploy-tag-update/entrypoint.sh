@@ -24,7 +24,7 @@ if [ "${REPO_TAG}" != "${HELM_TAG}" ]; then
     # configure git settings
     git config --global user.email "broadbot@broadinstitute.org"
     git config --global user.name "broadbot"
-    git config --global --add safe.directory /github/workspace
+    git config --global --add safe.directory /github/workspace/datarepo-helm-definitions
     git config pull.rebase false
     # commit changes to helm definitions
     git pull origin master

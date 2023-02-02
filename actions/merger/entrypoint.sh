@@ -13,6 +13,7 @@ SWITCH_DIRECTORIES=${SWITCH_DIRECTORIES:-false}
 
 if ${SWITCH_DIRECTORIES} ; then
   cd "${GITHUB_WORKSPACE}"/"${GITHUB_REPO}"
+  git config --global --add safe.directory /github/workspace/"${GITHUB_REPO}"
 fi
 
 git config --global user.email "${GITHUB_USER_EMAIL}"
