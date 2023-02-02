@@ -23,31 +23,20 @@ deploytagupdate () {
       printf "Find and replace image with current develop commit\n"
       find . -name ${i}Deployment.yaml -type f -exec sh -c 'yq w -i $1 'datarepo-${helm_imagetag_update}.image.tag' $2-develop' sh {} ${GCR_TAG} ';'
       printf "Git add, commit and push\n"
-      echo `${GITHUB_WORKSPACE}/${workingDir}/datarepo-helm-definitions`
-      ls -a
       cd ${GITHUB_WORKSPACE}/${workingDir}/datarepo-helm-definitions
       git config --global user.email "robot@jade.team"
-      echo "Configured user email"
       git config --global user.name "imagetagbot"
-      echo "Configured user name"
       git config --global --add safe.directory /github/workspace
-      echo "Check if in git directory"
-      git rev-parse --is-inside-work-tree
-      echo "set safe directory"
       git config pull.rebase false
-      echo "rebase is false"
       # commit changes to helm definitions
       git pull origin master
-      echo "pull origin master"
       if [[ "${i}" == "dev" ]]; then
         git add dev/\*.yaml
       else
         git add integration/\*.yaml
       fi
       git commit -m "Updated images to latest jade-data-repo commit '${GCR_TAG}'"
-      echo "committed"
       git push origin master
-      echo "pushed"
     done
   else
     echo "helm_env_prefix not defined for function deploytagupdate"
