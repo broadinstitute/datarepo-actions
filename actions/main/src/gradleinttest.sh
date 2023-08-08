@@ -56,7 +56,7 @@ gradleinttest () {
     # required for tests
     ./gradlew assemble
     echo "Running ${test_to_run}"
-    ./gradlew -w ${test_to_run} ${test_filter_cmd} --scan
+    ./gradlew -w ${test_to_run} ${test_filter_cmd} --scan jacocoTestReport
   else
     echo "missing vars for function gradleinttest"
     exit 1
