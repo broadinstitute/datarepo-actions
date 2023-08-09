@@ -57,6 +57,12 @@ gradleinttest () {
     ./gradlew assemble
     echo "Running ${test_to_run}"
     ./gradlew -w ${test_to_run} ${test_filter_cmd} --scan jacocoTestReport
+    if [[ "${test_to_run}" == "check" ]]; then
+      if [[ "${SONAR_TOKEN}" != "" ]]; then
+        echo "Running sonar scan"
+        ./gradlew sonar --info
+      fi      
+    fi
   else
     echo "missing vars for function gradleinttest"
     exit 1
