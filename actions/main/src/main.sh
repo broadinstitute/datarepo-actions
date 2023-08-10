@@ -20,10 +20,7 @@ parseInputs () {
   if [ -n "${INPUT_SECRET_ID}" ]; then
     export secret_id=${INPUT_SECRET_ID}
   fi
-  SONAR_TOKEN=""
-  if [ -n "${INPUT_SONAR_TOKEN}" ]; then
-    export SONAR_TOKEN=${INPUT_SONAR_TOKEN}
-  fi
+  export SONAR_TOKEN="${INPUT_SONAR_TOKEN}"
   export vault_address="${INPUT_VAULT_ADDRESS}"
   export google_zone="${INPUT_GOOGLE_ZONE}"
   export google_project="${INPUT_GOOGLE_PROJECT}"
