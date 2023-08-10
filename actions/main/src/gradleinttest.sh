@@ -51,18 +51,17 @@ gradleinttest () {
       echo "Running integration tests against ${IT_JADE_API_URL}"
       cleaniampolicy
     fi
+    if [[ "${test_to_run}" == "check" ]] && [[ "${SONAR_TOKEN}" != "" ]]; then
+      echo "Sonar scan will run after the check action"
+      export sonar_cmd="jacocoTestReport sonar --info"     
+    fi
     pg_isready -h ${PGHOST} -p ${PGPORT}
     psql -U postgres -f ./db/create-data-repo-db
     # required for tests
     ./gradlew assemble
     echo "Running ${test_to_run}"
-    ./gradlew -w ${test_to_run} ${test_filter_cmd} --scan jacocoTestReport
-    if [[ "${test_to_run}" == "check" ]]; then
-      if [[ "${SONAR_TOKEN}" != "" ]]; then
-        echo "Running sonar scan"
-        ./gradlew sonar --info
-      fi      
-    fi
+    ./gradlew -w ${test_to_run} ${test_filter_cmd} --scan ${sonar_cmd}
+    
   else
     echo "missing vars for function gradleinttest"
     exit 1
