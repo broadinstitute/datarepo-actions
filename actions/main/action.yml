@@ -11,6 +11,8 @@ inputs:
     description: "role_id for vault"
   secret_id:
     description: "secret_id for vault"
+  sonar_token:
+    description: "Token to allow running sonar scans"
   vault_address:
     description: "https address for vault"
     default: "https://clotho.broadinstitute.org:8200"
