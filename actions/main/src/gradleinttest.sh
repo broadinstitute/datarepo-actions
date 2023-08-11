@@ -53,7 +53,7 @@ gradleinttest () {
     fi
     if [[ $test_to_run == check && -n $SONAR_TOKEN ]]; then
       echo "Sonar scan will run after the check action"
-      export sonar_cmd="jacocoTestReport sonar"     
+      export sonar_cmd="jacocoTestReport sonar --info"     
     fi
     pg_isready -h ${PGHOST} -p ${PGPORT}
     psql -U postgres -f ./db/create-data-repo-db
