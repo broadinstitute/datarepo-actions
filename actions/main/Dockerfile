@@ -1,9 +1,7 @@
 FROM docker:17.12.0-ce as static-docker-source
 
 FROM openjdk:17-slim
-ARG CLOUD_SDK_VERSION=462.0.0
-ENV CLOUD_SDK_VERSION=$CLOUD_SDK_VERSION \
-    CLOUDSDK_PYTHON=python3 \
+ENV CLOUDSDK_PYTHON=python3 \
     HELM_VERSION=v3.1.2 \
     YQ_VERSION=3.2.1 \
     VAULT_VERSION=1.3.2 \
@@ -38,7 +36,7 @@ RUN apt-get update -qqy && apt-get install -qqy \
     export CLOUD_SDK_REPO="cloud-sdk-$(lsb_release -c -s)" && \
     echo "deb https://packages.cloud.google.com/apt $CLOUD_SDK_REPO main" > /etc/apt/sources.list.d/google-cloud-sdk.list && \
     curl https://packages.cloud.google.com/apt/doc/apt-key.gpg | apt-key add - && \
-    apt-get update && apt-get install -y google-cloud-sdk=${CLOUD_SDK_VERSION}-0 google-cloud-sdk-gke-gcloud-auth-plugin=${CLOUD_SDK_VERSION}-0 $INSTALL_COMPONENTS && \
+    apt-get update && apt-get install -y google-cloud-sdk google-cloud-sdk-gke-gcloud-auth-plugin $INSTALL_COMPONENTS && \
     gcloud config set core/disable_usage_reporting true && \
     gcloud config set component_manager/disable_update_check true && \
     gcloud config set metrics/environment github_docker_image && \
