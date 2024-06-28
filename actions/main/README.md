@@ -8,13 +8,13 @@ This is a collections of functions that run in a github actions specific to Broa
 ### inputs
 -  actions_subcommand:
     - description: 'subcommand to execute.'
+-  sa_b64_credentials:
+   - description: 'google authentication credentials'
+   - default: ''
 - role_id:
     - description: 'role_id for vault'
 -  secret_id:
     - description: 'secret_id for vault'
--  vault_address:
-    - description: 'https address for vault'
-    - default: 'https://clotho.broadinstitute.org:8200'
 -  google_zone:
     - description: 'Google zone for sdk ie:us-central1'
     - default: 'us-central1'

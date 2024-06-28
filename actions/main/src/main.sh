@@ -12,14 +12,6 @@ parseInputs () {
   fi
 
   # Optional inputs
-  role_id=""
-  if [ -n "${INPUT_ROLE_ID}" ]; then
-    export role_id=${INPUT_ROLE_ID}
-  fi
-  secret_id=""
-  if [ -n "${INPUT_SECRET_ID}" ]; then
-    export secret_id=${INPUT_SECRET_ID}
-  fi
   export SONAR_TOKEN="${INPUT_SONAR_TOKEN}"
   export vault_address="${INPUT_VAULT_ADDRESS}"
   export google_zone="${INPUT_GOOGLE_ZONE}"
@@ -100,20 +92,11 @@ configureCredentials () {
   else
     echo "Skipping importing environment vars for configureCredentials"
   fi
-  if [[ "$VAULT_TOKEN" != "" ]]; then
-    echo "Vault token already set skipping configureCredentials function"
-  elif [[ "${role_id}" != "" ]] && [[ "${secret_id}" != "" ]] && [[ "${vault_address}" != "" ]]; then
-    export VAULT_ADDR=${vault_address}
-    export VAULT_TOKEN=$(curl \
-      --request POST \
-      --data '{"role_id":"'"${role_id}"'","secret_id":"'"${secret_id}"'"}' \
-      ${vault_address}/v1/auth/approle/login | jq -r .auth.client_token)
-      echo "export VAULT_TOKEN=${VAULT_TOKEN}" >> env_vars
-    /usr/local/bin/vault read -format=json secret/dsde/datarepo/dev/sa-key.json | \
-      jq .data > ${GOOGLE_APPLICATION_CREDENTIALS}
+  if [[ "$SA_B64_CREDENTIALS" != "" ]]; then
+    base64 -D ${SA_B64_CREDENTIALS} > ${GOOGLE_APPLICATION_CREDENTIALS}
     jq -r .private_key ${GOOGLE_APPLICATION_CREDENTIALS} > ${GOOGLE_SA_CERT}
     chmod 600 ${GOOGLE_SA_CERT}
-    echo 'Configured google sdk credentials from vault'
+    echo 'Configured google sdk credentials'
   else
     echo "required var not defined for function configureCredentials"
     exit 1
