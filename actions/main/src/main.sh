@@ -93,7 +93,7 @@ configureCredentials () {
     echo "Skipping importing environment vars for configureCredentials"
   fi
   if [[ "$SA_B64_CREDENTIALS" != "" ]]; then
-    base64 --decode <<< ${SA_B64_CREDENTIALS} | jq > ${GOOGLE_APPLICATION_CREDENTIALS}
+    base64 --decode <<< ${SA_B64_CREDENTIALS} > ${GOOGLE_APPLICATION_CREDENTIALS}
     jq -r .private_key ${GOOGLE_APPLICATION_CREDENTIALS} > ${GOOGLE_SA_CERT}
     chmod 600 ${GOOGLE_SA_CERT}
     echo 'Configured google sdk credentials'
