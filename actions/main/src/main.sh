@@ -13,7 +13,6 @@ parseInputs () {
 
   # Optional inputs
   export SONAR_TOKEN="${INPUT_SONAR_TOKEN}"
-  export vault_address="${INPUT_VAULT_ADDRESS}"
   export google_zone="${INPUT_GOOGLE_ZONE}"
   export google_project="${INPUT_GOOGLE_PROJECT}"
   export DEV_PROJECT="${INPUT_GCR_GOOGLE_PROJECT}"
