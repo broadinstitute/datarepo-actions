@@ -17,6 +17,10 @@ parseInputs () {
   export google_zone="${INPUT_GOOGLE_ZONE}"
   export google_project="${INPUT_GOOGLE_PROJECT}"
   export DEV_PROJECT="${INPUT_GCR_GOOGLE_PROJECT}"
+  sa_b64_credentials=""
+  if [ -n "${INPUT_SA_B64_CREDENTIALS}" ]; then
+    export sa_b64_credentials=${INPUT_SA_B64_CREDENTIALS}
+  fi
   k8_namespaces=""
   if [ -n "${INPUT_K8_NAMESPACES}" ]; then
     export k8_namespaces="${INPUT_K8_NAMESPACES}"
@@ -92,8 +96,8 @@ configureCredentials () {
   else
     echo "Skipping importing environment vars for configureCredentials"
   fi
-  if [[ "$SA_B64_CREDENTIALS" != "" ]]; then
-    base64 --decode <<< ${SA_B64_CREDENTIALS} > ${GOOGLE_APPLICATION_CREDENTIALS}
+  if [[ "${sa_b64_credentials}" != "" ]]; then
+    base64 --decode <<< ${sa_b64_credentials} > ${GOOGLE_APPLICATION_CREDENTIALS}
     jq -r .private_key ${GOOGLE_APPLICATION_CREDENTIALS} > ${GOOGLE_SA_CERT}
     chmod 600 ${GOOGLE_SA_CERT}
     echo 'Configured google sdk credentials'
