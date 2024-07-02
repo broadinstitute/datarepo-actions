@@ -16,6 +16,9 @@ inputs:
     description: "secret_id for vault"
   sonar_token:
     description: "Token to allow running sonar scans"
+  vault_address:
+    description: "https address for vault"
+    default: "https://clotho.broadinstitute.org:8200"
   google_zone:
     description: "Google zone for sdk ie:us-central1"
     default: "us-central1"
