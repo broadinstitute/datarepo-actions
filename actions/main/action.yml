@@ -7,15 +7,11 @@ inputs:
   actions_subcommand:
     description: "subcommand to execute."
     required: true
-  role_id:
-    description: "role_id for vault"
-  secret_id:
-    description: "secret_id for vault"
+  sa_b64_credentials:
+    description: "credentials used to authenticate with google"
+    default: ""
   sonar_token:
     description: "Token to allow running sonar scans"
-  vault_address:
-    description: "https address for vault"
-    default: "https://clotho.broadinstitute.org:8200"
   google_zone:
     description: "Google zone for sdk ie:us-central1"
     default: "us-central1"
