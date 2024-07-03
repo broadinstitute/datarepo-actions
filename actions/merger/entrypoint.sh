@@ -22,7 +22,7 @@ git config --global --add safe.directory "${GITHUB_WORKSPACE}"
 git config pull.rebase false
 git pull origin "${MERGE_BRANCH}"
 git add .
-git commit -m "${COMMIT_MESSAGE}"
+git commit --alow-empty -m "${COMMIT_MESSAGE}"
 git push origin "${MERGE_BRANCH}"
 git rev-parse HEAD
 
