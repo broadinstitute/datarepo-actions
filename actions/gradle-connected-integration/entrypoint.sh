@@ -23,7 +23,7 @@ export GOOGLE_CLOUD_DATA_PROJECT
 
 # check if postgres is ready
 pg_isready -h "${PGHOST}" -p "${PGPORT}"
-psql -U postgres -f ./db/create-data-repo-db
+psql -U postgres -f ./scripts/init-db/postgres-init.sql
 
 # assemble code and run tests
 ./gradlew assemble
